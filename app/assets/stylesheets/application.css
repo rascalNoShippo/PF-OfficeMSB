@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+*{
+	margin : 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.profiler-results{
+	display: none !important;
+}
+
+header{
+	width: 100%;
+	height: 50px;
+	background-color: lightskyblue;
+}
