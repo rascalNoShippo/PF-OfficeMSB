@@ -12,7 +12,15 @@
   </head>
 
   <body>
-    <%= render "layouts/header" unless @header_hidden %>
-    <%= yield %>
+    <header>
+      <div class="header_1 bg-dark">
+        <p class="text-light px-3 py-1">OfficeMSB</p>
+      </div>
+      <%= render "layouts/header" unless @header_hidden %>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+    <%= render "layouts/footer" %>
   </body>
 </html>
