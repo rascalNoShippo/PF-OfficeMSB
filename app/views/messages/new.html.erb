@@ -1,0 +1,22 @@
+<div class="p-3">
+	<h3>メッセージの作成</h3>
+	<%= form_with model: @message do |f| %>
+		<table>
+			<tbody>
+				<tr>
+					<th>標題</th>
+					<td><%= f.text_field :title, class: "form-control" %></td>
+				</tr>
+				<tr>
+					<th>差出人</th>
+					<th><%= @message.user.name %></th>
+				</tr>
+				<tr>
+					<th>本文</th>
+					<td data-controller="summernote" class="field"><%= f.text_area :body, data: { editor: 'summernote' }, class: "form-control" %></td>
+				</tr>
+			</tbody>
+		</table>
+	<% end %>
+
+</div>

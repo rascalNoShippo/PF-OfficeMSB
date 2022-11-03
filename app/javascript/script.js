@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).on('turbolinks:load', function () {
 	let header = $("header")[0].offsetHeight;
 	let footer = $("footer")[0].offsetHeight;
 	$("main").css({

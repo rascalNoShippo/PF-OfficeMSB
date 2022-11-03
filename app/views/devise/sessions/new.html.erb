@@ -3,12 +3,12 @@
     <h2>ログイン</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="field text-start my-3">
+      <div class="field text-left my-3">
         <%= f.label :login_name, "ログイン名" %><br />
         <%= f.text_field :login_name, autofocus: true, class: "form-control" %>
       </div>
 
-      <div class="field text-start my-3">
+      <div class="field text-left my-3">
         <%= f.label :password, "パスワード" %><br />
         <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
       </div>

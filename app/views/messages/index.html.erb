@@ -1,2 +1,27 @@
-<h1>Messages#index</h1>
-<p>Find me in app/views/messages/index.html.erb</p>
+<div class="p-3">
+	<h3>メッセージ</h3>
+	<div>
+		<%= link_to "メッセージを送る", new_message_path %>
+	</div>
+	<div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>標題</th>
+					<th>差出人</th>
+					<th>更新日時</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @messages.each do |item| %>
+					<tr>
+						<td><%= link_to item.title, message_path %></td>
+						<td><%= item.user.name %></td>
+						<td><%= item.updated_at %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
+

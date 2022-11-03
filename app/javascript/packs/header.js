@@ -12,7 +12,7 @@ $(document).on('turbolinks:load', function () {
 });
 
 $(document).on("turbolinks:load", function () {
-	$(document).on("click", function (e){
+	$(document).on("mousedown", function (e){
 		//ユーザーボタン・メニュー以外をクリックするとメニューを閉じる
 		if($(e.target).closest(".header_user, .header_user_menu").length == 0) {
 			$(".header_user").removeClass("clicked");

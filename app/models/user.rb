@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable
   validates :login_name, presence: true, uniqueness: true
   validates :password, presence: true
+  
+  has_many :messages, dependent: :destroy
 end

@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_11_02_132637) do
     t.integer "user_id", null: false
     t.integer "last_update_user_id"
     t.string "title", null: false
+    t.text "body"
     t.boolean "confirmation_flag", default: false
     t.boolean "is_commentable", default: true
     t.integer "number_of_comments", default: 0

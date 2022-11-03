@@ -13,10 +13,11 @@ import "bootstrap";
 import "../stylesheets/application"
 import "@fortawesome/fontawesome-free/js/all"
 import "script.js"
+// import "summernote-ja-JP.js"
+// import "summernote"
+// import "codemirror"
+
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-
-require("trix")
-require("@rails/actiontext")
