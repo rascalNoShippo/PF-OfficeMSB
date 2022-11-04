@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
   
-  resources :messages
+  resources :messages do
+    resources :message_comments, only: [:create, :destroy]
+  end
   root to: "homes#top"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

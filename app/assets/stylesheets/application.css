@@ -111,3 +111,24 @@ footer{
 .login_form>div{
 	width: 400px;
 }
+
+form textarea.form-control {
+  resize: both;
+  height: 300px;
+  width: 500px;
+}
+
+trix-editor{
+	min-height: 200px;
+}
+
+.unread{
+	border: 1.01px solid orange !important;
+    background-color: lightgoldenrodyellow !important;
+    font-weight: bold;
+}
+
+.comment_datetime{
+	font-size: 85%;
+	color: gray;
+}

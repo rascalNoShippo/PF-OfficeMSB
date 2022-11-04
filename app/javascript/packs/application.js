@@ -13,7 +13,9 @@ import "bootstrap";
 import "../stylesheets/application"
 import "@fortawesome/fontawesome-free/js/all"
 import "script.js"
-// import "summernote-ja-JP.js"
+// import "trix"
+// import "@rails/actiontext"
+// import "summernote_controller.js"
 // import "summernote"
 // import "codemirror"
 

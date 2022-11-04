@@ -1,2 +1,71 @@
-<h1>Messages#show</h1>
-<p>Find me in app/views/messages/show.html.erb</p>
+<div class="p-3">
+	<h3><%= @message.title %></h3>
+	<table>
+		<tbody>
+			<tr>
+				<th class="pr-2">差出人</th>
+				<td class="pr-2">
+					<%= link_to @message.sender.icon + @message.sender.name, "" %>
+				</td>
+				<td><%= l @message.created_at %></td>
+			</tr>
+			<% if @message.update_content_at %>
+				<tr>
+					<th class="pr-2">最終更新者</th>
+					<td class="pr-2">
+						<%= link_to @message.last_update_user.icon + @message.last_update_user.name, "" %>
+					</td>
+					<td><%= l @message.update_content_at %></td>
+				</tr>
+			<% end %>
+			<tr>
+				<th class="pr-2">宛先</th>
+				<td colspan=2 class="pr-2">
+					<span class="mr-2">
+						(<%= @receivers.count.to_s(:delimited) %>人)
+					</span>
+					<% @receivers.limit(@limit_view_receivers).each do |receiver| %>
+						<span class="mr-2">
+							<%= link_to receiver.icon + receiver.name, "" %>
+						</span>
+					<% end %>
+					<% if @limit_view_receivers < @receivers.count %>
+						…
+						<%= link_to "宛先をすべて表示する", "" %>
+					<% end %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="border p-4 my-3">
+		<%= @message.body %>
+	</div>
+	<% if @message.is_commentable %>
+		<div>
+			<%= form_with model: @new_comment, url: message_message_comments_path(@message.id) do |f| %>
+				<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
+				<%= f.submit "書き込む", class: "btn btn-success" %>
+			<% end %>
+		</div>
+	<% end %>
+	<div class="border-top my-3">
+		<% @comments.each do |comment| %>
+			<div class="d-flex border-bottom p-3">
+				<div class="pr-2">画<br>像</div>
+				<div>
+					<div>
+						<span class="comment_name mr-3">
+							<%= comment.comment_id %> : <%= link_to comment.commenter.name, "" %>
+						</span>
+						<span class="comment_datetime">
+							<%= l comment.created_at %>
+						</span>
+					</div>
+					<div class="comment_body">
+						<%= comment.body %>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>

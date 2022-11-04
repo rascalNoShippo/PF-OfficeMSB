@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_02_132637) do
+ActiveRecord::Schema.define(version: 2022_11_04_115838) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,27 @@ ActiveRecord::Schema.define(version: 2022_11_02_132637) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "message_comments", force: :cascade do |t|
+    t.integer "message_id", null: false
+    t.integer "commenter_id", null: false
+    t.integer "comment_id", null: false
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "message_destinations", force: :cascade do |t|
+    t.integer "message_id", null: false
+    t.integer "receiver_id", null: false
+    t.boolean "is_editable", default: false
+    t.integer "delete_flag", default: 0
+    t.datetime "finished_reading"
+    t.datetime "last_viewing"
+    t.datetime "confirmed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "messages", force: :cascade do |t|

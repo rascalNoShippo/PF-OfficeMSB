@@ -9,14 +9,35 @@
 				</tr>
 				<tr>
 					<th>差出人</th>
-					<th><%= @message.user.name %></th>
+					<th><%= @message.sender.name %></th>
 				</tr>
 				<tr>
 					<th>本文</th>
-					<td data-controller="summernote" class="field"><%= f.text_area :body, data: { editor: 'summernote' }, class: "form-control" %></td>
+					<td>
+						<%= f.text_area :body, class: "form-control" %>
+					</td>
+				</tr>
+				<tr>
+					<th>添付ファイル</th>
+					<td><%= f.file_field :attachments %></td>
+				</tr>
+				<tr>
+					<th>宛先</th>
+					<td>
+						<%= f.select :destination, options_from_collection_for_select(@user_list, :id, :name), {}, multiple: true %>
+					</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<%= f.check_box :confirmation_flag, {} , true, false %>
+		<%= f.label :confirmation_flag, "閲覧状況を確認する" %>
+		
+		<%= f.check_box :is_commentable, {} , true, false %>
+		<%= f.label :is_commentable, "コメントを許可する" %>
+		
+		<%= f.submit "送信する", class: "btn btn-success" %>
+
 	<% end %>
 
 </div>

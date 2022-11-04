@@ -1,0 +1,2 @@
+module MessageCommentsHelper
+end

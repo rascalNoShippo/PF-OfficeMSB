@@ -1,25 +1,17 @@
-import { Controller } from 'stimulus'
+// import { Controller } from 'stimulus'
 
-// summernote用JavaScript（Bootstrap 4バージョン用）
 require('summernote/dist/summernote-bs4.js');
-// summernote用スタイルシート（Boostrap 4バージョン用）
 require('summernote/dist/summernote-bs4.css');
-// summernote用日本語ロケール
-require('summernote/dist/lang/summernote-ja-JP.min.js');
-// codemirror用JavaScript
+require('summernote/dist/lang/summernote-ko-KR.min.js');
 require('codemirror/lib/codemirror.js');
-// codemirror用CSS
 require('codemirror/lib/codemirror.css');
-//  codemirrorの言語モードをxmlにする
 require('codemirror/mode/xml/xml.js');
-// codemirrorで使用されるテーマスタイルシート（monokai）
 require('codemirror/theme/monokai.css');
 
 export default class extends Controller {
   static targets = []
 
   initialize(){
-    // summernoteエディタで絵文字を入力できるように一度だけajaxを呼び出す
     $.ajax({
       url: 'https://api.github.com/emojis'
     }).then(function(data) {
@@ -33,7 +25,7 @@ export default class extends Controller {
     $('[data-editor="summernote"]').summernote({
       height: 300,
       focus: true,
-      lang: 'ja-JP',
+      lang: 'ko-KR',
       prettifyHtml: true,
       placeholder: 'type starting with : and any alphabet',
       hint: {
@@ -66,7 +58,7 @@ export default class extends Controller {
       callbacks: {
         onImageUpload: function(files){
           console.log('called onImageUpload.')
-          <!-- multiple files uploading... -->
+          //<!-- multiple files uploading... -->
           for(let i = 0; i < files.length; i++){
             console.log(files[i])
             sendFile(files[i], $(this))
