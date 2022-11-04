@@ -25,10 +25,21 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
     @receivers = @message.receivers
-    return unless @message.sender == current_user || @receivers.include?(current_user) #宛先に含まれているか、送信者でないと表示されない
-    @message.mark_already_read if @receivers.include?(current_user) #宛先に含まれていれば既読とマークする
+    
+    #宛先に含まれているか、送信者でないと表示されない
+    return unless @message.sender == current_user || @receivers.include?(current_user)
+    
+    #宛先に含まれていれば既読とマークする
+    @message.mark_already_read if @receivers.include?(current_user) 
+    
     @new_comment = @message.comments.new
     @comments = @message.comments.order(created_at: :DESC)
+    
+    #未表示のコメントがハイライトされる仕様
+    @viewed_comment = @message.receiver_model.viewed_comment
+    @message.receiver_model.update(viewed_comment: @message.number_of_comments)
+    
+    #宛先リストに表示される上限数
     @limit_view_receivers = 10
   end
 

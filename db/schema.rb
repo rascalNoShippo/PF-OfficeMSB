@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2022_11_04_115838) do
     t.datetime "confirmed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "viewed_comment", default: 0
   end
 
   create_table "messages", force: :cascade do |t|

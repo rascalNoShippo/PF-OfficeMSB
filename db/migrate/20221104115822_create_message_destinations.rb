@@ -8,6 +8,7 @@ class CreateMessageDestinations < ActiveRecord::Migration[6.1]
       t.datetime :finished_reading
       t.datetime :last_viewing
       t.datetime :confirmed
+      t.integer :viewed_comment, default: 0
       t.timestamps
     end
   end
