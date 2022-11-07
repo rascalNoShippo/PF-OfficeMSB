@@ -131,3 +131,12 @@ trix-editor{
 	font-size: 85%;
 	color: gray;
 }
+
+select[multiple="multiple"]{
+	min-width: 200px;
+	height: 200px !important;
+}
+
+th, td{
+	vertical-align: middle !important;
+}

@@ -12,12 +12,11 @@ class Message < ApplicationRecord
 	end
 	
 	def already_read_flag
-		self.receiver_model.finished_reading
+		self.receiver_model.last_viewing
 	end
 	
 	def mark_already_read
-		unless self.already_read_flag
-			self.receiver_model.update(finished_reading: Time.zone.now)
-		end
+		self.receiver_model.update(last_viewing: Time.zone.now)
 	end
+	
 end

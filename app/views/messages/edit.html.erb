@@ -1,2 +1,9 @@
-<h1>Messages#edit</h1>
-<p>Find me in app/views/messages/edit.html.erb</p>
+<% if @message_error %>
+	<%= render "layouts/forbidden" %>
+<% else %>
+<% content_for :title, "メッセージの変更 - #{@message.title}" %>
+	<div class="p-3">
+		<h3>メッセージの変更</h3>
+		<%= render "messages/form" %>
+	</div>
+<% end %>

@@ -11,12 +11,10 @@ $(document).on('turbolinks:load', function () {
 	});
 });
 
-$(document).on("turbolinks:load", function () {
-	$(document).on("mousedown", function (e){
-		//ユーザーボタン・メニュー以外をクリックするとメニューを閉じる
-		if($(e.target).closest(".header_user, .header_user_menu").length == 0) {
-			$(".header_user").removeClass("clicked");
-			$(".header_user_menu").addClass("d-none");
-		}
-	});
+$(document).on("mousedown", function (e){
+	//ユーザーボタン・メニュー以外をクリックするとメニューを閉じる
+	if($(e.target).closest(".header_user, .header_user_menu").length == 0) {
+		$(".header_user").removeClass("clicked");
+		$(".header_user_menu").addClass("d-none");
+	}
 });

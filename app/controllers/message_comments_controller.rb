@@ -11,7 +11,12 @@ class MessageCommentsController < ApplicationController
 	end
 	
 	def destroy
-		
+		message = Message.find(params[:message_id])
+		comment = MessageComment.find(params[:id])
+		if comment.destroy
+			message.update(updated_at: Time.zone.now)
+		end
+		redirect_to message_path(params[:message_id])
 	end
 	
 	private
