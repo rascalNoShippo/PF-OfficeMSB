@@ -1,4 +1,5 @@
-<%= javascript_pack_tag "destination", "data-turbolinks-track": "reload" %>
+<%= javascript_pack_tag "destination" %>
+<%= javascript_pack_tag "onbeforeunload" %>
 
 <%= form_with model: @message do |f| %>
 	<table class="table table-borderless align-middle">
@@ -22,24 +23,54 @@
 			</tr>
 			<tr>
 				<th>添付ファイル</th>
-				<td><%= f.file_field :attachments %></td>
+				<td>
+					<%= f.file_field :attachments, multiple: true %>
+				</td>
 			</tr>
+			<% if !@message.id.nil? && @message.attachments.present? %>
+				<tr>
+					<th>削除するファイル</th>
+					<td>
+						<% @message.attachments.each do |item| %>
+							<div>
+								<%= f.check_box "existing_files", {multiple: true} , item.id, false %>
+								<%= f.label "existing_files_#{item.id}", item.filename, class: "m-0" %>
+							</div>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
 			<tr>
 				<th>宛先</th>
 				<td class="d-flex">
 					<div>
-						<%#= f.hidden_field :destination %>
-						<%= f.select :destination, (@message.id.nil? ? [] : options_from_collection_for_select(@receivers, :id, :name)), {}, multiple: true, class: "form-control p-1", id: "destination_list" %>
+						<h6 class="text-center">変更・削除を許可</h6>
+						<%= f.hidden_field :editor %>
+						<%= f.select :editor_list, (@message.id.nil? ? [] : options_from_collection_for_select(@editors, :id, :name)), {}, multiple: true, class: "form-control p-1", id: "editor_list" %>
 					</div>
 					<div class="my-auto mx-2">
-						<%= button_tag type: 'button', class: "d-block mb-3 btn border border-primary", id: "add_receiver" do %>
+						<%= button_tag type: "button", class: "d-block mb-3 btn border border-primary", id: "add_editor" do %>
 							<i class="fa-solid fa-caret-left"></i>追加
 						<% end %>
-						<%= button_tag type: 'button', class: "d-block btn border border-danger", id: "remove_receiver" do %>
+						<%= button_tag type: "button", class: "d-block btn border border-danger", id: "remove_editor" do %>
 							削除<i class="fa-solid fa-caret-right"></i>
 						<% end %>
 					</div>
 					<div>
+						<%= f.hidden_field :destination %>
+						<h6 class="text-center">宛先（閲覧のみ）</h6>
+						<%= f.select :destination_list, (@message.id.nil? ? [] : options_from_collection_for_select(@receivers, :id, :name)), {}, multiple: true, class: "form-control p-1", id: "destination_list" %>
+					</div>
+					<div class="my-auto mx-2">
+						<%= button_tag type: "button", class: "d-block mb-3 btn border border-primary", id: "add_receiver" do %>
+							<i class="fa-solid fa-caret-left"></i>追加
+						<% end %>
+						<%= button_tag type: "button", class: "d-block btn border border-danger", id: "remove_receiver" do %>
+							削除<i class="fa-solid fa-caret-right"></i>
+						<% end %>
+					</div>
+					<div>
+						<h6 class="text-center">ユーザー一覧</h6>
 						<%= select "ユーザー一覧", :user_list, options_from_collection_for_select(@user_list, :id, :name), {}, multiple: true, class: "form-control p-1", id: "user_list" %>
 					</div>
 				</td>
@@ -53,6 +84,8 @@
 		<%= f.check_box :is_commentable, {} , "true", "false" %>
 		<%= f.label :is_commentable, "コメントを許可する" %>
 	<% end %>
-	<%= f.submit (@message.id.nil? ? "送信する" : "変更する"), class: "btn btn-success" %>
-
+	<div>
+		<%= f.submit (@message.id.nil? ? "送信する" : "変更する"), class: "btn btn-success" %>
+		<%= link_to "戻る", message_path, class: "ml-5" %>
+	</div>
 <% end %>

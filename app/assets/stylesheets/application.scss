@@ -55,6 +55,7 @@ p{
 	position: absolute;
 	right: 5px;
 	background-color: white;
+	z-index: 1;
 }
 
 .header_user_menu *{
@@ -117,11 +118,11 @@ form textarea.form-control {
   height: 300px;
   width: 500px;
 }
-
+/*
 trix-editor{
 	min-height: 200px;
 }
-
+*/
 .unread{
 	border: 1.01px solid orange !important;
     background-color: blanchedalmond !important;
@@ -139,4 +140,52 @@ select[multiple="multiple"]{
 
 th, td{
 	vertical-align: middle !important;
+}
+
+.image_in_body{
+	max-width: 500px;
+}
+
+.bottom-0{
+	bottom: 0;
+}
+
+.pagination{
+	justify-content: center;
+
+	>span{
+		display: inline-block;
+		border: 1px solid #333;
+		margin: 0 5px;
+		padding: 0;
+	}
+	a, .current{
+		display: inline-block;
+		padding: 1px 3px;
+	}
+
+	.current{
+		font-weight: bold;
+	}
+
+	.gap{
+		border: none;
+	}
+}
+
+.modal{
+	.modal-content{
+		min-height: 300px;
+	}
+	.modal-header{
+		background-color: royalblue;
+	}
+	.modal-footer{
+		background-color: whitesmoke;
+		justify-content: space-evenly;
+		
+		form{
+			display: inline-block;
+		}
+	}
 }

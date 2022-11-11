@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   }
   
   resources :messages do
+    member do
+      patch "trash"
+      patch "restore"
+    end
     resources :message_comments, only: [:create, :destroy]
   end
   root to: "homes#top"

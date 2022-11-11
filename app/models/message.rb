@@ -19,4 +19,13 @@ class Message < ApplicationRecord
 		self.receiver_model.update(last_viewing: Time.zone.now)
 	end
 	
+	def editors
+		editor_ids = self.message_destinations.where(is_editable: true).pluck(:receiver_id)
+		self.receivers.where(id: editor_ids)	
+	end
+	
+	def recycled?
+		self.message_destinations.find_by(receiver_id: User.current_user).delete_flag == 1
+	end
+	
 end

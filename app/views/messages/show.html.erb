@@ -2,9 +2,35 @@
 	<%= render "layouts/forbidden" %>
 <% else %>
 	<% content_for :title, @message.title %>
+	<div class="modal fade" id="delete_modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header p-0">
+					<p class="modal-title text-white p-2">メッセージの削除</p>
+				</div>
+				<div class="modal-body">
+					<p>以下のメッセージを削除しようとしています。</p>
+					<li class="font-weight-bold"><%= @message.title %></li>
+					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
+					<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
+					<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
+				</div>
+				<div class="modal-footer p-3 w-100 d-flex">
+					<%= button_to "ごみ箱に移動する", trash_message_path, method: :patch, class: "btn btn-warning"%>
+					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" %>
+					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="p-3">
 		<div>
-			<%= link_to "変更する", edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
+			<%= link_to "<i class='fa-solid fa-pen-to-square'></i>変更する".html_safe, edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
+			<% if @message.recycled? %>
+				<%= link_to "<i class='fa-solid fa-trash-arrow-up'></i>元に戻す".html_safe, restore_message_path, method: :patch %>
+			<% else %>
+				<%= link_to "<i class='fa-solid fa-trash'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
+			<% end %>
 		</div>
 		<h3><%= @message.title %></h3>
 		<table>
@@ -46,6 +72,18 @@
 		</table>
 		<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
 			<%= @message.body %>
+			<% @message.attachments.each do |item| %>
+				<div class="mt-2 position-relative">
+					<% if item.content_type.start_with?("image") %>
+						<%= image_tag item, class: "image_in_body" %>
+					<% else %>
+						<%= link_to item.filename, rails_blob_path(item, disposition: "attachment") %>
+					<% end %>
+					<span class="position-absolute bottom-0 ml-2">
+						<%= "(#{(item.byte_size/1024.0).round} kB, #{item.content_type})" %>
+					</span>
+				</div>
+			<% end %>
 		</div>
 		<% if @message.is_commentable #コメントフォーム %>
 			<div>
