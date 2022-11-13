@@ -12,12 +12,14 @@
 					<p>以下のメッセージを削除しようとしています。</p>
 					<li class="font-weight-bold"><%= @message.title %></li>
 					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
-					<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
-					<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
+					<% if @message.sender == current_user || @editors.include?(current_user) %>
+						<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
+						<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
+					<% end %>
 				</div>
 				<div class="modal-footer p-3 w-100 d-flex">
 					<%= button_to "ごみ箱に移動する", trash_message_path, method: :patch, class: "btn btn-warning"%>
-					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" %>
+					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" if @message.sender == current_user ||@editors.include?(current_user) %>
 					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
 				</div>
 			</div>
@@ -72,24 +74,15 @@
 		</table>
 		<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
 			<%= @message.body %>
-			<% @message.attachments.each do |item| %>
-				<div class="mt-2 position-relative">
-					<% if item.content_type.start_with?("image") %>
-						<%= image_tag item, class: "image_in_body" %>
-					<% else %>
-						<%= link_to item.filename, rails_blob_path(item, disposition: "attachment") %>
-					<% end %>
-					<span class="position-absolute bottom-0 ml-2">
-						<%= "(#{(item.byte_size/1024.0).round} kB, #{item.content_type})" %>
-					</span>
-				</div>
-			<% end %>
+			<%= render "layouts/attachments", item: @message %>
 		</div>
 		<% if @message.is_commentable #コメントフォーム %>
 			<div>
 				<%= form_with model: @new_comment, url: message_message_comments_path(@message.id) do |f| %>
 					<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
-					<%= f.submit "書き込む", class: "btn btn-success" %>
+					<p class="text-danger" id="comment_error"></p>
+					<%= f.file_field :attachments, multiple: true %>
+					<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "message_comment_submit" %>
 				<% end %>
 			</div>
 		<% end %>
@@ -108,12 +101,13 @@
 								</span>
 								<% if comment.commenter_id == current_user.id %>
 									<span>
-										<%= link_to "削除する", message_message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "下記のコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
+										<%= link_to "削除する", message_message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
 									</span>
 								<% end %>
 							</div>
 							<div class="comment_body">
 								<%= comment.body.gsub("\n", "<br>").html_safe %>
+								<%= render "layouts/attachments", item: comment %>
 							</div>
 						</div>
 					</div>

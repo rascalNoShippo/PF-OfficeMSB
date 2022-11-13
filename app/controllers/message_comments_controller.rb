@@ -22,6 +22,6 @@ class MessageCommentsController < ApplicationController
 	private
 
 	def comment_params
-		params.require(:message_comment).permit(:body, :attachments)
+		params.require(:message_comment).permit(:body, attachments: [])
 	end
 end

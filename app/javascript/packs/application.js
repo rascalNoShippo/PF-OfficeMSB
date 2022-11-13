@@ -13,6 +13,7 @@ import "bootstrap";
 import "../stylesheets/application"
 import "@fortawesome/fontawesome-free/js/all"
 import "script.js"
+import "validation.js"
 // import "trix"
 // import "@rails/actiontext"
 // import "summernote_controller.js"

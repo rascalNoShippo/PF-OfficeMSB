@@ -9,7 +9,10 @@
 		<tbody>
 			<tr>
 				<th>標題</th>
-				<td><%= f.text_field :title, class: "form-control" %></td>
+				<td>
+					<%= f.text_field :title, class: "form-control" %>
+					<p class="text-danger" id="title_error"></p>
+				</td>
 			</tr>
 			<tr>
 				<th>差出人</th>
@@ -85,7 +88,7 @@
 		<%= f.label :is_commentable, "コメントを許可する" %>
 	<% end %>
 	<div>
-		<%= f.submit (@message.id.nil? ? "送信する" : "変更する"), class: "btn btn-success" %>
-		<%= link_to "戻る", message_path, class: "ml-5" %>
+		<%= f.submit (@message.id.nil? ? "送信する" : "変更する"), id: "message_submit", class: "btn btn-success" %>
+		<%= link_to "戻る", (@message.id.nil? ? messages_path : message_path), class: "ml-5" %>
 	</div>
 <% end %>
