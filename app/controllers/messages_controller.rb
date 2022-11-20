@@ -59,18 +59,13 @@ class MessagesController < ApplicationController
       return
     end
 
-    #宛先に含まれていれば既読をマークする
-    if @receivers.include?(current_user)
-      last_view = @message.already_read_flag
-      @message.mark_already_read
-    end
-
     @new_comment = @message.comments.new
     @comments = @message.comments.order(created_at: :DESC)
 
     #未表示のコメント・本文がハイライトされる仕様
+    last_view = @message.already_read_flag
     @viewed_comment = @message.receiver_model.viewed_comment
-    @message.receiver_model.update(viewed_comment: @message.number_of_comments)
+    @message.receiver_model.update(viewed_comment: @message.number_of_comments, last_viewing: Time.zone.now)
     @unread_after_update = last_view < @message.update_content_at unless last_view.nil? || @message.update_content_at.nil?
 
     #宛先リストに表示される上限数
@@ -135,7 +130,7 @@ class MessagesController < ApplicationController
           message.attachments.find(file_id).purge
         end
       end
-      
+
       flash[:notice] = "変更しました。"
       redirect_to message_path(message.id)
     end
@@ -146,6 +141,13 @@ class MessagesController < ApplicationController
     flash[:notice] = "“#{message.title}”は完全に削除されました。"
     message.destroy
     redirect_to messages_path
+  end
+
+  def receivers
+    @message = Message.find(params[:id])
+    @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
+    @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
+
   end
 
   def trash

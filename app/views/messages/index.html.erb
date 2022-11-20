@@ -38,8 +38,12 @@
 				<tbody>
 					<% @messages.each do |item| #メッセージ一覧 %>
 						<tr<%= " class=unread" unless item.already_read_flag %>>
-							<td<%= " class=font-weight-bold" unless item.already_read_flag %>><%= link_to item.title, message_path(item.id) %></td>
-							<td><%= link_to item.sender.icon + item.sender.name, "" %></td>
+							<td class="overflow_ellipsis<%= " font-weight-bold" unless item.already_read_flag %>">
+								<p class="overflow_ellipsis"><%= link_to item.title, message_path(item.id) %></p>
+							</td>
+							<td class="overflow_ellipsis">
+								<p class="overflow_ellipsis"><%= link_to item.sender.icon + item.sender.name, user_path(item.sender.id) %></p>
+							</td>
 							<td><%= date_or_time(item.updated_at) %></td>
 						</tr>
 					<% end %>

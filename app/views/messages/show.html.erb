@@ -40,7 +40,7 @@
 				<tr>
 					<th class="pr-2">差出人</th>
 					<td class="pr-2">
-						<%= link_to @message.sender.icon + @message.sender.name, "" %>
+						<%= link_to @message.sender.icon + @message.sender.name, user_path(@message.sender.id) %>
 					</td>
 					<td><%= l @message.created_at %></td>
 				</tr>
@@ -48,25 +48,25 @@
 					<tr>
 						<th class="pr-2">最終更新者</th>
 						<td class="pr-2">
-							<%= link_to @message.last_update_user.icon + @message.last_update_user.name, "" %>
+							<%= link_to @message.last_update_user.icon + @message.last_update_user.name, user_path(@message.last_update_user.id) %>
 						</td>
 						<td><%= l @message.update_content_at %></td>
 					</tr>
 				<% end %>
 				<tr>
-					<th class="pr-2">宛先</th>
+					<th class="pr-2"><%= link_to "宛先", receivers_message_path %></th>
 					<td colspan=2 class="pr-2">
 						<span class="mr-2">
 							(<%= @receivers.count.to_s(:delimited) %>人)
 						</span>
 						<% @receivers.limit(@limit_view_receivers).each do |receiver| %>
 							<span class="mr-2">
-								<%= link_to receiver.icon + receiver.name, "" %>
+								<%= link_to receiver.icon + receiver.name, user_path(receiver.id) %>
 							</span>
 						<% end %>
 						<% if @limit_view_receivers < @receivers.count %>
 							…
-							<%= link_to "宛先をすべて表示する", "" %>
+							<%= link_to "宛先をすべて表示する", receivers_message_path %>
 						<% end %>
 					</td>
 				</tr>
@@ -80,7 +80,6 @@
 			<div>
 				<%= form_with model: @new_comment, url: message_message_comments_path(@message.id) do |f| %>
 					<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
-					<p class="text-danger" id="comment_error"></p>
 					<%= f.file_field :attachments, multiple: true %>
 					<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "message_comment_submit" %>
 				<% end %>
@@ -90,7 +89,7 @@
 			<% @comments.each do |comment| #コメント一覧 %>
 				<div class="border-bottom">
 					<div class="d-flex m-2 p-2<%= " unread" if comment.comment_id > @viewed_comment %>">
-						<div class="pr-2">画<br>像</div>
+						<div class="pr-2"><%= image_tag comment.commenter.get_image, class: "profile_image" %></div>
 						<div>
 							<div>
 								<span class="comment_name mr-3">
@@ -105,7 +104,7 @@
 									</span>
 								<% end %>
 							</div>
-							<div class="comment_body">
+							<div class="comment_body ml-3">
 								<%= comment.body.gsub("\n", "<br>").html_safe %>
 								<%= render "layouts/attachments", item: comment %>
 							</div>

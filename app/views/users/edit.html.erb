@@ -1,0 +1,8 @@
+<% if @user_error %>
+	<%= render "layouts/forbidden" %>
+<% else %>
+	<div class="p-3">
+		<h3>ユーザーデータ編集</h3>
+		<%= render "users/form", user: @user %>
+	</div>
+<% end %>

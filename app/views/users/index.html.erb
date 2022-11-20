@@ -1,0 +1,30 @@
+<% if @user_error %>
+	<%= render "layouts/forbidden" %>
+<% else %>
+	<div class="p-3">
+		<%= link_to "<i class='fa-solid fa-circle-plus'></i> ユーザーを追加する".html_safe, new_user_path %>
+		<h3>ユーザー一覧</h3>
+		<table class="table w-unset">
+			<thead>
+				<tr>
+					<th>ユーザー名</th>
+					<th>ログイン名</th>
+					<th>管理者</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @users.each do |user| %>
+					<tr>
+						<td class="overflow_ellipsis">
+							<p class="overflow_ellipsis"><%= link_to user.icon + user.name, user_path(user.id) %></p>
+						</td>
+						<td><%= user.login_name %></td>
+						<td>
+							<%= "<i class='fa-regular fa-circle-check'></i>".html_safe if user.is_admin %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+<% end %>

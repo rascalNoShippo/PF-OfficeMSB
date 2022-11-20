@@ -1,0 +1,31 @@
+<div class="p-3">
+	<%= link_to "<i class='fa-solid fa-pen-to-square'></i>ユーザーデータを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
+	<%= link_to "<i class='fa-solid fa-key'></i>パスワードを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
+	<h4><%= @user.name %></h4>
+	<div>
+		<table class="table w-unset">
+			<tbody>
+				<tr>
+					<th>名前</th>
+					<td><%= @user.name %></td>
+				</tr>
+				<tr>
+					<th>社員番号</th>
+					<td><%= @user.employee_number %></td>
+				</tr>
+				<tr>
+					<th>E-mail</th>
+					<td><%= @user.email %></td>
+				</tr>
+				<tr>
+					<th>電話番号</th>
+					<td><%= @user.phone_number %></td>
+				</tr>
+				<tr>
+					<th>画像</th>
+					<td><%= @user.image.attached? ? (image_tag @user.image, class: "image_in_body") : "未登録" %></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

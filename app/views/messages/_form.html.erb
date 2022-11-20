@@ -49,7 +49,7 @@
 					<div>
 						<h6 class="text-center">変更・削除を許可</h6>
 						<%= f.hidden_field :editor %>
-						<%= f.select :editor_list, (@message.id.nil? ? [] : options_from_collection_for_select(@editors, :id, :name)), {}, multiple: true, class: "form-control p-1", id: "editor_list" %>
+						<%= f.select :editor_list, (@message.id.nil? ? [] : options_from_collection_for_select(@editors, :id, :name)), {}, multiple: true, class: "form-control py-1 px-0", id: "editor_list" %>
 					</div>
 					<div class="my-auto mx-2">
 						<%= button_tag type: "button", class: "d-block mb-3 btn border border-primary", id: "add_editor" do %>
@@ -62,7 +62,7 @@
 					<div>
 						<%= f.hidden_field :destination %>
 						<h6 class="text-center">宛先（閲覧のみ）</h6>
-						<%= f.select :destination_list, (@message.id.nil? ? [] : options_from_collection_for_select(@receivers, :id, :name)), {}, multiple: true, class: "form-control p-1", id: "destination_list" %>
+						<%= f.select :destination_list, (@message.id.nil? ? [] : options_from_collection_for_select(@receivers, :id, :name)), {}, multiple: true, class: "form-control py-1 px-0", id: "destination_list" %>
 					</div>
 					<div class="my-auto mx-2">
 						<%= button_tag type: "button", class: "d-block mb-3 btn border border-primary", id: "add_receiver" do %>
@@ -74,15 +74,15 @@
 					</div>
 					<div>
 						<h6 class="text-center">ユーザー一覧</h6>
-						<%= select "ユーザー一覧", :user_list, options_from_collection_for_select(@user_list, :id, :name), {}, multiple: true, class: "form-control p-1", id: "user_list" %>
+						<%= select "ユーザー一覧", :user_list, options_from_collection_for_select(@user_list, :id, :name), {}, multiple: true, class: "form-control py-1 px-0", id: "user_list" %>
 					</div>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	<% if @message.id.nil? %>
-		<%= f.check_box :confirmation_flag, {} , "true", "false" %>
-		<%= f.label :confirmation_flag, "閲覧状況を確認する" %>
+		<%#= f.check_box :confirmation_flag, {} , "true", "false" %>
+		<%#= f.label :confirmation_flag, "閲覧状況を確認する" %>
 
 		<%= f.check_box :is_commentable, {} , "true", "false" %>
 		<%= f.label :is_commentable, "コメントを許可する" %>

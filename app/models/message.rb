@@ -15,9 +15,9 @@ class Message < ApplicationRecord
 		self.receiver_model.last_viewing
 	end
 	
-	def mark_already_read
-		self.receiver_model.update(last_viewing: Time.zone.now)
-	end
+	# def mark_already_read
+	# 	self.receiver_model.update(last_viewing: Time.zone.now)
+	# end
 	
 	def editors
 		editor_ids = self.message_destinations.where(is_editable: true).pluck(:receiver_id)

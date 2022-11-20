@@ -134,8 +134,14 @@ trix-editor{
 }
 
 select[multiple="multiple"]{
-	min-width: 200px;
+	width: 200px;
 	height: 200px !important;
+	overflow: auto;
+	
+	option{
+		width: fit-content;
+		min-width: 100%;
+	}
 }
 
 th, td{
@@ -183,9 +189,26 @@ th, td{
 	.modal-footer{
 		background-color: whitesmoke;
 		justify-content: space-evenly;
-		
+
 		form{
 			display: inline-block;
 		}
 	}
+}
+
+.profile_image{
+	height:	50px;
+	width: 50px;
+	object-fit: cover;
+}
+
+.w-unset{
+	width: unset !important;
+}
+
+.overflow_ellipsis{
+	width: 20em !important;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

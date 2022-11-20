@@ -4,7 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
   validates :login_name, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create
+	has_one_attached :image
 
   has_many :messages, dependent: :destroy
   has_many :message_destinations, foreign_key: :receiver_id, dependent: :destroy
@@ -23,4 +24,28 @@ class User < ApplicationRecord
     class_name = self == User.current_user ? "text-success" : "text-primary"
     "<i class='fa-solid fa-user mr-1 #{class_name}'></i>".html_safe
   end
+  
+  def get_image
+    if image.attached?
+      image
+    else
+      "no_img.jpg"
+    end
+  end
+  
+  
+  def update_with_password(params, *options)
+    params.delete(:current_password)
+
+    if params[:password].blank?
+        params.delete(:password)
+        params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = update(params, *options)
+
+    clean_up_passwords
+    result
+  end
+
 end

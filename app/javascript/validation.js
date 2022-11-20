@@ -1,9 +1,39 @@
 $(function(){
-	$("#message_submit").on("click", function(){
-		if($("#message_title").val().length == 0){
-			$("#message_title").css({"border" : "2px solid red"});
-			$("#message_title").focus();
-			$("#title_error").text("入力してください");
+	error_msg("#message_submit", "#message_title")
+});
+
+$(function(){
+	error_msg("#message_comment_submit", "#message_comment_body");
+});
+
+$(function(){
+	error_msg("#user_submit", "#user_password");
+});
+
+$(function(){
+	error_msg("#user_submit", "#user_login_name");
+});
+
+$(function(){
+	error_msg("#user_submit", "#user_name");
+});
+
+$(function(){
+	error_msg("#password_submit", "#password_confirmation");
+});
+
+$(function(){
+	error_msg("#password_submit", "#password");
+});
+
+
+$(function(){
+	$("#password_submit").on("click", function(){
+		if($("#password").val() != $("#password_confirmation").val()){
+			$("#password_confirmation, #password").css({"border" : "2px solid red"});
+			$("#password_confirmation").focus();
+			$("#password_confirmation").val("");
+			$("#password_confirmation").attr("placeholder", "パスワードが一致しません");
 			return false;
 		}else{
 			return true;
@@ -11,15 +41,17 @@ $(function(){
 	});
 });
 
-$(function(){
-	$("#message_comment_submit").on("click", function(){
-		if($("#message_comment_body").val().length + $("#message_comment_attachments")[0].files.length == 0 ){
-			$("#message_comment_body").css({"border" : "2px solid red"});
-			$("#message_comment_body").focus();
-			$("#comment_error").text("入力してください");
+
+function error_msg(selector_submit, selector_text){
+	$(selector_submit).on("click", function(){
+		if($(selector_text).val().length == 0){
+			$(selector_text).css({"border" : "2px solid red"});
+			$(selector_text).focus();
+			$(selector_text).attr("placeholder", "入力してください")
 			return false;
 		}else{
 			return true;
 		}
 	});
-});
+}
+

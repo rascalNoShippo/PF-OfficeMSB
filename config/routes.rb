@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    sessions: "users/sessions"
+  devise_for :users, skip: [:password, :registrations], controllers: {
+    sessions: "users/sessions",
+    passwords: "users/passwords"
   }
-  
+  resources :users, only: [:show, :edit, :update, :new, :create, :index] do
+    get "password/edit", to: "users#password_edit"
+    patch "password", to: "users#password_update"
+  end
+
   resources :messages do
     member do
+      get "receivers"
       patch "trash"
       patch "restore"
     end
