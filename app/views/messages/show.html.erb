@@ -27,11 +27,11 @@
 	</div>
 	<div class="p-3">
 		<div>
-			<%= link_to "<i class='fa-solid fa-pen-to-square'></i>変更する".html_safe, edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
+			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
 			<% if @message.recycled? %>
-				<%= link_to "<i class='fa-solid fa-trash-arrow-up'></i>元に戻す".html_safe, restore_message_path, method: :patch %>
+				<%= link_to "<i class='fas fa-trash-restore'></i>元に戻す".html_safe, restore_message_path, method: :patch %>
 			<% else %>
-				<%= link_to "<i class='fa-solid fa-trash'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
+				<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
 			<% end %>
 		</div>
 		<h3><%= @message.title %></h3>

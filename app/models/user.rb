@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   def icon
     class_name = self == User.current_user ? "text-success" : "text-primary"
-    "<i class='fa-solid fa-user mr-1 #{class_name}'></i>".html_safe
+    "<i class='fas fa-user mr-1 #{class_name}'></i>".html_safe
   end
   
   def get_image

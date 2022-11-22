@@ -2,19 +2,19 @@
 <div class="header_2 d-flex h-100 justify-content-between">
 	<nav class="d-flex">
 		<%= link_to root_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fa-solid fa-house"></p>
+			<p class="fas fa-house-user"></p>
 			<p>TOP</p>
 		<% end %>
 		<%= link_to messages_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fa-solid fa-message"></p>
+			<p class="fas fa-comment-alt"></p>
 			<p>メッセージ</p>
 		<% end %>
 		<%= link_to "", class: "header_link d-block text-center my-auto" do %>
-			<p class="fa-solid fa-calendar-days"></p>
+			<p class="fas fa-calendar-alt"></p>
 			<p>スケジュール</p>
 		<% end %>
 		<%= link_to "", class: "header_link d-block text-center my-auto" do %>
-			<p class="fa-solid fa-clipboard"></p>
+			<p class="fas fa-clipboard"></p>
 			<p>掲示板</p>
 		<% end %>
 	</nav>
@@ -23,7 +23,7 @@
 			<p><%= "#{"●" if flash[:notice]}#{flash[:notice]}" %></p>
 		</div>
 		<div class="header_user d-flex my-auto border p-2">
-			<p class="fa-solid fa-user mr-3"></p>
+			<p class="fas fa-user mr-3"></p>
 			<p><%= current_user.name %></p>
 		</div>
 		<div class="header_user_menu d-none border">
