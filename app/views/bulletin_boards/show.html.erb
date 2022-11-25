@@ -16,7 +16,7 @@
 							<p class="text-danger font-weight-bold">削除すると全てのユーザーから見えなくなります。</p>
 						</div>
 						<div class="modal-footer p-3 w-100 d-flex">
-							<%= button_to "削除する", message_path, method: :delete, class: "btn btn-danger" %>
+							<%= button_to "削除する", bulletin_board_path, method: :delete, class: "btn btn-danger" %>
 							<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
 						</div>
 					</div>

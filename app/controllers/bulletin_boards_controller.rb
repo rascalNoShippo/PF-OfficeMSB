@@ -2,7 +2,7 @@ class BulletinBoardsController < ApplicationController
 
 	def index
 		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(10)
-
+		
     #paginationカウンター
     @total_count = @articles.total_count
     @per_page = @articles.limit_value
@@ -16,7 +16,7 @@ class BulletinBoardsController < ApplicationController
 		@article = BulletinBoard.find(params[:id])
 		@new_comment = @article.comments.new
 		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(10)
-		view_flag = @article.view_flags.find_by(user_id: current_user.id)
+		view_flag = @article.view_flag
 
 		#既読をマーク, 未表示のコメント・本文がハイライトされる仕様
 		if view_flag.nil?
@@ -39,8 +39,8 @@ class BulletinBoardsController < ApplicationController
 	def create
 		article = current_user.bulletin_boards.new(bulletin_board_params)
 		
-		
 		if article.save
+			flash[:notice] = "掲示を作成しました。"
 			redirect_to bulletin_board_path(article.id)
 		end
 	end
@@ -56,12 +56,20 @@ class BulletinBoardsController < ApplicationController
 		article_updated_date = article.updated_at
 
 		if article.update(bulletin_board_params)
+			flash[:notice] = "掲示を更新しました。"
 			#内容が更新されていれば最終更新をマーク
 			if article.updated_at > article_updated_date
 				article.update(update_content_at: article.updated_at, last_update_user_id: current_user.id)
 			end
 			redirect_to bulletin_board_path
 		end
+	end
+	
+	def destroy
+		article = BulletinBoard.find(params[:id])
+		article.destroy
+		flash[:notice] = "掲示“#{article.title}”を削除しました。"
+		redirect_to bulletin_boards_path
 	end
 
   private

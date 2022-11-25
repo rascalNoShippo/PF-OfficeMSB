@@ -24,8 +24,8 @@
 				</thead>
 				<tbody>
 					<% @articles.each do |item| #掲示一覧 %>
-						<tr<%= " class=unread" unless item.view_flags.exists? %>>
-							<td class="overflow_ellipsis<%= " font-weight-bold" unless item.view_flags.exists? %>">
+						<tr<%= " class=unread" unless item.view_flag %>>
+							<td class="overflow_ellipsis<%= " font-weight-bold" unless item.view_flag %>">
 								<p class="overflow_ellipsis"><%= link_to item.title, bulletin_board_path(item.id) %></p>
 							</td>
 							<td class="overflow_ellipsis">

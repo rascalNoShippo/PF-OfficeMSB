@@ -1,6 +1,6 @@
 <div class="p-3">
 	<%= link_to "<i class='fas fa-edit'></i>ユーザーデータを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
-	<%= link_to "<i class='fas fa-key'></i>パスワードを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
+	<%= link_to "<i class='fas fa-key'></i>パスワードを変更する".html_safe, user_password_edit_path(@user.id) if @user == current_user || current_user.is_admin %>
 	<h4><%= @user.name %></h4>
 	<div>
 		<table class="table w-unset">
