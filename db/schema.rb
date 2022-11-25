@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_04_115838) do
+ActiveRecord::Schema.define(version: 2022_11_25_004114) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,35 @@ ActiveRecord::Schema.define(version: 2022_11_04_115838) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "bulletin_board_comments", force: :cascade do |t|
+    t.integer "bulletin_board_id", null: false
+    t.integer "commenter_id", null: false
+    t.text "body"
+    t.integer "comment_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "bulletin_board_view_flags", force: :cascade do |t|
+    t.integer "bulletin_board_id", null: false
+    t.integer "user_id", null: false
+    t.integer "viewed_comment", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "bulletin_boards", force: :cascade do |t|
+    t.integer "sender_id", null: false
+    t.integer "last_update_user_id"
+    t.string "title", null: false
+    t.text "body"
+    t.boolean "is_commentable", default: true
+    t.integer "number_of_comments", default: 0
+    t.datetime "update_content_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "message_comments", force: :cascade do |t|

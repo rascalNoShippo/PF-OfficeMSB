@@ -26,6 +26,13 @@ $(function(){
 	error_msg("#password_submit", "#password");
 });
 
+$(function(){
+	error_msg("#bulletin_board_submit", "#bulletin_board_title");
+});
+
+$(function(){
+	error_msg("#bulletin_board_comment_submit", "#bulletin_board_comment_body");
+});
 
 $(function(){
 	$("#password_submit").on("click", function(){

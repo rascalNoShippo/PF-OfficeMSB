@@ -1,0 +1,72 @@
+class BulletinBoardsController < ApplicationController
+
+	def index
+		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(10)
+
+    #paginationカウンター
+    @total_count = @articles.total_count
+    @per_page = @articles.limit_value
+    @current_page = @articles.current_page
+    @num_pages = @articles.total_pages
+    @count_start = (@current_page - 1) * @per_page + 1
+    @count_end = @articles.last_page? ? @total_count : @current_page * @per_page
+	end
+
+	def show
+		@article = BulletinBoard.find(params[:id])
+		@new_comment = @article.comments.new
+		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(10)
+		view_flag = @article.view_flags.find_by(user_id: current_user.id)
+
+		#既読をマーク, 未表示のコメント・本文がハイライトされる仕様
+		if view_flag.nil?
+			@viewed_comment = 0
+			last_view = nil
+			@article.view_flags.create(user_id: current_user.id, viewed_comment: @article.number_of_comments)
+		else
+			@viewed_comment = view_flag.viewed_comment
+			last_view = view_flag.updated_at
+			view_flag.update(viewed_comment: @article.number_of_comments, updated_at: Time.zone.now)
+		end
+    @unread_after_update = last_view < @article.update_content_at unless last_view.nil? || @article.update_content_at.nil?
+
+	end
+
+	def new
+		@article = current_user.bulletin_boards.new
+	end
+
+	def create
+		article = current_user.bulletin_boards.new(bulletin_board_params)
+		
+		
+		if article.save
+			redirect_to bulletin_board_path(article.id)
+		end
+	end
+
+	def edit
+		@article = BulletinBoard.find(params[:id])
+		@sender = @article.sender
+		@header_hidden = true if @user_error = current_user != @sender && !current_user.is_admin
+	end
+
+	def update
+		article = BulletinBoard.find(params[:id])
+		article_updated_date = article.updated_at
+
+		if article.update(bulletin_board_params)
+			#内容が更新されていれば最終更新をマーク
+			if article.updated_at > article_updated_date
+				article.update(update_content_at: article.updated_at, last_update_user_id: current_user.id)
+			end
+			redirect_to bulletin_board_path
+		end
+	end
+
+  private
+
+	def bulletin_board_params
+		params.require(:bulletin_board).permit(:title, :body, :is_commentable, attachments: [])
+	end
+end

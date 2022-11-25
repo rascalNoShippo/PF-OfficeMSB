@@ -1,0 +1,9 @@
+<% if @user_error %>
+	<%= render "layouts/forbidden" %>
+<% else %>
+	<% content_for :title, "掲示の書き込み" %>
+	<div class="p-3">
+		<h3>掲示の書き込み</h3>
+		<%= render "bulletin_boards/form" %>
+	</div>
+<% end %>

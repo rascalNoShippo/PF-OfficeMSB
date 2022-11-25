@@ -1,0 +1,92 @@
+<% content_for :title, @article.title %>
+<div class="p-3">
+	<div>
+		<% if @article.sender == current_user || current_user.is_admin %>
+			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_bulletin_board_path %>
+			<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
+			<div class="modal fade" id="delete_modal">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header p-0">
+							<p class="modal-title text-white p-2">掲示の削除</p>
+						</div>
+						<div class="modal-body">
+							<p>以下の掲示を削除しますか？</p>
+							<li class="font-weight-bold"><%= @article.title %></li>
+							<p class="text-danger font-weight-bold">削除すると全てのユーザーから見えなくなります。</p>
+						</div>
+						<div class="modal-footer p-3 w-100 d-flex">
+							<%= button_to "削除する", message_path, method: :delete, class: "btn btn-danger" %>
+							<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	<h3>
+		<i class="fas fa-clipboard"></i>
+		<%= @article.title %>
+		</h3>
+	<table>
+		<tbody>
+			<tr>
+				<th class="pr-2">差出人</th>
+				<td class="pr-2">
+					<%= link_to @article.sender.icon + @article.sender.name, user_path(@article.sender.id) %>
+				</td>
+				<td><%= l @article.created_at %></td>
+			</tr>
+			<% if @article.update_content_at %>
+				<tr>
+					<th class="pr-2">最終更新者</th>
+					<td class="pr-2">
+						<%= link_to @article.last_update_user.icon + @article.last_update_user.name, user_path(@article.last_update_user.id) %>
+					</td>
+					<td><%= l @article.update_content_at %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
+		<%= @article.body %>
+		<%= render "layouts/attachments", item: @article %>
+	</div>
+	<% if @article.is_commentable #コメントフォーム %>
+		<div>
+			<%= form_with model: @new_comment, url: bulletin_board_comments_path(@article.id) do |f| %>
+				<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
+				<%= f.file_field :attachments, multiple: true %>
+				<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "bulletin_board_comment_submit" %>
+			<% end %>
+		</div>
+	<% end %>
+	<div class="border-top my-3">
+		<% @comments.each do |comment| #コメント一覧 %>
+			<div class="border-bottom">
+				<div class="d-flex m-2 p-2<%= " unread" if comment.comment_id > @viewed_comment %>">
+					<div class="pr-2"><%= image_tag comment.commenter.get_image, class: "profile_image" %></div>
+					<div>
+						<div>
+							<span class="comment_name mr-3">
+								<%= comment.comment_id %> : <%= link_to comment.commenter.name, "" %>
+							</span>
+							<span class="comment_datetime mr-3">
+								<%= l comment.created_at %>
+							</span>
+							<% if comment.commenter_id == current_user.id %>
+								<span>
+									<%= link_to "削除する", bulletin_board_comment_path(@article.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
+								</span>
+							<% end %>
+						</div>
+						<div class="comment_body ml-3">
+							<%= comment.body.gsub("\n", "<br>").html_safe %>
+							<%= render "layouts/attachments", item: comment %>
+						</div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>

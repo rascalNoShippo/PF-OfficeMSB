@@ -2,7 +2,7 @@
 	<%= render "layouts/forbidden" %>
 <% else %>
 	<div class="p-3">
-		<%= link_to "<i class='fa-solid fa-circle-plus'></i> ユーザーを追加する".html_safe, new_user_path %>
+		<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path %>
 		<h3>ユーザー一覧</h3>
 		<table class="table w-unset">
 			<thead>
@@ -19,8 +19,8 @@
 							<p class="overflow_ellipsis"><%= link_to user.icon + user.name, user_path(user.id) %></p>
 						</td>
 						<td><%= user.login_name %></td>
-						<td>
-							<%= "<i class='fa-regular fa-circle-check'></i>".html_safe if user.is_admin %>
+						<td class="text-center">
+							<%= "<i class='fas fa-check-circle'></i>".html_safe if p user.is_admin %>
 						</td>
 					</tr>
 				<% end %>

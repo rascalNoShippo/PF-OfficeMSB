@@ -6,14 +6,19 @@
 			<p>TOP</p>
 		<% end %>
 		<%= link_to messages_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fas fa-comment-alt"></p>
+			<p class="fas fa-comment"></p>
 			<p>メッセージ</p>
 		<% end %>
+
+		<%
+=begin %>
 		<%= link_to "", class: "header_link d-block text-center my-auto" do %>
 			<p class="fas fa-calendar-alt"></p>
 			<p>スケジュール</p>
 		<% end %>
-		<%= link_to "", class: "header_link d-block text-center my-auto" do %>
+		<%
+=end %>
+		<%= link_to bulletin_boards_path, class: "header_link d-block text-center my-auto" do %>
 			<p class="fas fa-clipboard"></p>
 			<p>掲示板</p>
 		<% end %>

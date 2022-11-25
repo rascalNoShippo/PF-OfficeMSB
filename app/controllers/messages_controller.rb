@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
     end
 
     @new_comment = @message.comments.new
-    @comments = @message.comments.order(created_at: :DESC)
+    @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(10)
 
     #未表示のコメント・本文がハイライトされる仕様
     last_view = @message.already_read_flag

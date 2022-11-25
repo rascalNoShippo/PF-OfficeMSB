@@ -2,29 +2,6 @@
 	<%= render "layouts/forbidden" %>
 <% else %>
 	<% content_for :title, @message.title %>
-	<div class="modal fade" id="delete_modal">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header p-0">
-					<p class="modal-title text-white p-2">メッセージの削除</p>
-				</div>
-				<div class="modal-body">
-					<p>以下のメッセージを削除しようとしています。</p>
-					<li class="font-weight-bold"><%= @message.title %></li>
-					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
-					<% if @message.sender == current_user || @editors.include?(current_user) %>
-						<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
-						<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
-					<% end %>
-				</div>
-				<div class="modal-footer p-3 w-100 d-flex">
-					<%= button_to "ごみ箱に移動する", trash_message_path, method: :patch, class: "btn btn-warning"%>
-					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" if @message.sender == current_user ||@editors.include?(current_user) %>
-					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="p-3">
 		<div>
 			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
@@ -34,7 +11,10 @@
 				<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
 			<% end %>
 		</div>
-		<h3><%= @message.title %></h3>
+		<h3>
+			<i class="fas fa-comment"></i>
+			<%= @message.title %>
+		</h3>
 		<table>
 			<tbody>
 				<tr>
@@ -78,13 +58,14 @@
 		</div>
 		<% if @message.is_commentable #コメントフォーム %>
 			<div>
-				<%= form_with model: @new_comment, url: message_message_comments_path(@message.id) do |f| %>
+				<%= form_with model: @new_comment, url: message_comments_path(@message.id) do |f| %>
 					<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
 					<%= f.file_field :attachments, multiple: true %>
 					<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "message_comment_submit" %>
 				<% end %>
 			</div>
 		<% end %>
+		<%= paginate @comments %>
 		<div class="border-top my-3">
 			<% @comments.each do |comment| #コメント一覧 %>
 				<div class="border-bottom">
@@ -100,7 +81,7 @@
 								</span>
 								<% if comment.commenter_id == current_user.id %>
 									<span>
-										<%= link_to "削除する", message_message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
+										<%= link_to "削除する", message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
 									</span>
 								<% end %>
 							</div>
@@ -114,4 +95,28 @@
 			<% end %>
 		</div>
 	</div>
+	<div class="modal fade" id="delete_modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header p-0">
+					<p class="modal-title text-white p-2">メッセージの削除</p>
+				</div>
+				<div class="modal-body">
+					<p>以下のメッセージを削除しようとしています。</p>
+					<li class="font-weight-bold"><%= @message.title %></li>
+					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
+					<% if @message.sender == current_user || @editors.include?(current_user) %>
+						<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
+						<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
+					<% end %>
+				</div>
+				<div class="modal-footer p-3 w-100 d-flex">
+					<%= button_to "ごみ箱に移動する", trash_message_path, method: :patch, class: "btn btn-warning"%>
+					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" if @message.sender == current_user || @editors.include?(current_user) %>
+					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
 <% end %>

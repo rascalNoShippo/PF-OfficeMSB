@@ -1,0 +1,2 @@
+module BulletinBoardCommentsHelper
+end

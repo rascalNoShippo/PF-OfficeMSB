@@ -11,6 +11,11 @@ class User < ApplicationRecord
   has_many :message_destinations, foreign_key: :receiver_id, dependent: :destroy
   has_many :received_messages, through: :message_destinations, source: :message
   has_many :message_comments, foreign_key: :commenter_id, dependent: :destroy
+  
+  has_many :bulletin_boards, foreign_key: "sender_id", dependent: :destroy
+  has_many :bulletin_board_comments, dependent: :destroy
+  has_many :bulletin_board_view_flags, dependent: :destroy
+  
 
   def self.current_user=(user)
     Thread.current[:user] = user # 現在のスレッドにuserを設定するメソッド
