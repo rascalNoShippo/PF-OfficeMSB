@@ -3,7 +3,15 @@ $(function(){
 });
 
 $(function(){
-	error_msg("#message_comment_submit", "#message_comment_body");
+	$("#message_comment_submit").on("click", function(){
+		if($(".note-editable").text().length == 0){
+			$(".note-editor").css({"border" : "3px solid red"});
+			$(".note-placeholder").text("入力してください")
+			return false;
+		}else{
+			return true;
+		}
+	});
 });
 
 $(function(){

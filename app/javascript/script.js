@@ -7,3 +7,32 @@ $(function(){
 	});
 });
 
+$(function(){
+	//summernote 初期化
+	$("#summernote").summernote({
+    height: 300,
+    lang: "ja-JP",
+    placeholder: " ",
+    fontSizes:['8', '9', '10', '11', '12', '13','14', '18', '24', '36'],
+    toolbar: [
+    // [groupName, [list of button]]
+    	["style", ["style"]],
+	    ['style', ['bold', 'italic', 'underline', 'clear']],
+	    ['font', ['strikethrough', 'superscript', 'subscript']],
+	    ['fontsize', ['fontsize']],
+	    ['color', ['color']],
+	    ['table', ['table']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+	    ['height', ['height']]
+  	]
+  });
+});
+
+
+$(function() {
+	//summernote用 hidden_fieldへコード格納
+	$("#message_submit").on("mousedown", function() {
+		$("#summernote").val($(".note-editable").html());
+	});
+});
+

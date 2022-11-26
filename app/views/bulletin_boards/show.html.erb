@@ -49,15 +49,15 @@
 		</tbody>
 	</table>
 	<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
-		<%= @article.body %>
+		<%= @article.body.html_safe %>
 		<%= render "layouts/attachments", item: @article %>
 	</div>
 	<% if @article.is_commentable #コメントフォーム %>
 		<div>
 			<%= form_with model: @new_comment, url: bulletin_board_comments_path(@article.id) do |f| %>
-				<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
-				<%= f.file_field :attachments, multiple: true %>
-				<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "bulletin_board_comment_submit" %>
+				<%= f.hidden_field :body, placeholder: "コメントを入力", class: "form-control my-3", id: "summernote" %>
+				<%= f.file_field :attachments, multiple: true, class: "my-3" %>
+				<%= f.submit "書き込む", class: "btn btn-success d-block", id: "bulletin_board_comment_submit" %>
 			<% end %>
 		</div>
 	<% end %>

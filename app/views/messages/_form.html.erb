@@ -1,8 +1,9 @@
 <%= javascript_pack_tag "destination" %>
 <%= javascript_pack_tag "onbeforeunload" %>
+<%= javascript_pack_tag "summernote_initial_value" %>
 
 <%= form_with model: @message do |f| %>
-	<table class="table table-borderless align-middle">
+	<table class="table table-borderless align-middle text-nowrap">
 		<colgroup>
 			<col class="align-middle">
 		</colgroup>
@@ -21,7 +22,7 @@
 			<tr>
 				<th>本文</th>
 				<td>
-					<%= f.text_area :body, class: "form-control" %>
+					<%= f.hidden_field :body, class: "form-control", id: "summernote" %>
 				</td>
 			</tr>
 			<tr>

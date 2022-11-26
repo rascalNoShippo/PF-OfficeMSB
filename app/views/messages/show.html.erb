@@ -53,15 +53,15 @@
 			</tbody>
 		</table>
 		<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
-			<%= @message.body %>
+			<%= @message.body.html_safe %>
 			<%= render "layouts/attachments", item: @message %>
 		</div>
 		<% if @message.is_commentable #コメントフォーム %>
 			<div>
 				<%= form_with model: @new_comment, url: message_comments_path(@message.id) do |f| %>
-					<%= f.text_area :body, placeholder: "コメントを入力", class: "form-control my-3" %>
-					<%= f.file_field :attachments, multiple: true %>
-					<%= f.submit "書き込む", class: "btn btn-success d-block mt-3", id: "message_comment_submit" %>
+					<%= f.hidden_field :body, placeholder: "コメントを入力", class: "form-control my-3", id: "summernote" %>
+					<%= f.file_field :attachments, multiple: true, class: "my-3" %>
+					<%= f.submit "書き込む", class: "btn btn-success d-block", id: "message_comment_submit" %>
 				<% end %>
 			</div>
 		<% end %>
@@ -81,11 +81,11 @@
 								</span>
 								<% if comment.commenter_id == current_user.id %>
 									<span>
-										<%= link_to "削除する", message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
+										<%= link_to "削除する", message_comment_path(@message.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "btn btn-danger px-1 py-0" %>
 									</span>
 								<% end %>
 							</div>
-							<div class="comment_body ml-3">
+							<div class="comment_body ml-3 mt-2">
 								<%= comment.body.gsub("\n", "<br>").html_safe %>
 								<%= render "layouts/attachments", item: comment %>
 							</div>
@@ -118,5 +118,4 @@
 			</div>
 		</div>
 	</div>
-
 <% end %>
