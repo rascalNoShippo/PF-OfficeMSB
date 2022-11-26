@@ -52,18 +52,21 @@
 		<%= @article.body.html_safe %>
 		<%= render "layouts/attachments", item: @article %>
 	</div>
+	<%#= render "layouts/post_comment", article: @article %>
 	<% if @article.is_commentable #コメントフォーム %>
 		<div>
-			<%= form_with model: @new_comment, url: bulletin_board_comments_path(@article.id) do |f| %>
+			<h6>コメントを書き込む</h6>
+			<%= form_with model: @new_comment, url: bulletin_board_comments_path(@article.id), id: "form" do |f| %>
 				<%= f.hidden_field :body, placeholder: "コメントを入力", class: "form-control my-3", id: "summernote" %>
 				<%= f.file_field :attachments, multiple: true, class: "my-3" %>
-				<%= f.submit "書き込む", class: "btn btn-success d-block", id: "bulletin_board_comment_submit" %>
+				<%= f.submit "書き込む", class: "btn btn-success d-block", id: "comment_submit" %>
 			<% end %>
 		</div>
 	<% end %>
+	<%= paginate @comments %>
 	<div class="border-top my-3">
 		<% @comments.each do |comment| #コメント一覧 %>
-			<div class="border-bottom">
+			<div class="comment border-bottom">
 				<div class="d-flex m-2 p-2<%= " unread" if comment.comment_id > @viewed_comment %>">
 					<div class="pr-2"><%= image_tag comment.commenter.get_image, class: "profile_image" %></div>
 					<div>
@@ -75,12 +78,12 @@
 								<%= l comment.created_at %>
 							</span>
 							<% if comment.commenter_id == current_user.id %>
-								<span>
-									<%= link_to "削除する", bulletin_board_comment_path(@article.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{comment.body}", class: "btn btn-danger px-1 py-0" %>
+								<span class="delete_comment" style="display: none;">
+									<%= link_to "削除する", bulletin_board_comment_path(@article.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
 								</span>
 							<% end %>
 						</div>
-						<div class="comment_body ml-3">
+						<div class="comment_body ml-3 mt-2">
 							<%= comment.body.gsub("\n", "<br>").html_safe %>
 							<%= render "layouts/attachments", item: comment %>
 						</div>
@@ -89,4 +92,3 @@
 			</div>
 		<% end %>
 	</div>
-</div>

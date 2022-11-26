@@ -6,13 +6,19 @@ class BulletinBoardCommentsController < ApplicationController
 		comment.comment_id = article.number_of_comments + 1
 		if comment.save
 			article.update(number_of_comments: comment.comment_id)
+			flash[:notice] = "コメントを書き込みました。"
 			redirect_to bulletin_board_path(article.id)
 		end
 
 	end
 	def destroy
+		article = BulletinBoard.find(params[:bulletin_board_id])
 		comment = BulletinBoardComment.find(params[:id])
-		comment.destroy
+		comment_id = comment.comment_id
+		if comment.destroy
+			article.update(updated_at: Time.zone.now)
+		end
+		flash[:notice] = "コメント ##{comment_id} を削除しました。"
 		redirect_to bulletin_board_path(params[:bulletin_board_id])
 	end
 

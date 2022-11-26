@@ -3,8 +3,8 @@ $(function(){
 });
 
 $(function(){
-	$("#message_comment_submit").on("click", function(){
-		if($(".note-editable").text().length == 0){
+	$("#comment_submit").on("click", function(){
+		if($(".note-editable").text().length == 0 && $(".note-editable").html().indexOf("<li>") == -1){
 			$(".note-editor").css({"border" : "3px solid red"});
 			$(".note-placeholder").text("入力してください")
 			return false;

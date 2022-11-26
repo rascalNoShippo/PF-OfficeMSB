@@ -14,10 +14,12 @@
  *= require_self
  */
 
+
 *{
 	margin : 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Noto Sans JP";
 }
 
 html{
@@ -232,9 +234,6 @@ th, td{
 		white-space: nowrap;
 		right: unset;
 		left: 0;
-		a{
-			margin: 0;
-		}
 	}
 	.dropdown-toggle::after{
 		display: none;
@@ -242,4 +241,18 @@ th, td{
 	.note-dropzone{
 		display: none !important;
 	}
+	.note-modal-footer{
+		padding: 0;
+		margin: 0 10px;
+	}
+	.dropdown-fontsize, .dropdown-style{
+		a, a:hover{
+			margin: 0;
+		}
+
+	}
 }
+
+ol, ul, dl{
+		margin-left: 1.5em
+	}

@@ -5,19 +5,14 @@ class Message < ApplicationRecord
 	has_many :receivers, through: :message_destinations
 	has_many :comments, class_name: "MessageComment", dependent: :destroy
 	has_many_attached :attachments
-	#has_rich_text :body
-	
+
 	def receiver_model
-		message_destinations.find_by(receiver_id: User.current_user.id)
+		self.message_destinations.find_by(receiver_id: User.current_user.id)
 	end
 	
 	def already_read_flag
 		self.receiver_model.last_viewing
 	end
-	
-	# def mark_already_read
-	# 	self.receiver_model.update(last_viewing: Time.zone.now)
-	# end
 	
 	def editors
 		editor_ids = self.message_destinations.where(is_editable: true).pluck(:receiver_id)

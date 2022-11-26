@@ -15,17 +15,21 @@
 				<tr>
 					<th>ユーザー名</th>
 					<th>変更/削除の許可</th>
+					<th>閲覧日時</th>
 				</tr>
 				</thead>
 				<tbody>
-				<% @receivers.each do |receiver| %>
+				<% @message.message_destinations.each do |destination| %>
 					<tr>
 						<td>
-							<%= link_to receiver.icon + receiver.name, user_path(receiver.id) %>
-							<%= "(差出人)" if receiver == @message.sender %>
+							<%= link_to destination.receiver.icon + destination.receiver.name, user_path(destination.receiver_id) %>
+							<%= "(差出人)" if destination.receiver == @message.sender %>
 						</td>
 						<td class="text-center">
-							<%= "<i class='fas fa-check-circle'></i>".html_safe if @editors.include?(receiver) %>
+							<%= "<i class='fas fa-check-circle'></i>".html_safe if destination.is_editable %>
+						</td>
+						<td>
+							<%= l destination.finished_reading if destination.finished_reading %>
 						</td>
 					</tr>
 				<% end %>

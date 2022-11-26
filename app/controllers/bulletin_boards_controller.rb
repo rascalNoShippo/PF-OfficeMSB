@@ -16,6 +16,8 @@ class BulletinBoardsController < ApplicationController
 		@article = BulletinBoard.find(params[:id])
 		@new_comment = @article.comments.new
 		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(10)
+		@form_url
+		@delete_url
 		view_flag = @article.view_flag
 
 		#既読をマーク, 未表示のコメント・本文がハイライトされる仕様

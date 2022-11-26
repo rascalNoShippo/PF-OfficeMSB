@@ -6,6 +6,7 @@ class MessageCommentsController < ApplicationController
 		comment.comment_id = message.number_of_comments + 1
 		if comment.save
 			message.update(number_of_comments: comment.comment_id)
+			flash[:notice] = "コメントを書き込みました。"
 			redirect_to message_path(params[:message_id])
 		end
 	end
@@ -16,6 +17,7 @@ class MessageCommentsController < ApplicationController
 		if comment.destroy
 			message.update(updated_at: Time.zone.now)
 		end
+		flash[:notice] = "コメント ##{comment_id} を削除しました。"
 		redirect_to message_path(params[:message_id])
 	end
 	

@@ -62,10 +62,14 @@ class MessagesController < ApplicationController
     @new_comment = @message.comments.new
     @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(10)
 
+    #未読→既読の設定
+    current_time = Time.zone.now
+    @message.receiver_model.update(finished_reading: current_time) if @message.receiver_model.finished_reading.nil?
+    
     #未表示のコメント・本文がハイライトされる仕様
     last_view = @message.already_read_flag
     @viewed_comment = @message.receiver_model.viewed_comment
-    @message.receiver_model.update(viewed_comment: @message.number_of_comments, last_viewing: Time.zone.now)
+    @message.receiver_model.update(viewed_comment: @message.number_of_comments, last_viewing: current_time)
     @unread_after_update = last_view < @message.update_content_at unless last_view.nil? || @message.update_content_at.nil?
 
     #宛先リストに表示される上限数
@@ -134,6 +138,10 @@ class MessagesController < ApplicationController
       flash[:notice] = "変更しました。"
       redirect_to message_path(message.id)
     end
+  end
+  
+  def search_users
+    
   end
 
   def destroy
