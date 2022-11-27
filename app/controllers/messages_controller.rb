@@ -13,13 +13,24 @@ class MessagesController < ApplicationController
     end
     @messages = messages.page(params[:page]).per(10)
 
+    #検索クエリ
+    @q = params[:query]
+    if @q
+      body_ids = []
+      @messages.each do |message|
+        #プレーンテキストに変換→検索
+        body_ids.push(message.id) if message.plaintext_body.include?(@q)
+      end
+      @messages = @messages.where("title like ?", "%#{@q}%").or(@messages.where(id: body_ids))
+    end
+
     #paginationカウンター
     @total_count = @messages.total_count
     @per_page = @messages.limit_value
     @current_page = @messages.current_page
     @num_pages = @messages.total_pages
     @count_start = (@current_page - 1) * @per_page + 1
-    @count_end = @messages.last_page? ? @total_count : @current_page * @per_page
+    @count_end = @num_pages == 0 ? 0 : (@messages.last_page? ? @total_count : @current_page * @per_page)
   end
 
   def new
@@ -65,7 +76,7 @@ class MessagesController < ApplicationController
     #未読→既読の設定
     current_time = Time.zone.now
     @message.receiver_model.update(finished_reading: current_time) if @message.receiver_model.finished_reading.nil?
-    
+
     #未表示のコメント・本文がハイライトされる仕様
     last_view = @message.already_read_flag
     @viewed_comment = @message.receiver_model.viewed_comment
@@ -139,10 +150,6 @@ class MessagesController < ApplicationController
       redirect_to message_path(message.id)
     end
   end
-  
-  def search_users
-    
-  end
 
   def destroy
     message = Message.find(params[:id])
@@ -155,7 +162,6 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
-
   end
 
   def trash

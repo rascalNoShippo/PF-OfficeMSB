@@ -1,49 +1,23 @@
 $(function(){
-	error_msg("#message_submit", "#message_title")
-});
-
-$(function(){
-	$("#comment_submit").on("click", function(){
-		if($(".note-editable").text().length == 0 && $(".note-editable").html().indexOf("<li>") == -1){
+	//コメント未入力かつファイル未選択時
+	$("#form").submit(function(){
+		if(!$(".note-editable").text().length && !$("#comment_attachments")[0].files.length){
 			$(".note-editor").css({"border" : "3px solid red"});
 			$(".note-placeholder").text("入力してください")
 			return false;
 		}else{
+			//summernote用 submit時にhidden_fieldへコード格納
+			$("#summernote").val(
+				$(".note-editable").text().length ? $(".note-editable").html() : ""
+			);
 			return true;
 		}
 	});
 });
 
 $(function(){
-	error_msg("#user_submit", "#user_password");
-});
-
-$(function(){
-	error_msg("#user_submit", "#user_login_name");
-});
-
-$(function(){
-	error_msg("#user_submit", "#user_name");
-});
-
-$(function(){
-	error_msg("#password_submit", "#password_confirmation");
-});
-
-$(function(){
-	error_msg("#password_submit", "#password");
-});
-
-$(function(){
-	error_msg("#bulletin_board_submit", "#bulletin_board_title");
-});
-
-$(function(){
-	error_msg("#bulletin_board_comment_submit", "#bulletin_board_comment_body");
-});
-
-$(function(){
-	$("#password_submit").on("click", function(){
+	//パスワード変更時
+	$("#password_form").submit(function(){
 		if($("#password").val() != $("#password_confirmation").val()){
 			$("#password_confirmation, #password").css({"border" : "2px solid red"});
 			$("#password_confirmation").focus();
@@ -55,18 +29,3 @@ $(function(){
 		}
 	});
 });
-
-
-function error_msg(selector_submit, selector_text){
-	$(selector_submit).on("click", function(){
-		if($(selector_text).val().length == 0){
-			$(selector_text).css({"border" : "2px solid red"});
-			$(selector_text).focus();
-			$(selector_text).attr("placeholder", "入力してください")
-			return false;
-		}else{
-			return true;
-		}
-	});
-}
-

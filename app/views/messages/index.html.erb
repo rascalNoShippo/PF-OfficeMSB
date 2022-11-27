@@ -1,24 +1,47 @@
 <% content_for :title, "メッセージ" %>
 <div class="p-3">
-	<h3>メッセージ</h3>
-	<div>
-		<%= link_to "メッセージを送る", new_message_path %>
-	</div>
-	<div class="d-flex">
-		<div class="message_sidebar col-2 pt-5 px-3">
-			<ul class="list-group">
-				<li class="list-group-item p-0<%= " active" if params[:box].nil? %>">
-					<%= link_to "受信箱", messages_path, class: "d-block p-3#{" text-light" if params[:box].nil?}" %>
-				</li>
-				<li class="list-group-item p-0<%= " active" if @is_send_box %>">
-					<%= link_to "送信箱", messages_path(box: "send"), class: "d-block p-3#{" text-light" if @is_send_box}" %>
-				</li>
-				<li class="list-group-item p-0<%= " active" if @is_trash_box %>">
-					<%= link_to "ごみ箱", messages_path(box: "trash"), class: "d-block p-3#{" text-light" if @is_trash_box}" %>
-				</li>
-			</ul>
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>
+				<i class="fas fa-comment"></i>
+				<%= @q ? "検索結果" : "メッセージ" %>
+			</h3>
 		</div>
-		<div class="message_list col-10">
+		<div class="d-flex">
+			<%# 検索BOX %>
+			<%= form_with method: :get, class: "d-flex my-auto" do |f| %>
+				<div class="input-group">
+					<%= f.text_field :query, value: @q, class: "form-control input-group-prepend" %>
+					<span class="input-group-btn input-group-append">
+						<%= f.button type: "submit", name: nil, class: "btn btn-dark" do %>
+							<i class="fas fa-search"></i>
+						<% end %>
+					</span>
+				</div>
+			<% end %>
+		</div>
+	</div>
+	<p>
+		<%= link_to "メッセージを送る", new_message_path unless @q %>
+	</p>
+	<div class="d-flex">
+		<%# サイドバー %>
+		<% unless @q %>
+			<div class="sidebar message_sidebar col-2 pt-5 px-3">
+				<ul class="list-group">
+					<li class="list-group-item p-0<%= " active" if params[:box].nil? %>">
+						<%= link_to "受信箱", messages_path, class: "d-block p-3#{" text-light" if params[:box].nil?}" %>
+					</li>
+					<li class="list-group-item p-0<%= " active" if @is_send_box %>">
+						<%= link_to "送信箱", messages_path(box: "send"), class: "d-block p-3#{" text-light" if @is_send_box}" %>
+					</li>
+					<li class="list-group-item p-0<%= " active" if @is_trash_box %>">
+						<%= link_to "ごみ箱", messages_path(box: "trash"), class: "d-block p-3#{" text-light" if @is_trash_box}" %>
+					</li>
+				</ul>
+			</div>
+		<% end %>
+		<div class="message_list <%= @q ? "col-12" : "col-10" %>">
 			<p class="text-right">
 				全
 				<%= @total_count %>
@@ -36,7 +59,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @messages.each do |item| #メッセージ一覧 %>
+					<%#メッセージ一覧 %>
+					<% @messages.each do |item| %>
 						<tr<%= " class=unread" unless item.already_read_flag %>>
 							<td class="overflow_ellipsis<%= " font-weight-bold" unless item.already_read_flag %>">
 								<p class="overflow_ellipsis"><%= link_to item.title, message_path(item.id) %></p>
@@ -53,4 +77,3 @@
 		</div>
 	</div>
 </div>
-

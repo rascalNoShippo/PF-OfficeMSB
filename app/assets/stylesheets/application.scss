@@ -57,7 +57,7 @@ p{
 	position: absolute;
 	right: 5px;
 	background-color: white;
-	z-index: 1;
+	z-index: 5;
 }
 
 .header_user_menu *{
@@ -115,16 +115,17 @@ footer{
 	width: 400px;
 }
 
+.destination_selector{
+	width: 250px;
+	min-height: 300px;
+}
+
 form textarea.form-control {
   resize: both;
   height: 300px;
   width: 500px;
 }
-/*
-trix-editor{
-	min-height: 200px;
-}
-*/
+
 .unread{
 	border: 1.01px solid orange !important;
     background-color: blanchedalmond !important;
@@ -136,8 +137,6 @@ trix-editor{
 }
 
 select[multiple="multiple"]{
-	width: 200px;
-	height: 200px !important;
 	overflow: auto;
 
 	option{

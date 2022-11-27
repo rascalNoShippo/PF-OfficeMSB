@@ -1,11 +1,11 @@
 <% item.attachments.each do |file| %>
-	<div class="mt-2 position-relative">
+	<div class="mt-2">
 		<% if file.content_type.start_with?("image") %>
 			<%= image_tag rails_blob_path(file), class: "image_in_body" %>
 		<% else %>
-			<%= link_to file.filename, rails_blob_path(file, disposition: "inline"), target: :_blank, rel: "noopener noreferrer", class: "font-weight-bold" %>
+			<%= link_to file.filename, rails_blob_path(file, disposition: "inline"), target: :_blank, rel: "noopener noreferrer", class: "font-weight-bold d-inline-block" %>
 		<% end %>
-		<span class="position-absolute bottom-0 ml-2">
+		<span class="ml-2 d-inline-block align-bottom">
 			<%= "#{(file.byte_size/1024.0).round.to_s(:delimited)} kB (#{file.content_type})" %>
 		</span>
 	</div>

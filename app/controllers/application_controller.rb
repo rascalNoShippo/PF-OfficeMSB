@@ -21,5 +21,6 @@ class ApplicationController < ActionController::Base
 		end
   end
   
+  helper_method :plaintext
   helper_method :date_or_time
 end

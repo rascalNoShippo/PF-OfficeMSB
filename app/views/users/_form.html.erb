@@ -3,13 +3,13 @@
 		<tbody>
 			<tr>
 				<th>名前</th>
-				<td><%= f.text_field :name, class: "form-control" %></td>
+				<td><%= f.text_field :name, required: true, class: "form-control" %></td>
 			</tr>
 			<tr>
 				<th>ログイン名</th>
 				<td>
 					<% if user.id.nil? %>
-						<%= f.text_field :login_name, class: "form-control" %>
+						<%= f.text_field :login_name, required: true, class: "form-control" %>
 					<% else %>
 						<%= user.login_name %>
 					<% end %>
@@ -19,7 +19,7 @@
 				<tr>
 					<th>初期パスワード</th>
 					<td>
-						<%= f.password_field :password, class: "form-control" %>
+						<%= f.password_field :password, required: true, class: "form-control" %>
 					</td>
 				</tr>
 			<% end %>

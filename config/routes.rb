@@ -14,13 +14,15 @@ Rails.application.routes.draw do
       patch "trash"
       patch "restore"
     end
-    resources :message_comments, only: [:create, :destroy], as: "comments" 
+    resources :message_comments, only: [:create, :destroy], as: "comments"
   end
-  
+
+  post "search_users", to: "search_users#search_users", as: "search_users"
+
   resources :bulletin_boards do
-    resources :bulletin_board_comments, only: [:create, :destroy], as: "comments" 
+    resources :bulletin_board_comments, only: [:create, :destroy], as: "comments"
   end
-  
+
   root to: "homes#top"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

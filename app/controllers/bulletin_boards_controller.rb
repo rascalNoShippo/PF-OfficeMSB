@@ -3,6 +3,17 @@ class BulletinBoardsController < ApplicationController
 	def index
 		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(10)
 		
+    #検索クエリ
+    @q = params[:query]
+    if @q
+      body_ids = []
+      @articles.each do |article|
+        #プレーンテキストに変換→検索
+        body_ids.push(article.id) if article.plaintext_body.include?(@q)
+      end
+      @articles = @articles.where("title like ?", "%#{@q}%").or(@articles.where(id: body_ids))
+    end
+
     #paginationカウンター
     @total_count = @articles.total_count
     @per_page = @articles.limit_value
