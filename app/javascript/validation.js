@@ -3,7 +3,7 @@ $(function(){
 	$("#form").submit(function(){
 		if(!$(".note-editable").text().length && !$("#comment_attachments")[0].files.length){
 			$(".note-editor").css({"border" : "3px solid red"});
-			$(".note-placeholder").text("入力してください")
+			$(".note-placeholder").text("入力してください (またはファイルを添付)")
 			return false;
 		}else{
 			//summernote用 submit時にhidden_fieldへコード格納
