@@ -135,9 +135,14 @@ form textarea.form-control {
   width: 500px;
 }
 
-.unread{
-	border: 1.01px solid orange !important;
+.unread_tr{
+	border: 1px solid orange !important;
     background-color: blanchedalmond !important;
+}
+
+.unread_td{
+	border-top: 1px solid orange !important;
+	border-bottom: 1px solid orange !important;
 }
 
 .comment_datetime{
