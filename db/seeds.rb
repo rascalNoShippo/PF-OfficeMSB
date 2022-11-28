@@ -62,7 +62,9 @@ message[1].comments.create(comment_id: message[1].number_of_comments, commenter_
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
 message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[1].id, body: "<p>情報システム部<br>承知致しました。</p>", created_at: Time.new(2022, 11, 2, 15, 0, 0, "+09:00"))
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
-message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[10].id, body: "<p>人事部<br>承知致しました。</p>", created_at: message[1].updated_at)
+comment = message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[10].id, body: "<p>人事部<br>承知致しました。</p>", created_at: message[1].updated_at)
+message[1].update(updated_at: comment.created_at)
+
 
 message.push(user[2].messages.new)
 message[2].title = "大阪支店 連絡事項"
@@ -79,13 +81,13 @@ message[2].message_destinations.create(receiver_id: user[5].id)
 message[2].update(number_of_comments: message[2].number_of_comments + 1)
 message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[3].id, body: '<p>昨日の売上実績です。</p><p>宜しくお願い致します。</p>', created_at: Time.new(2022, 9, 1, 10, 7, 20, "+09:00")).attachments.attach(io: File.open(Rails.root.join("public/default/売上実績.xlsx")), filename: "売上実績.xlsx")
 message[2].update(number_of_comments: message[2].number_of_comments + 1)
-message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[4].id, body: '<p><span style="font-size: 24px;"><b style=""><font color="#ff9c00">有難う御座います！</font></b></span><br></p>', created_at: message[2].updated_at)
+comment = message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[4].id, body: '<p><span style="font-size: 24px;"><b style=""><font color="#ff9c00">有難う御座います！</font></b></span><br></p>', created_at: message[2].updated_at)
+message[2].update(updated_at: comment.created_at)
 
 message.push(user[10].messages.new)
 message[3].title = "【大阪】人事考課について"
 message[3].body = '<p>山田支店長</p><p>お疲れ様です。</p><p><br></p><p>今期の人事考課に際し、営業実績資料の提出が必要となります。</p><p>各スタッフごとにPDF形式で作成のうえ、<span style="font-size: 1rem;"><font color="#ff0000"><b><span style="font-size: 16px;">11月28日（月）15時</span></b></font>までにこちらに添付をお願い致します。</span></p>'
 message[3].created_at = Time.new(2022, 11, 1, 10, 7, 20, "+09:00")
-message[3].updated_at = Time.new(2022, 11, 27, 17, 1, 20, "+09:00")
 message[3].save
 
 message[3].message_destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 1, 13, 45, 20, "+09:00"))
@@ -95,7 +97,8 @@ message[3].message_destinations.create(receiver_id: user[11].id, finished_readin
 message[3].update(number_of_comments: message[3].number_of_comments + 1)
 message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>承知致しました。</p>', created_at: Time.new(2022, 11, 1, 13, 47, 20, "+09:00"))
 message[3].update(number_of_comments: message[3].number_of_comments + 1)
-comment = message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>提出致します。<br>ご確認のほど宜しくお願い致します。</p>', created_at: message[3].updated_at)
+comment = message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>提出致します。<br>ご確認のほど宜しくお願い致します。</p>', created_at: Time.new(2022, 11, 27, 17, 1, 20, "+09:00"))
+message[3].update(updated_at: comment.created_at)
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_山田隆志.pdf")
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_鈴木拓也.pdf")
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_三上司.pdf")
