@@ -1,0 +1,30 @@
+
+<%= paginate @comments %>
+<div class="border-top my-3">
+	<% @comments.each do |comment| #コメント一覧 %>
+		<div class="comment border-bottom">
+			<div class="d-flex m-2 p-2<%= " unread" if comment.comment_id > @viewed_comment %>">
+				<div class="pr-2"><%= image_tag comment.commenter.get_image, class: "profile_image" %></div>
+				<div class="w-100">
+					<div>
+						<span class="comment_name mr-3">
+							<%= comment.comment_id %> : <%= link_to comment.commenter.name, "" %>
+						</span>
+						<span class="comment_datetime mr-3">
+							<%= l comment.created_at %>
+						</span>
+						<% if comment.commenter_id == current_user.id %>
+							<span class="delete_comment" style="display: none;">
+								<%= link_to "削除する", comment, method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
+							</span>
+						<% end %>
+					</div>
+					<div class="comment_body ml-3 mt-2">
+						<%= comment.body.gsub("\n", "<br>").html_safe %>
+						<%= render "layouts/attachments", item: comment %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</div>

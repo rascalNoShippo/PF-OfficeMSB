@@ -29,7 +29,7 @@ class BulletinBoardsController < ApplicationController
 		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(10)
 		@form_url
 		@delete_url
-		view_flag = @article.view_flag
+		view_flag = @article.already_read_flag
 
 		#既読をマーク, 未表示のコメント・本文がハイライトされる仕様
 		if view_flag.nil?

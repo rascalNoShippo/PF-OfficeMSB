@@ -1,0 +1,37 @@
+<table class="table table-striped">
+	<caption>
+		<p class="text-right">
+			全
+			<%= @total_count %>
+			件中
+			<%= "#{@count_start} - #{@count_end}" %>
+			件目 (<%= "#{@current_page} / #{@num_pages}" %>
+			ページ)
+		</p>
+	</caption>
+	<thead>
+		<tr>
+			<th></th>
+			<th>標題</th>
+			<th>差出人</th>
+			<th>更新日時</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% items.each do |item| #掲示一覧 %>
+			<tr<%= " class=unread" unless item.already_read_flag %>>
+				<td class="favorite_<%= item.id %> star pr-0 text-center">
+					<%= render "favorites/star", item: item %>
+				</td>
+				<td class="overflow_ellipsis<%= " font-weight-bold" unless item.already_read_flag %>">
+					<p class="overflow_ellipsis"><%= link_to item.title, item %></p>
+				</td>
+				<td class="overflow_ellipsis">
+					<p class="overflow_ellipsis"><%= link_to item.sender.icon + item.sender.name, user_path(item.sender.id) %></p>
+				</td>
+				<td><%= date_or_time(item.updated_at) %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<%= paginate items %>
