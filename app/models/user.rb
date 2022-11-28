@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :message_comments, foreign_key: :commenter_id, dependent: :destroy
   
   has_many :bulletin_boards, foreign_key: "sender_id", dependent: :destroy
-  has_many :bulletin_board_comments, dependent: :destroy
+  has_many :bulletin_board_comments, foreign_key: :commenter_id, dependent: :destroy
   has_many :bulletin_board_view_flags, dependent: :destroy
   
   has_many :favorites, dependent: :destroy

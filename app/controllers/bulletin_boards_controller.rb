@@ -20,7 +20,7 @@ class BulletinBoardsController < ApplicationController
     @current_page = @articles.current_page
     @num_pages = @articles.total_pages
     @count_start = (@current_page - 1) * @per_page + 1
-    @count_end = @articles.last_page? ? @total_count : @current_page * @per_page
+    @count_end = @num_pages == 0 ? 0 : (@articles.last_page? ? @total_count : @current_page * @per_page)
 	end
 
 	def show

@@ -20,29 +20,29 @@
 				<%= @message.title %>
 			</h3>
 		</div>
-		<table>
+		<table class="table-responsive">
 			<tbody>
 				<tr>
-					<th class="pr-2">差出人</th>
-					<td class="pr-2">
+					<th class="pr-2 text-nowrap">差出人</th>
+					<td class="pr-2 editor">
 						<%= link_to @message.sender.icon + @message.sender.name, user_path(@message.sender.id) %>
 					</td>
 					<td><%= l @message.created_at %></td>
 				</tr>
 				<% if @message.update_content_at %>
 					<tr>
-						<th class="pr-2">最終更新者</th>
-						<td class="pr-2">
+						<th class="pr-2 text-nowrap">最終更新者</th>
+						<td class="pr-2 editor">
 							<%= link_to @message.last_update_user.icon + @message.last_update_user.name, user_path(@message.last_update_user.id) %>
 						</td>
 						<td><%= l @message.update_content_at %></td>
 					</tr>
 				<% end %>
 				<tr>
-					<th class="pr-2"><%= link_to "宛先", receivers_message_path %></th>
+					<th class="pr-2 align-top"><%= link_to "宛先", receivers_message_path %></th>
 					<td colspan=2 class="pr-2">
 						<span class="mr-2">
-							(<%= @receivers.count.to_s(:delimited) %>人)
+							（<%= @receivers.count.to_s(:delimited) %>人）
 						</span>
 						<% @receivers.limit(@limit_view_receivers).each do |receiver| %>
 							<span class="mr-2">

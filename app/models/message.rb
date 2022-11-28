@@ -11,7 +11,7 @@ class Message < ApplicationRecord
 	end
 	
 	def already_read_flag
-		self.receiver_model.last_viewing
+		self.receiver_model.finished_reading
 	end
 	
 	def editors
