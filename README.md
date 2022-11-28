@@ -41,4 +41,4 @@ MSB：社内メッセージ（Message）・スケジュール（Schedule）・�
 - IDE：Cloud9
 
 ## 使用素材
-- 現在検討中
+- AI人物素材（ベータ版）｜写真素材なら「写真AC」無料（フリー）ダウンロードOK (https://www.photo-ac.com/)

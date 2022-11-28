@@ -81,7 +81,7 @@
 							<div class="w-100">
 								<div>
 									<span class="comment_name mr-3">
-										<%= comment.comment_id %> : <%= link_to comment.commenter.name, "" %>
+										<%= comment.comment_id %> : <%= link_to comment.commenter.name, user_path(comment.commenter_id) %>
 									</span>
 									<span class="comment_datetime mr-3">
 										<%= l comment.created_at %>
