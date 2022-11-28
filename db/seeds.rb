@@ -121,12 +121,18 @@ article = [""]
 article.push(user[1].bulletin_boards.new)
 article[1].title = "メッセージ機能の使い方"
 article[1].body = '<ul><li>一覧画面</li></ul><p style="margin-left: 25px;">自分が宛先に指定されているメッセージが<span style="font-size: 1rem;">更新日時の新しい順に</span><span style="font-size: 1rem;">表示されます。</span></p><p style="margin-left: 25px;">「更新日時」は、メッセージの内容変更・コメント投稿または削除のいずれかが行われると更新されます。<br></p><p style="margin-left: 25px;"><b><font color="#efc631">☆</font></b>/<b><font color="#efc631">★</font></b>マークを押すとお気に入り登録/解除ができます。</p><p style="margin-left: 25px;">「送信箱」は自分が送信したメッセージのみ表示します。</p><p style="margin-left: 25px;">「ごみ箱」には受信箱から削除したメッセージが入っています。</p><p><br></p><ul><li>新規投稿</li></ul><p style="margin-left: 25px;">「<b><font color="#3984c6">メッセージを送る</font></b>」ボタンより新規作成ができます。</p><p style="margin-left: 25px;">作成画面で<font color="#ff0000">標題</font>・<font color="#ff0000">本文</font>を入力します（本文は<u style=""><i style="background-color: rgb(206, 231, 247);"><font color="#a54a7b">書式設定</font></i></u>ができます）。</p><p style="margin-left: 25px;">添付ファイルを選択します（複数可・未選択可）。</p><p style="margin-left: 25px;">ユーザーリストから<font color="#ff0000"><b>宛先を指定</b></font>します。さらに宛先の中から<font color="#ff0000"><b>編集権限をつけるユーザーを選択</b></font>できます。</p><p style="margin-left: 25px;">必要に応じて「<font color="#ff0000">コメントを許可する</font>」のチェックを外します（コメントできなくなります）。</p><p style="margin-left: 25px;">「<span style="background-color: rgb(107, 165, 74);"><font color="#ffffff">送信する</font></span>」を押すと送信後のメッセージ画面に移動します。</p><p style="margin-left: 25px;"><br></p><ul><li>メッセージ画面</li></ul><p style="margin-left: 25px;">タイトルの横の<span style="font-size: 1rem; font-weight: bolder;"><font color="#efc631">☆</font></span><span style="font-size: 1rem;">/</span><span style="font-size: 1rem; font-weight: bolder;"><font color="#efc631">★</font></span><span style="font-size: 1rem;">マークを押すとお気に入り登録/解除ができます。</span></p><p style="margin-left: 25px;">差出人・最終更新者（内容が更新されている場合）・宛先が表示されます。各ユーザーをクリックするとユーザーデータに遷移します（自分のアイコンは<b><font color="#6ba54a">緑</font></b>で表示）。</p><p style="margin-left: 25px;">前回閲覧した後に内容が更新されていた場合、本文が<span style="background-color: blanchedalmond;border: 1px solid orange;padding: 2px 5px;">ハイライト表示</span><span style="font-size: 1rem;">されます。</span></p><p style="margin-left: 25px;">コメントの書き込みも可能です。</p><p style="margin-left: 25px;">コメントは新しい順に表示されます。まだ確認していないコメントは<span style="background-color: blanchedalmond;border: 1px solid orange;padding: 2px 5px;">ハイライト表示</span>されます。</p><p style="margin-left: 25px;">「<font color="#ce0000"><b>削除する</b></font>」を押すとごみ箱に移動できます。編集権限があるユーザーは<font color="#ce0000"><b>完全に削除</b></font>することもできます。</p><p style="margin-left: 25px;"><span style="font-size: 1rem;">編集権限があるユーザーは</span>「変更する」ボタンが表示されます。</p><p style="margin-left: 25px;"><br></p><ul><li>編集画面</li></ul><p style="margin-left: 25px;">新規投稿時と大体同じです。</p><p style="margin-left: 25px;">添付ファイルの削除ができます。</p>'
-article[1].save
 
 article.push(user[1].bulletin_boards.new)
 article[2].title  = "掲示板機能の使い方"
 article[2].body = "<p>メッセージ機能とほぼ同じですが、宛先の指定はできません（全ユーザー閲覧可）。</p><p>差出人・管理者は<b>編集</b>・<b>削除</b>が可能です。</p>"
+
+article.push(user[1].bulletin_boards.new)
+article[3].title  = "ユーザー編集機能の使い方"
+article[3].body = '<p>ヘッダー右上に名前が表示されている部分をクリックするとメニューが表示されます。</p><p><br></p><ul><li>ユーザーデータ編集</li></ul><p style="margin-left: 25px;">名前・E-mail等、個人情報を変更できます。</p><p style="margin-left: 25px;"><br></p><ul><li>パスワード変更</li></ul><p style="margin-left: 25px;">パスワードの変更をします。</p><p style="margin-left: 25px;"><br></p><ul><li>他ユーザーの追加・編集</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><b>管理者のみ操作可能</b></font></u>です。</p><p style="margin-left: 25px;">新しいユーザーを追加したり、他ユーザーのデータやパスワードを変更できます。</p><p style="margin-left: 25px;"></p>'
+
+article[3].save
 article[2].save
+article[1].save
 
 user[2].favorites.create(class_name: "Message", item_id: message[2].id)
 user[2].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
