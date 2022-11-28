@@ -111,7 +111,7 @@
 				</div>
 				<div class="modal-body">
 					<p>以下のメッセージを削除しようとしています。</p>
-					<li class="font-weight-bold"><%= @message.title %></li>
+					<li class="font-weight-bold ml-4"><%= @message.title %></li>
 					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
 					<% if @message.sender == current_user || @editors.include?(current_user) %>
 						<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
