@@ -131,5 +131,5 @@ article[2].save
 user[2].favorites.create(class_name: "Message", item_id: message[2].id)
 user[2].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
 
-user[1].favorites.create(class_name: "Message", item_id: message[2].id)
+user[1].favorites.create(class_name: "Message", item_id: message[1].id)
 user[1].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
