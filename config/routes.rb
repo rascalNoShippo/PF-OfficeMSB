@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     patch "password", to: "users#password_update"
   end
 
+  resources :favorites, only: [:index, :create, :destroy]
+
   resources :messages do
     member do
       get "receivers"

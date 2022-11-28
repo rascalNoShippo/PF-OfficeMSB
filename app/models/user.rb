@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :bulletin_board_comments, dependent: :destroy
   has_many :bulletin_board_view_flags, dependent: :destroy
   
+  has_many :favorites, dependent: :destroy
 
   def self.current_user=(user)
     Thread.current[:user] = user # 現在のスレッドにuserを設定するメソッド

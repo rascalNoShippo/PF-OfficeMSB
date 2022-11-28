@@ -1,10 +1,11 @@
+<% content_for :title, "ユーザー一覧" %>
 <% if @user_error %>
 	<%= render "layouts/forbidden" %>
 <% else %>
 	<div class="p-3">
 		<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path %>
 		<h3>ユーザー一覧</h3>
-		<table class="table w-unset">
+		<table class="table table-responsive">
 			<thead>
 				<tr>
 					<th>ユーザー名</th>

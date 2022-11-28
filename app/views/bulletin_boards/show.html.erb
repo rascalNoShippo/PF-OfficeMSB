@@ -24,10 +24,15 @@
 			</div>
 		<% end %>
 	</div>
-	<h3>
-		<i class="fas fa-clipboard"></i>
-		<%= @article.title %>
+	<div class="d-flex align-items-center my-2">
+		<div class="favorite_<%= @article.id %> h5 mb-0 mr-2">
+			<%= render "favorites/star", item: @article %>
+		</div>
+		<h3 class="m-0">
+			<i class="fas fa-comment"></i>
+			<%= @article.title %>
 		</h3>
+	</div>
 	<table>
 		<tbody>
 			<tr>

@@ -1,10 +1,14 @@
 <%= javascript_pack_tag "header" %>
 <div class="header_2 d-flex h-100 justify-content-between">
 	<nav class="d-flex">
+		<%
+=begin %>
 		<%= link_to root_path, class: "header_link d-block text-center my-auto" do %>
 			<p class="fas fa-house-user"></p>
 			<p>TOP</p>
 		<% end %>
+		<%
+=end %>
 		<%= link_to messages_path, class: "header_link d-block text-center my-auto" do %>
 			<p class="fas fa-comment"></p>
 			<p>メッセージ</p>
@@ -21,6 +25,10 @@
 		<%= link_to bulletin_boards_path, class: "header_link d-block text-center my-auto" do %>
 			<p class="fas fa-clipboard"></p>
 			<p>掲示板</p>
+		<% end %>
+		<%= link_to favorites_path, class: "header_link d-block text-center my-auto" do %>
+			<p class="fas fa-star"></p>
+			<p>お気に入り</p>
 		<% end %>
 	</nav>
 	<nav class="d-flex">

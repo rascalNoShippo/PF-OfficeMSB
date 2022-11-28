@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		user =  User.find(params[:id])
+		user = User.find(params[:id])
 		if user.update(user_params)
 			user.image.destroy if params[:user][:delete_image] == "true"
 			flash[:notice] = "変更しました。"
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 	end
 
 	def password_edit
-		@user = current_user
+		@user = User.find(params[:user_id])
 		@header_hidden = true if @user_error = current_user != @user && !current_user.is_admin
 	end
 

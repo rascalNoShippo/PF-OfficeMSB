@@ -1,0 +1,9 @@
+<% if Favorite.find?(item) %>
+	<%= link_to favorite_path(Favorite.find?(item).id), method: :delete, remote: true, class: "text-warning" do %>
+		<i class="fas fa-star"></i>
+	<% end %>
+<% else %>
+	<%= link_to favorites_path(class_name: item.class.to_s, item_id: item.id), method: :post, remote: true, class: "text-warning" do %>
+		<i class="far fa-star"></i>
+	<% end %>
+<% end %>
