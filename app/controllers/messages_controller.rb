@@ -53,6 +53,7 @@ class MessagesController < ApplicationController
       end
       #送信者は自動的に受信者・編集者に追加
       message.message_destinations.create(receiver_id: current_user.id, is_editable: true)
+      flash[:noticce] = "メッセージを作成しました。"
       redirect_to message_path(message.id)
     end
 
@@ -146,7 +147,7 @@ class MessagesController < ApplicationController
         end
       end
 
-      flash[:notice] = "変更しました。"
+      flash[:notice] = "メッセージを変更しました。"
       redirect_to message_path(message.id)
     end
   end
