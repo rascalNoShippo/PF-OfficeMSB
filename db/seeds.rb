@@ -37,6 +37,7 @@ message.push(user[12].messages.new)
 message[1].title =  "【全社員宛】年末調整資料の提出"
 message[1].body = '<div>【令和４年　年末調整資料のご案内】</div><div><br></div><div><strong style="color:rgb( 255 , 0 , 0 )">11月21（月）本社必着　</strong></div><div><strong style="color:rgb( 255 , 0 , 0 )">10月末までに入社したアルバイトも含む全従業員が対象です！</strong></div><div><br></div><div><span style="font-size:16px">※個人の</span><span style="font-size:16px;color:rgb( 255 , 0 , 0 )">添付証明書などが紛失しないよう</span><span style="font-size:16px">確認して下さい。</span></div><div><span style="font-size:16px">※</span><span style="font-size:16px;color:rgb( 255 , 0 , 0 )">必ず</span><span style="color:rgb( 255 , 0 , 0 )">1拠点一纏め</span>にして<span style="color:rgb( 255 , 0 , 0 )">1回で送付</span>をお願い致します。</div><div><br></div><div>【※ 確定申告対象者の方へ注意点 ※】</div><div>・<span style="color:rgb( 255 , 0 , 0 )">所得2,000万以上</span>で確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">住宅を購入して</span>確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">ふるさと納税を複数行い</span>確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">その他確定申告を行う</span>予定がある方</div><div>上記確定申告を行う予定の方でも必ず下記2つの申告書は提出をお願いします。</div><div>①給与所得者の扶養控除等（異動）申告書</div><div>②給与所得者の配偶者控除等申告書　の提出をお願い致します。</div><div><span style="color:rgb( 255 , 0 , 0 )">※</span><span style="color:rgb( 255 , 0 , 0 );font-size:16px">①②申告書に記入のみして頂きご提出お願いします。</span></div><div><span style="color:rgb( 255 , 0 , 0 );background-color:rgb( 255 , 255 , 0 )">確定申告時に必要な証明書類は絶対に送付しないでください。</span></div>'
 message[1].created_at = Time.new(2022, 11, 1, 15, 11, 28, "+09:00")
+message[1].updated_at = Time.new(2022, 11, 3, 9, 47, 0, "+09:00")
 message[1].save
 message[1].attachments.attach(io: File.open(Rails.root.join("public/default/年末調整.docx")), filename: "年末調整.docx")
 
@@ -61,12 +62,13 @@ message[1].comments.create(comment_id: message[1].number_of_comments, commenter_
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
 message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[1].id, body: "<p>情報システム部<br>承知致しました。</p>", created_at: Time.new(2022, 11, 2, 15, 0, 0, "+09:00"))
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
-message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[10].id, body: "<p>人事部<br>承知致しました。</p>", created_at: Time.new(2022, 11, 3, 9, 47, 0, "+09:00"))
+message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[10].id, body: "<p>人事部<br>承知致しました。</p>", created_at: message[1].updated_at)
 
 message.push(user[2].messages.new)
 message[2].title = "大阪支店 連絡事項"
 message[2].body = '<h1><span style="font-size: 36px; background-color: rgb(255, 255, 0);"><b><font color="#0000ff">大阪支店連絡網</font></b></span></h1><p><br></p><p>共有事項、連絡事項等あればこちらに書き込みをお願いします。</p>'
 message[2].created_at = Time.new(2022, 9, 1, 9, 44, 0, "+09:00")
+message[2].updated_at = Time.new(2022, 9, 1, 10, 27, 30, "+09:00")
 message[2].save
 
 message[2].message_destinations.create(receiver_id: user[2].id, is_editable: true, finished_reading: message[2].created_at)
@@ -77,12 +79,13 @@ message[2].message_destinations.create(receiver_id: user[5].id)
 message[2].update(number_of_comments: message[2].number_of_comments + 1)
 message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[3].id, body: '<p>昨日の売上実績です。</p><p>宜しくお願い致します。</p>', created_at: Time.new(2022, 9, 1, 10, 7, 20, "+09:00")).attachments.attach(io: File.open(Rails.root.join("public/default/売上実績.xlsx")), filename: "売上実績.xlsx")
 message[2].update(number_of_comments: message[2].number_of_comments + 1)
-message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[4].id, body: '<p><span style="font-size: 24px;"><b style=""><font color="#ff9c00">有難う御座います！</font></b></span><br></p>', created_at: Time.new(2022, 9, 1, 10, 27, 30, "+09:00"))
+message[2].comments.create(comment_id: message[2].number_of_comments,commenter_id: user[4].id, body: '<p><span style="font-size: 24px;"><b style=""><font color="#ff9c00">有難う御座います！</font></b></span><br></p>', created_at: message[2].updated_at)
 
 message.push(user[10].messages.new)
 message[3].title = "【大阪】人事考課について"
 message[3].body = '<p>山田支店長</p><p>お疲れ様です。</p><p><br></p><p>今期の人事考課に際し、営業実績資料の提出が必要となります。</p><p>各スタッフごとにPDF形式で作成のうえ、<span style="font-size: 1rem;"><font color="#ff0000"><b><span style="font-size: 16px;">11月28日（月）15時</span></b></font>までにこちらに添付をお願い致します。</span></p>'
 message[3].created_at = Time.new(2022, 11, 1, 10, 7, 20, "+09:00")
+message[3].updated_at = Time.new(2022, 11, 27, 17, 1, 20, "+09:00")
 message[3].save
 
 message[3].message_destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 1, 13, 45, 20, "+09:00"))
@@ -92,7 +95,7 @@ message[3].message_destinations.create(receiver_id: user[11].id, finished_readin
 message[3].update(number_of_comments: message[3].number_of_comments + 1)
 message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>承知致しました。</p>', created_at: Time.new(2022, 11, 1, 13, 47, 20, "+09:00"))
 message[3].update(number_of_comments: message[3].number_of_comments + 1)
-comment = message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>提出致します。<br>ご確認のほど宜しくお願い致します。</p>', created_at: Time.new(2022, 11, 27, 17, 1, 20, "+09:00"))
+comment = message[3].comments.create(comment_id: message[3].number_of_comments,commenter_id: user[2].id, body: '<p>提出致します。<br>ご確認のほど宜しくお願い致します。</p>', created_at: message[3].updated_at)
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_山田隆志.pdf")
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_鈴木拓也.pdf")
 comment.attachments.attach(io: File.open(Rails.root.join("public/default/テスト.pdf")), filename: "考課資料_三上司.pdf")
@@ -102,6 +105,7 @@ message.push(user[1].messages.new)
 message[4].title = "PC周辺機器の発注に関して"
 message[4].body = '<div>業務に使用する以下の機材に関しては、こちらのメッセージを利用して発注してください。</div><div><br></div><ol><li>PC（ノート型、デスクトップ型）</li><li>ディスプレイ</li><li>マウス、ポインター</li><li>デジタルカメラ</li><li>プロジェクタ</li></ol><div><br></div><div>よろしくお願いします。</div>'
 message[4].created_at = Time.new(2022, 10, 11, 18, 45, 20, "+09:00")
+message[4].updated_at = message[4].created_at
 message[4].save
 
 message[4].message_destinations.create(receiver_id: user[1].id, is_editable: true, finished_reading: message[4].created_at)
