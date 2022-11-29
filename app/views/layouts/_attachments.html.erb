@@ -1,6 +1,6 @@
 <% item.attachments.each do |file| %>
 	<div class="mt-2">
-		<% if file.content_type.start_with?("image") %>
+		<% if file.content_type.start_with?("image") && current_user.config.display_images_with_body %>
 			<%= image_tag rails_blob_path(file), class: "image_in_body" %>
 		<% else %>
 			<%= link_to file.filename, rails_blob_path(file, disposition: "inline"), target: :_blank, rel: "noopener noreferrer", class: "font-weight-bold d-inline-block" %>

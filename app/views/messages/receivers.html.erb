@@ -4,14 +4,19 @@
 	<% content_for :title, @message.title %>
 	<div class="p-3">
 		<div>
-			<%= link_to "javascript:history.back();" do %>
+			<%= link_to @message do %>
 				<i class="fas fa-arrow-circle-left"></i>戻る
 			<% end %>
 		</div>
 		<h3><%= @message.title %></h3>
-		<h6 class="mt-4">宛先一覧 (<%= @receivers.count %> 人)</h6>
 		<table class="table table-responsive">
 			<thead>
+				<caption>
+					<div class="d-flex justify-content-between">
+						<p class="font-weight-bold text-body">宛先一覧</p>
+						<p><%= pagination_counter(@destinations) %></p>
+					</div>
+				</caption>
 				<tr>
 					<th>ユーザー名</th>
 					<th>変更/削除の許可</th>
@@ -19,7 +24,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<% @message.message_destinations.each do |destination| %>
+				<% @destinations.each do |destination| %>
 					<tr>
 						<td>
 							<%= link_to destination.receiver.icon + destination.receiver.name, user_path(destination.receiver_id) %>
@@ -33,6 +38,9 @@
 						</td>
 					</tr>
 				<% end %>
+				<tr>
+					<td colspan=3><%= paginate @destinations %></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

@@ -7,12 +7,7 @@
 		<table class="table table-striped">
 			<caption>
 				<p class="text-right">
-					全
-					<%= @total_count %>
-					件中
-					<%= "#{@count_start} - #{@count_end}" %>
-					件目 (<%= "#{@current_page} / #{@num_pages}" %>
-					ページ)
+					<%= pagination_counter(@favorites) %>
 				</p>
 			</caption>
 			<thead>

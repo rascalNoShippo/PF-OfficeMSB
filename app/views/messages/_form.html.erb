@@ -36,9 +36,9 @@
 					<th>削除するファイル</th>
 					<td>
 						<% @message.attachments.each do |item| %>
-							<div>
-								<%= f.check_box "existing_files", {multiple: true} , item.id, false %>
-								<%= f.label "existing_files_#{item.id}", item.filename, class: "m-0" %>
+							<div class="custom-checkbox custom-control">
+								<%= f.check_box "existing_files", {multiple: true, class: "custom-control-input"} , item.id, false %>
+								<%= f.label "existing_files_#{item.id}", item.filename, class: "m-0 custom-control-label" %>
 							</div>
 						<% end %>
 					</td>
@@ -97,8 +97,10 @@
 		</tbody>
 	</table>
 	<% if @message.id.nil? %>
-		<%= f.check_box :is_commentable, {} , "true", "false" %>
-		<%= f.label :is_commentable, "コメントを許可する" %>
+		<div class="custom-checkbox custom-control mb-3">
+			<%= f.check_box :is_commentable, {class: "custom-control-input"} , "true", "false" %>
+			<%= f.label :is_commentable, "コメントを許可する", class: "custom-control-label" %>
+		</div>
 	<% end %>
 	<div>
 		<%= f.submit (@message.id.nil? ? "送信する" : "変更する"), id: "message_submit", class: "btn btn-success" %>

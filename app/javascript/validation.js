@@ -29,3 +29,18 @@ $(function(){
 		}
 	});
 });
+
+$(function(){
+	//ログイン名は半角英数字または“.”に制限
+	$("#user_form").submit(function(){
+		if($("#user_login_name").val().match(/^[A-Za-z0-9.]*$/)){
+			return true;
+		}else{
+			$("#user_login_name").attr("placeholder", "半角英数字または“.”のみ使用可能です");
+			$("#user_login_name").css({"border" : "2px solid red"});
+			$("#user_login_name").val("");
+			$("#user_login_name").focus();
+			return false;
+		}
+	});
+});

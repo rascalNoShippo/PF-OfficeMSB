@@ -1,7 +1,7 @@
 class BulletinBoardsController < ApplicationController
 
 	def index
-		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(10)
+		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_items)
 		
     #検索クエリ
     @q = params[:query]
@@ -14,19 +14,12 @@ class BulletinBoardsController < ApplicationController
       @articles = @articles.where("title like ?", "%#{@q}%").or(@articles.where(id: body_ids))
     end
 
-    #paginationカウンター
-    @total_count = @articles.total_count
-    @per_page = @articles.limit_value
-    @current_page = @articles.current_page
-    @num_pages = @articles.total_pages
-    @count_start = (@current_page - 1) * @per_page + 1
-    @count_end = @num_pages == 0 ? 0 : (@articles.last_page? ? @total_count : @current_page * @per_page)
 	end
 
 	def show
 		@article = BulletinBoard.find(params[:id])
 		@new_comment = @article.comments.new
-		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(10)
+		@comments = @article.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
 		@form_url
 		@delete_url
 		view_flag = @article.already_read_flag

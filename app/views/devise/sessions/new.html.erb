@@ -1,11 +1,10 @@
 <div class="login_form d-flex pt-5">
   <div class="m-auto text-center">
     <h2>ログイン</h2>
-
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= form_with model: @user, url: user_session_path, local: false, id: "login_form" do |f| %>
       <div class="field text-left my-3">
         <%= f.label :login_name, "ログイン名" %><br />
-        <%= f.text_field :login_name, autofocus: true, class: "form-control" %>
+        <%= f.text_field :login_name, autofocus: true, required: true, class: "form-control" %>
       </div>
 
       <div class="field text-left my-3">
@@ -14,9 +13,9 @@
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div class="field my-3">
-          <%= f.check_box :remember_me, class: "form-check-input" %>
-          <%= f.label :remember_me, "パスワードを記憶する", class: "form-check-label" %>
+        <div class="field my-3 custom-checkbox custom-control">
+          <%= f.check_box :remember_me, class: "custom-control-input" %>
+          <%= f.label :remember_me, "パスワードを記憶する", class: "custom-control-label" %>
         </div>
       <% end %>
 
@@ -26,6 +25,23 @@
     <% end %>
   </div>
 
+</div>
+<div class="modal fade" id="unauth_modal">
+  <%= link_to "", "javascript:void(0);", data: { target: "#unauth_modal", toggle: "modal" }, class: "d-none", id: "modal_open" %>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header p-0">
+				<p class="modal-title text-white p-2">ログインエラー</p>
+			</div>
+			<div class="modal-body">
+				<p>ログインできません。</p>
+				<p>ログイン名またはパスワードが間違っています。</p>
+			</div>
+			<div class="modal-footer p-3 w-100 d-flex">
+				<%= button_tag "OK", data: { dismiss: "modal" }, class: "btn btn-outline-dark px-5", id: "modal_ok" %>
+			</div>
+		</div>
+	</div>
 </div>
 <div style="position:fixed;bottom:60px;right:10px;width:30em;background-color:aliceblue;border:2px solid deepskyblue;box-shadow:0 0 10px rgb(0 0 0 / 50%);text-align:center;padding:8px">
   <h5>デモ用ID</h5>

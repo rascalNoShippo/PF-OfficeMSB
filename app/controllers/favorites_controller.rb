@@ -15,16 +15,7 @@ class FavoritesController < ApplicationController
 	end
 
 	def index
-		@favorites = Favorite.where(user_id: current_user.id).order(created_at: :DESC).page(params[:page]).per(10)
-
-	    #paginationカウンター
-	    @total_count = @favorites.total_count
-	    @per_page = @favorites.limit_value
-	    @current_page = @favorites.current_page
-	    @num_pages = @favorites.total_pages
-	    @count_start = (@current_page - 1) * @per_page + 1
-		@count_end = @num_pages == 0 ? 0 : (@favorites.last_page? ? @total_count : @current_page * @per_page)
-
+		@favorites = Favorite.where(user_id: current_user.id).order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_items)
 	end
 
 end

@@ -3,11 +3,15 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     passwords: "users/passwords"
   }
+  
+  get "users/config", to: "user_config#edit", as: "edit_user_config"
+  patch "users/config", to: "user_config#update", as: "user_config"
+
   resources :users, only: [:show, :edit, :update, :new, :create, :index] do
-    get "password/edit", to: "users#password_edit"
+    get "password", to: "users#password_edit"
     patch "password", to: "users#password_update"
   end
-
+  
   resources :favorites, only: [:index, :create, :destroy]
 
   resources :messages do

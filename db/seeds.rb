@@ -31,12 +31,18 @@ user[10].image.attach(io: File.open(Rails.root.join("public/default/model_10.png
 user[11].image.attach(io: File.open(Rails.root.join("public/default/model_11.png")), filename: "11.png")
 user[12].image.attach(io: File.open(Rails.root.join("public/default/model_12.png")), filename: "12.png")
 
+User.all.each do |user|
+	UserConfig.create(user_id: user.id)
+end
+
 message = [""]
 
 message.push(user[12].messages.new)
 message[1].title =  "【全社員宛】年末調整資料の提出"
 message[1].body = '<div>【令和４年　年末調整資料のご案内】</div><div><br></div><div><strong style="color:rgb( 255 , 0 , 0 )">11月21（月）本社必着　</strong></div><div><strong style="color:rgb( 255 , 0 , 0 )">10月末までに入社したアルバイトも含む全従業員が対象です！</strong></div><div><br></div><div><span style="font-size:16px">※個人の</span><span style="font-size:16px;color:rgb( 255 , 0 , 0 )">添付証明書などが紛失しないよう</span><span style="font-size:16px">確認して下さい。</span></div><div><span style="font-size:16px">※</span><span style="font-size:16px;color:rgb( 255 , 0 , 0 )">必ず</span><span style="color:rgb( 255 , 0 , 0 )">1拠点一纏め</span>にして<span style="color:rgb( 255 , 0 , 0 )">1回で送付</span>をお願い致します。</div><div><br></div><div>【※ 確定申告対象者の方へ注意点 ※】</div><div>・<span style="color:rgb( 255 , 0 , 0 )">所得2,000万以上</span>で確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">住宅を購入して</span>確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">ふるさと納税を複数行い</span>確定申告をする予定の方</div><div>・<span style="color:rgb( 255 , 0 , 0 )">その他確定申告を行う</span>予定がある方</div><div>上記確定申告を行う予定の方でも必ず下記2つの申告書は提出をお願いします。</div><div>①給与所得者の扶養控除等（異動）申告書</div><div>②給与所得者の配偶者控除等申告書　の提出をお願い致します。</div><div><span style="color:rgb( 255 , 0 , 0 )">※</span><span style="color:rgb( 255 , 0 , 0 );font-size:16px">①②申告書に記入のみして頂きご提出お願いします。</span></div><div><span style="color:rgb( 255 , 0 , 0 );background-color:rgb( 255 , 255 , 0 )">確定申告時に必要な証明書類は絶対に送付しないでください。</span></div>'
 message[1].created_at = Time.new(2022, 11, 1, 15, 11, 28, "+09:00")
+message[1].update_content_at = Time.new(2022, 11, 1, 15, 18, 41, "+09:00")
+message[1].last_update_user_id = user[13].id
 message[1].save
 message[1].attachments.attach(io: File.open(Rails.root.join("public/default/年末調整.docx")), filename: "年末調整.docx")
 

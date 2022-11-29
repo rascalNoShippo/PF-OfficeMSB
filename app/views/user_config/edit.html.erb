@@ -1,0 +1,34 @@
+	<% content_for :title, "一般設定" %>
+	<div class="p-3">
+		<h3>一般設定</h3>
+		<%= form_with model: @config do |f| %>
+			<table class="table table-responsive text-nowrap">
+				<tbody>
+					<tr>
+						<th>各一覧画面で表示する件数</th>
+						<td class="d-flex align-items-center">
+							<%= f.select :number_of_displayed_items, @selector, {}, class: "custom-select mr-3" %>
+							<p>件ずつ</p>
+						</td>
+					</tr>
+					<tr>
+						<th>コメント一覧画面で表示するコメントの件数</th>
+						<td class="d-flex align-items-center">
+							<%= f.select :number_of_displayed_comments, @selector, {}, class: "custom-select mr-3" %>
+							<p>件ずつ</p>
+						</td>
+					</tr>
+					<tr>
+						<th>画像ファイル（JPEG, GIF 等）の表示</th>
+						<td>
+							<div class="custom-checkbox custom-control">
+								<%= f.check_box :display_images_with_body, class: "custom-control-input" %>
+								<%= f.label :display_images_with_body, "本文と一緒に表示する", class: "custom-control-label" %>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<%= f.submit "保存する", class: "btn btn-success" %>
+		<% end %>
+	</div>

@@ -1,0 +1,2 @@
+module UserConfigHelper
+end

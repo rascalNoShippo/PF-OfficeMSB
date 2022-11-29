@@ -11,7 +11,6 @@ class MessagesController < ApplicationController
     else
       messages = messages.where(id: ids)
     end
-    @messages = messages.page(params[:page]).per(10)
 
     #検索クエリ
     @q = params[:query]
@@ -23,14 +22,8 @@ class MessagesController < ApplicationController
       end
       @messages = @messages.where("title like ?", "%#{@q}%").or(@messages.where(id: body_ids))
     end
-
-    #paginationカウンター
-    @total_count = @messages.total_count
-    @per_page = @messages.limit_value
-    @current_page = @messages.current_page
-    @num_pages = @messages.total_pages
-    @count_start = (@current_page - 1) * @per_page + 1
-    @count_end = @num_pages == 0 ? 0 : (@messages.last_page? ? @total_count : @current_page * @per_page)
+    
+    @messages = messages.page(params[:page]).per(current_user.config.number_of_displayed_items)
   end
 
   def new
@@ -61,7 +54,7 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.find(params[:id])
-    @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
+    @receivers = @message.receivers
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 
     #宛先に含まれているか、送信者でないと表示されない
@@ -72,7 +65,7 @@ class MessagesController < ApplicationController
     end
 
     @new_comment = @message.comments.new
-    @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(10)
+    @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
 
     #未読→既読の設定
     current_time = Time.zone.now
@@ -161,8 +154,7 @@ class MessagesController < ApplicationController
 
   def receivers
     @message = Message.find(params[:id])
-    @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
-    @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
+    @destinations = @message.message_destinations.page(params[:page]).per(current_user.config.number_of_displayed_items)
   end
 
   def trash

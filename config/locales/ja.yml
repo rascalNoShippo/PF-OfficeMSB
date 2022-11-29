@@ -18,3 +18,7 @@ ja:
       previous: "&lsaquo; 前"
       next: "次 &rsaquo;"
       truncate: "…"  
+  devise:
+    sessions:
+      user:
+        signed_in: "ログインしました。"

@@ -135,7 +135,7 @@ form textarea.form-control {
   width: 500px;
 }
 
-.unread_tr{
+.unread{
 	border: 1px solid orange !important;
     background-color: blanchedalmond !important;
 }
@@ -175,20 +175,15 @@ th, td{
 	justify-content: center;
 
 	>span{
-		display: inline-block;
-		border: 1px solid #333;
+		// display: inline-block;
+		// border: 1px solid #333;
 		margin: 0 5px;
 		padding: 0;
-	}
+		}
 	a, .current{
 		display: inline-block;
 		padding: 1px 3px;
 	}
-
-	.current{
-		font-weight: bold;
-	}
-
 	.gap{
 		border: none;
 	}
@@ -196,7 +191,7 @@ th, td{
 
 .modal{
 	.modal-content{
-		min-height: 300px;
+		min-height: 100px;
 	}
 	.modal-header{
 		background-color: royalblue;

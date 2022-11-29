@@ -1,0 +1,13 @@
+<% unless @exist %>
+	// 重複がなければ確定
+	console.log("OK");
+	$("#user_form").attr("data-remote", false);
+	$("#user_form").submit();
+<% else %>
+	// ログイン名が重複していたら警告を表示
+	console.log("エラー");
+	$("#user_login_name").attr("placeholder", `“${ $("#user_login_name").val() }”は使用できません`);
+	$("#user_login_name").css({"border" : "2px solid red"});
+	$("#user_login_name").val("");
+	$("#user_login_name").focus();
+<% end %>

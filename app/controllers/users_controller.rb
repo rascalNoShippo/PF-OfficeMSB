@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+	before_action :validation, only: [:create], if: -> {request.format == :js}
+	
 	def show
 		@user = User.find(params[:id])
 	end
@@ -18,7 +20,7 @@ class UsersController < ApplicationController
 	end
 
 	def index
-		@users = User.all
+		@users = User.all.page(params[:page]).per(current_user.config.number_of_displayed_items)
 		@header_hidden = true if @user_error = !current_user.is_admin
 	end
 
@@ -31,9 +33,16 @@ class UsersController < ApplicationController
 	def create
 		user = User.new(user_params)
 		if user.save
-			flash[:notice] = "追加しました。"
+			UserConfig.create(user_id: user.id)
+			flash[:notice] = "ユーザーを追加しました。"
 			redirect_to user_path(user.id)
 		end
+	end
+	
+	def validation
+		# ログイン名が重複しないよう制限
+		@exist = true if User.find_by(login_name: params[:user][:login_name])
+		render "add_user"
 	end
 
 	def password_edit

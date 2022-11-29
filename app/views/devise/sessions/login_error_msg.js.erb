@@ -1,0 +1,14 @@
+<% if @authorized %>
+	console.log("OK");
+	$("#login_form").attr("data-remote", false);
+	$("#login_form").submit();
+<% else %>
+	console.log("エラー");
+	$("#modal_open")[0].click();
+	setTimeout(function(){
+		$("#modal_ok").focus();
+	}, 150);
+	$("#modal_ok").on("click", function(){
+		$("#user_login_name").focus();
+	});
+<% end %>
