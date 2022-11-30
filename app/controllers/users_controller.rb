@@ -40,10 +40,9 @@ class UsersController < ApplicationController
 			redirect_to user_path(user.id)
 		end
 	end
-
 	def uniqueness
 		# ログイン名が重複しないよう制限
-		@exist = true if (user = User.find_by(login_name: params[:user][:login_name])) && user != User.find(params[:id])
+		@exist = true if (user = User.find_by(login_name: params[:user][:login_name])) && (params[:id] ? user != User.find(params[:id]) : true)
 		render "add_user"
 	end
 
