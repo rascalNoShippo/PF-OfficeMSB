@@ -87,6 +87,7 @@
 		<% end %>
 	<% end %>
 <% end %>
-
-<%= form_with model: user, url: user_activate_path(user.id), id: "activation" do |f| %>
+<% if user != current_user && user.id %>
+	<%= form_with model: user, url: user_activate_path(user.id), id: "activation" do |f| %>
+	<% end %>
 <% end %>
