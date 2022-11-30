@@ -65,18 +65,20 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
-				<th>ステータス</th>
-				<% if user.is_invalid %>
-					<td class="text-danger font-weight-bold">
-						無効
-					</td>
-				<% else %>
-					<td class="text-success font-weight-bold">
-						有効
-					</td>
-				<% end %>
-			</tr>
+			<% if user.id %>
+				<tr>
+					<th>ステータス</th>
+					<% if user.is_invalid %>
+						<td class="text-danger font-weight-bold">
+							無効
+						</td>
+					<% else %>
+						<td class="text-success font-weight-bold">
+							有効
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
 		</tbody>
 	</table>
 	<%= f.submit (user.id.nil? ? "追加する" : "変更する"), class: "btn btn-success", id: "user_submit" %>
