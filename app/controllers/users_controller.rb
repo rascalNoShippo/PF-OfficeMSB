@@ -62,11 +62,11 @@ class UsersController < ApplicationController
 	end
 
 	def invalidate
-		@current_user = current_user
+		current_user_id = current_user.id
 		user = User.find(params[:user_id])
 		user.update(is_invalid: Time.zone.now)
 		sign_out(user)
-		sign_in(@current_user)
+		sign_in(User.find(current_user_id))
 		flash[:notice] = "“#{user[:name]}” のアカウントを無効にしました。"
 		redirect_to user
 	end
