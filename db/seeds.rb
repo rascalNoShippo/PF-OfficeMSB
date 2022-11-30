@@ -134,7 +134,7 @@ article[2].body = "<p>メッセージ機能とほぼ同じですが、宛先の�
 
 article.push(user[1].bulletin_boards.new)
 article[3].title  = "ユーザー編集機能の使い方"
-article[3].body = '<p>ヘッダー右上に名前が表示されている部分をクリックするとメニューが表示されます。</p><p><br></p><ul><li>ユーザーデータ編集</li></ul><p style="margin-left: 25px;">名前・E-mail等、個人情報を変更できます。</p><p style="margin-left: 25px;"><br></p><ul><li>パスワード変更</li></ul><p style="margin-left: 25px;">パスワードの変更をします。</p><p style="margin-left: 25px;"><br></p><ul><li>他ユーザーの追加・編集</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><b>管理者のみ操作可能</b></font></u>です。</p><p style="margin-left: 25px;">新しいユーザーを追加したり、他ユーザーのデータやパスワードを変更できます。</p><p style="margin-left: 25px;"></p>'
+article[3].body = '<p>ヘッダー右上に名前が表示されている部分をクリックするとメニューが表示されます。</p><p><br></p><ul><li>ユーザーデータ編集</li></ul><p style="margin-left: 25px;">名前・E-mail等、個人情報を変更できます。</p><p style="margin-left: 25px;"><br></p><ul><li>パスワード変更</li></ul><p style="margin-left: 25px;">パスワードの変更をします。</p><p style="margin-left: 25px;"><br></p><ul><li>一般設定</li></ul><p style="margin-left: 25px;">ページネーションの件数の設定・画像の表示設定ができます。</p><p style="margin-left: 25px;"><br></p><ul><li>他ユーザーの追加・編集</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><b>管理者のみ操作可能</b></font></u>です。</p><p style="margin-left: 25px;">新しいユーザーを追加したり、他ユーザーのデータやパスワードを変更できます。</p><p style="margin-left: 25px;"></p>'
 
 article[3].save
 article[2].save

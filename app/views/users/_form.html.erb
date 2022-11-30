@@ -1,14 +1,14 @@
-<%= form_with model: user, local: !user.id.nil?, id: "user_form" do |f| %>
+<%= form_with model: user, local: false, id: "user_form" do |f| %>
 	<table class="table table-responsive">
 		<tbody>
 			<tr>
 				<th>名前</th>
-				<td><%= f.text_field :name, required: true, class: "form-control" %></td>
+				<td><%= f.text_field :name, required: true, value: user[:name], class: "form-control" %></td>
 			</tr>
 			<tr>
 				<th>ログイン名</th>
 				<td>
-					<% if user.id.nil? %>
+					<% if user.id.nil? || current_user.is_admin %>
 						<%= f.text_field :login_name, required: true, class: "form-control" %>
 					<% else %>
 						<%= user.login_name %>
@@ -65,7 +65,28 @@
 					</div>
 				</td>
 			</tr>
+			<tr>
+				<th>ステータス</th>
+				<% if user.is_invalid %>
+					<td class="text-danger font-weight-bold">
+						無効
+					</td>
+				<% else %>
+					<td class="text-success font-weight-bold">
+						有効
+					</td>
+				<% end %>
+			</tr>
 		</tbody>
 	</table>
 	<%= f.submit (user.id.nil? ? "追加する" : "変更する"), class: "btn btn-success", id: "user_submit" %>
+	<% if user != current_user && user.id %>
+		<%= f.submit "有効にする", form: "activation", class: "btn btn-primary" if user.is_invalid %>
+		<%= button_tag type: "button", data: { target: "#delete_modal", toggle: "modal" }, class: "btn btn-danger" do %>
+			削除する
+		<% end %>
+	<% end %>
+<% end %>
+
+<%= form_with model: user, url: user_activate_path(user.id), id: "activation" do |f| %>
 <% end %>

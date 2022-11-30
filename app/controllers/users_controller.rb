@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-	before_action :validation, only: [:create], if: -> {request.format == :js}
-	
+	before_action :uniqueness, only: [:create, :update], if: -> {request.format == :js}
+
 	def show
 		@user = User.find(params[:id])
 	end
@@ -13,8 +13,10 @@ class UsersController < ApplicationController
 	def update
 		user = User.find(params[:id])
 		if user.update(user_params)
+			# ログイン名の変更は管理者のみ可能
+			user.update(login_name: params[:user][:login_name]) if current_user.is_admin
 			user.image.destroy if params[:user][:delete_image] == "true"
-			flash[:notice] = "変更しました。"
+			flash[:notice] = "ユーザーデータを変更しました。"
 			redirect_to user_path(user.id)
 		end
 	end
@@ -38,10 +40,10 @@ class UsersController < ApplicationController
 			redirect_to user_path(user.id)
 		end
 	end
-	
-	def validation
+
+	def uniqueness
 		# ログイン名が重複しないよう制限
-		@exist = true if User.find_by(login_name: params[:user][:login_name])
+		@exist = true if (user = User.find_by(login_name: params[:user][:login_name])) && user != User.find(params[:id])
 		render "add_user"
 	end
 
@@ -51,14 +53,36 @@ class UsersController < ApplicationController
 	end
 
 	def password_update
-		user = current_user
+		user = User.find(params[:user_id])
 		if p user.update_with_password(password_params)
-			bypass_sign_in(user)
+			bypass_sign_in(user) if user == current_user
 			flash[:notice] = "パスワードを変更しました。"
 			redirect_to user_path(user.id)
 		end
 	end
 
+	def invalidate
+		user = User.find(params[:user_id])
+		user.update(is_invalid: Time.zone.now)
+		flash[:notice] = "“#{user[:name]}” のアカウントを無効にしました。"
+		redirect_to user
+	end
+
+	def activate
+		user = User.find(params[:user_id])
+		user.update(is_invalid: nil)
+		flash[:notice] = "“#{user[:name]}” のアカウントを有効にしました。"
+		redirect_to user
+	end
+
+	def destroy
+		user = User.find(params[:id])
+		user_name = user[:name]
+		if user.destroy
+			flash[:notice] = "“#{user_name}” のアカウントと関連データを完全に削除しました。"
+			redirect_to users_path
+		end
+	end
 
 	private
 
@@ -67,6 +91,6 @@ class UsersController < ApplicationController
 	end
 
 	def user_params
-		params.require(:user).permit(:name, :login_name, :password, :is_admin, :employee_number, :email, :phone_number, :image)
+		params.require(:user).permit(:name, :password, :is_admin, :employee_number, :email, :phone_number, :image)
 	end
 end

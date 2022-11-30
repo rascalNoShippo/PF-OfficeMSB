@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
   def new
     user = current_user
     @message = user.messages.new
-    @user_list = User.all #要変更
+    @user_list = User.where(is_invalid: nil)
   end
 
   def create
@@ -83,7 +83,7 @@ class MessagesController < ApplicationController
 
   def edit
     @message = Message.find(params[:id])
-    @user_list = User.all #要変更
+    @user_list = User.where(is_invalid: nil)
     @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 

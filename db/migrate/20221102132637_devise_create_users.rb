@@ -37,6 +37,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.string :email
       t.string :phone_number
       t.string :employee_number
+      t.datetime :is_invalid
       t.boolean :is_admin, default: false
 
       t.timestamps null: false

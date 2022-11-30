@@ -30,15 +30,22 @@ class User < ApplicationRecord
 
   def icon
     class_name = self == User.current_user ? "text-success" : "text-primary"
+    class_name = "text-lightgray" if self.is_invalid
     "<i class='fas fa-user mr-1 #{class_name}'></i>".html_safe
   end
 
   def get_image
-    if image.attached?
+    if is_invalid
+      "invalid.jpg"
+    elsif image.attached?
       image
     else
       "no_img.jpg"
     end
+  end
+
+  def name
+    "#{self[:name]}#{"（無効化されたユーザー）" if self.is_invalid}"
   end
 
 

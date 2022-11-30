@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   get "users/config", to: "user_config#edit", as: "edit_user_config"
   patch "users/config", to: "user_config#update", as: "user_config"
 
-  resources :users, only: [:show, :edit, :update, :new, :create, :index] do
+  resources :users, only: [:show, :edit, :update, :new, :create, :index, :destroy] do
+    patch "invalidate"
+    patch "activate"
     get "password", to: "users#password_edit"
     patch "password", to: "users#password_update"
   end

@@ -132,9 +132,10 @@ ActiveRecord::Schema.define(version: 2022_11_29_124137) do
     t.string "email"
     t.string "phone_number"
     t.string "employee_number"
+    t.datetime "is_invalid"
+    t.boolean "is_admin", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_admin", default: false
     t.index ["login_name"], name: "index_users_on_login_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
