@@ -11,7 +11,8 @@ class MessagesController < ApplicationController
     else
       messages = messages.where(id: ids)
     end
-
+    @messages = messages
+    
     #検索クエリ
     @q = params[:query]
     if @q
@@ -23,7 +24,7 @@ class MessagesController < ApplicationController
       @messages = @messages.where("title like ?", "%#{@q}%").or(@messages.where(id: body_ids))
     end
     
-    @messages = messages.page(params[:page]).per(current_user.config.number_of_displayed_items)
+    @messages = @messages.page(params[:page]).per(current_user.config.number_of_displayed_items)
   end
 
   def new
