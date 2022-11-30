@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
 	before_action :configure_permitted_parameters, if: :devise_controller?
 	before_action :authenticate_user!
 	before_action :set_current_user
+	before_action :user_invalid
 
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.permit(:sign_up, keys: [:login_name, :email])
@@ -29,8 +30,15 @@ class ApplicationController < ActionController::Base
     num_pages = items.total_pages
     count_start = (current_page - 1) * per_page + 1
     count_end = num_pages == 0 ? 0 : (items.last_page? ? total_count : current_page * per_page)
-
+  
     return "全 #{total_count} 件中 #{count_start} - #{count_end} 件目 ( #{current_page} / #{num_pages} ページ)"
+  end
+  
+  def user_invalid
+   user = current_user
+   if user_signed_in? && user.is_invalid
+    sign_out(user)
+   end
   end
 
   helper_method :plaintext
