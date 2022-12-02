@@ -1,0 +1,24 @@
+<table class="table table-bordered">
+	<thead>
+		<tr class="text-center">
+			<% for i in 0..6 do %>
+				<th class="weekname p-1<%= week(i) == 0 ? " sunday" : (week(i) == 6 ? " saturday"  : "") %>">
+					<%= I18n.t("data.abbr_day_names")[week(i)] %>
+				</th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% for i in 0..@end_week do %>
+			<tr>
+				<% for j in 0..6 do %>
+					<td class="p-1 align-top<%= week(j) == 0 ? " sunday" : (week(j) == 6 ? " saturday"  : "") %><%= " no_included" unless day(i, j).month == @month.month %><%= " today" if day(i, j) == @today %>">
+						<div class="text-right">
+							<div class="day text-center d-inline-block"><%= day(i, j).day %></div>
+						</div>
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

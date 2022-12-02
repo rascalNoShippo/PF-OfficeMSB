@@ -10,24 +10,19 @@
 		<%
 =end %>
 		<%= link_to messages_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fas fa-comment"></p>
+			<i class="fas fa-comment"></i>
 			<p>メッセージ</p>
 		<% end %>
-
-		<%
-=begin %>
-		<%= link_to "", class: "header_link d-block text-center my-auto" do %>
-			<p class="fas fa-calendar-alt"></p>
+		<%= link_to schedules_path, class: "header_link d-block text-center my-auto" do %>
+			<i class="fas fa-calendar-alt"></i>
 			<p>スケジュール</p>
 		<% end %>
-		<%
-=end %>
 		<%= link_to bulletin_boards_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fas fa-clipboard"></p>
+			<i class="fas fa-clipboard"></i>
 			<p>掲示板</p>
 		<% end %>
 		<%= link_to favorites_path, class: "header_link d-block text-center my-auto" do %>
-			<p class="fas fa-star"></p>
+			<i class="fas fa-star"></i>
 			<p>お気に入り</p>
 		<% end %>
 	</nav>
@@ -36,7 +31,7 @@
 			<p><%= "#{"●" if flash[:notice]}#{flash[:notice]}" %></p>
 		</div>
 		<div class="header_user d-flex my-auto border p-2">
-			<p class="fas fa-user mr-3"></p>
+			<i class="fas fa-user mr-3"></i>
 			<p><%= current_user.name %></p>
 		</div>
 		<div class="header_user_menu d-none border">

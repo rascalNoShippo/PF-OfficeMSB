@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     passwords: "users/passwords"
   }
-  
+
   get "users/config", to: "user_config#edit", as: "edit_user_config"
   patch "users/config", to: "user_config#update", as: "user_config"
 
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get "password", to: "users#password_edit"
     patch "password", to: "users#password_update"
   end
-  
+
   resources :favorites, only: [:index, :create, :destroy]
 
   resources :messages do
@@ -22,14 +22,16 @@ Rails.application.routes.draw do
       patch "trash"
       patch "restore"
     end
-    resources :message_comments, only: [:create, :destroy], as: "comments"
   end
 
   post "search_users", to: "search_users#search_users", as: "search_users"
 
-  resources :bulletin_boards do
-    resources :bulletin_board_comments, only: [:create, :destroy], as: "comments"
-  end
+  resources :bulletin_boards
+  
+  resources :schedules
+  post "schedules/calendar"
+
+  resource :comments, only: [:create, :destroy]
 
   root to: "homes#top"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

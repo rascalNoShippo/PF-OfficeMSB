@@ -32,6 +32,7 @@ body{
 
 main{
 	background-color: whitesmoke;
+	height: 0;
 }
 
 p{
@@ -266,3 +267,42 @@ th, td{
 ol, ul, dl{
 		margin-left: 1.5em
 	}
+
+$sunday: #ffaacc;
+$saturday: #88ccff;
+
+.weekname.sunday{
+	background-color: $sunday;
+}
+
+.weekname.saturday{
+	background-color: $saturday;
+}
+
+.day{
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 500%;
+}
+
+.sunday .day{
+	background-color: $sunday;
+}
+
+.saturday .day{
+	background-color: $saturday;
+}
+
+.no_included{
+	color: darkgray;
+	.day{
+		background-color: unset !important;
+	}
+}
+
+.today{
+	background-color: #ccff88;
+	.day{
+		font-weight: bold;
+	}
+}

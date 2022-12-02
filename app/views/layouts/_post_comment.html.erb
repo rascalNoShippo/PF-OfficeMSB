@@ -1,9 +1,9 @@
-<% if article.is_commentable #コメントフォーム %>
+<% if item.is_commentable #コメントフォーム %>
 	<div>
 		<h6>コメントを書き込む</h6>
-		<%= form_with model: @new_comment, url: message_comments_path(article.id), id: "form" do |f| %>
+		<%= form_with model: @new_comment, url: comments_path(class_name: item.class.to_s, item_id: item.id), id: "form" do |f| %>
 			<%= f.hidden_field :body, placeholder: "コメントを入力", class: "form-control my-3", id: "summernote" %>
-			<%= f.file_field :attachments, multiple: true, class: "my-3" %>
+			<%= f.file_field :attachments, multiple: true, class: "my-3", id: "comment_attachments" %>
 			<%= f.submit "書き込む", class: "btn btn-success d-block", id: "comment_submit" %>
 		<% end %>
 	</div>
@@ -14,17 +14,17 @@
 		<div class="comment border-bottom">
 			<div class="d-flex m-2 p-2<%= " unread" if comment.comment_id > @viewed_comment %>">
 				<div class="pr-2"><%= image_tag comment.commenter.get_image, class: "profile_image" %></div>
-				<div>
+				<div class="w-100">
 					<div>
 						<span class="comment_name mr-3">
-							<%= comment.comment_id %> : <%= link_to comment.commenter.name, "" %>
+							<%= comment.comment_id %> : <%= link_to comment.commenter.name, user_path(comment.commenter_id) %>
 						</span>
 						<span class="comment_datetime mr-3">
 							<%= l comment.created_at %>
 						</span>
 						<% if comment.commenter_id == current_user.id %>
 							<span class="delete_comment" style="display: none;">
-								<%= link_to "削除する", message_comment_path(article.id, comment.id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
+								<%= link_to "削除する", comments_path(class_name: item.class.to_s, item_id: item.id, comment_id: comment.comment_id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
 							</span>
 						<% end %>
 					</div>

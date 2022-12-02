@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def date_or_time(time)
+   
   	if time.at_beginning_of_day == Time.zone.now.at_beginning_of_day
   		time.strftime("%H:%M")
 		elsif time.at_beginning_of_year == Time.zone.now.at_beginning_of_year
@@ -22,7 +23,7 @@ class ApplicationController < ActionController::Base
 		end
   end
 
-   def pagination_counter(items)
+  def pagination_counter(items)
     #paginationカウンター
     total_count = items.total_count
     per_page = items.limit_value

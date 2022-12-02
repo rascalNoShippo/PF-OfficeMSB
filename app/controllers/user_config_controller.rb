@@ -2,6 +2,9 @@ class UserConfigController < ApplicationController
 	def edit
 		@config = current_user.config
 		@selector = [*1..10].map{|a| a*5}
+		@weekdays = I18n.t("data.abbr_day_names")
+		@weekdays = @weekdays.map{|i| i = ["#{i}曜日", @weekdays.index(i)]}
+
 	end
 	
 	def update
@@ -14,6 +17,6 @@ class UserConfigController < ApplicationController
 	private
 	
 	def config_params
-		params.require(:user_config).permit(:number_of_displayed_items, :number_of_displayed_comments, :display_images_with_body)
+		params.require(:user_config).permit(:number_of_displayed_items, :number_of_displayed_comments, :display_images_with_body, :start_weeks)
 	end
 end
