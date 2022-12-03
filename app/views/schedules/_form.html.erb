@@ -20,7 +20,7 @@
 				<th>開始日時</th>
 				<td class="datetime">
 					<%= f.text_field :date_begin, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_begin.to_date : @date) %>
-					<%= f.text_field :time_begin, required: true, type: "time", disabled: @schedule.is_all_day, value: (@schedule.datetime_begin.strftime("%H:%M") unless @schedule.is_all_day) %>
+					<%= f.text_field :time_begin, required: true, type: "time", disabled: @schedule.is_all_day, value: (@schedule.datetime_begin.strftime("%H:%M") if !@schedule.is_all_day && @schedule.id) %>
 				</td>
 				<td rowspan=2>
 					<div class="custom-checkbox custom-control">
@@ -33,7 +33,7 @@
 				<th>終了日時</th>
 				<td class="datetime">
 					<%= f.text_field :date_end, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_end.to_date : @date) %>
-					<%= f.text_field :time_end, required: true, disabled: @schedule.is_all_day, type: "time", value: (@schedule.datetime_end.strftime("%H:%M") unless @schedule.is_all_day) %>
+					<%= f.text_field :time_end, required: true, disabled: @schedule.is_all_day, type: "time", value: (@schedule.datetime_end.strftime("%H:%M") if !@schedule.is_all_day && @schedule.id) %>
 				</td>
 			</tr>
 			<tr>

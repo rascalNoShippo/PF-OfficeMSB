@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 		@users = User.all.page(params[:page]).per(current_user.config.number_of_displayed_items)
 		@q = params[:query]
 		if @q
-			@users = @users.where("name like ?", "%#{@q}%")
+			@users = @users.where("name like ?", "%#{@q}%").or(@users.where(employee_number: @q)).or(@users.where("phone_number like ?", "%#{@q}%"))
 		end
 	end
 

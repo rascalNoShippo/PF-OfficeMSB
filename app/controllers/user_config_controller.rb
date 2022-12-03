@@ -2,7 +2,7 @@ class UserConfigController < ApplicationController
 	def edit
 		@config = current_user.config
 		@selector = [*1..10].map{|a| a*5}
-		@weekdays = I18n.t("data.abbr_day_names")
+		@weekdays = I18n.t("date.abbr_day_names")
 		@weekdays = @weekdays.map{|i| i = ["#{i}曜日", @weekdays.index(i)]}
 
 	end

@@ -326,21 +326,23 @@ ol, ul, dl{
 		margin-left: 1.5em
 	}
 
-$sunday: #ffaacc;
-$saturday: #88ccff;
 
-.weekname.sunday{
-	background-color: $sunday;
-}
 
-.weekname.saturday{
-	background-color: $saturday;
-}
 
 #calendar{
+	$sunday: #ffaacc;
+	$saturday: #88ccff;
 	table{
 		table-layout: fixed;
 		font-size: 90%;
+		
+		.weekname.sunday{
+			background-color: $sunday;
+		}
+		
+		.weekname.saturday{
+			background-color: $saturday;
+		}
 		
 		td.selected{
 			border: 2px solid orange;
@@ -375,45 +377,47 @@ $saturday: #88ccff;
 				font-weight: bold;
 			}
 		}
+		
+		.day{
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			user-select: none;
+		}
+		
+		#this_month{
+			width: 6em;
+		}
+		
+		.datetime{
+			width: 1px;
+		}
+		
+		.schedule a{
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		
+		.all_day{
+			border: 1px solid navy;
+			border-radius: 2px;
+			background-color: lighten(navy, 40%);
+			color: white;
+			a{
+				color: white;
+				padding: 0 0.25em;
+			}
+			a:hover{
+				color: darken(white, 10%);
+			}
+		}
+		
+		.no_all_day{
+			a{
+				color: black;
+			}
+		}
 	}
 }
 
-.day{
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 50%;
-	user-select: none;
-}
-
-#this_month{
-	width: 6em;
-}
-
-.datetime{
-	width: 1px;
-}
-
-.schedule a{
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.all_day{
-	border: 1px solid navy;
-	border-radius: 2px;
-	background-color: lighten(navy, 40%);
-	color: white;
-	a{
-		color: white;
-	}
-	a:hover{
-		color: darken(white, 10%);
-	}
-}
-
-.no_all_day{
-	a{
-		color: black;
-	}
-}
