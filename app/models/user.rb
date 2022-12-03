@@ -13,14 +13,14 @@ class User < ApplicationRecord
 
   has_many :comments, foreign_key: :commenter_id, dependent: :destroy
 
-  has_many :bulletin_boards, foreign_key: "sender_id", dependent: :destroy
-  # has_many :bulletin_board_comments, foreign_key: :commenter_id, dependent: :destroy
+  has_many :bulletin_boards, dependent: :destroy
   has_many :bulletin_board_view_flags, dependent: :destroy
+  has_many :schedules, dependent: :destroy
 
   has_many :favorites, dependent: :destroy
 
   has_one :config, class_name: "UserConfig", foreign_key: "user_id", dependent: :destroy
-  
+
   def self.current_user=(user)
     Thread.current[:user] = user # 現在のスレッドにuserを設定するメソッド
   end

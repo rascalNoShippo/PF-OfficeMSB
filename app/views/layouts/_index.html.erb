@@ -22,7 +22,7 @@
 					<p class="overflow_ellipsis"><%= link_to item.title, item %></p>
 				</td>
 				<td class="overflow_ellipsis<%= " unread_td" unless item.already_read_flag %>">
-					<p class="overflow_ellipsis"><%= link_to item.sender.icon + item.sender.name, user_path(item.sender.id) %></p>
+					<p class="overflow_ellipsis"><%= link_to item.user.icon + item.user.name, user_path(item.user.id) %></p>
 				</td>
 				<td<%= " class=unread_td" unless item.already_read_flag %>>
 					<%= date_or_time(item.updated_at) %>

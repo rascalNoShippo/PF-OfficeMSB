@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-	belongs_to :sender, class_name: "User", foreign_key: "user_id"
+	belongs_to :user
 	belongs_to :last_update_user, class_name: "User", foreign_key: "last_update_user_id", optional: true
 	has_many :message_destinations, dependent: :destroy
 	has_many :receivers, through: :message_destinations

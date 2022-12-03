@@ -1,5 +1,5 @@
 class BulletinBoard < ApplicationRecord
-	belongs_to :sender, class_name: "User"
+	belongs_to :user
 	has_many :comments, -> { where(class_name: "BulletinBoard") }, foreign_key: "item_id" , dependent: :destroy
 	has_many :favorites, -> { where(class_name: "BulletinBoard") }, foreign_key: "item_id" , dependent: :destroy
 	has_many :view_flags, class_name: "BulletinBoardViewFlag", dependent: :destroy

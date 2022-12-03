@@ -27,6 +27,8 @@
 								<i class="fas fa-comment"></i>
 							<% elsif fav.class_name == "BulletinBoard" %>
 								<i class="fas fa-clipboard"></i>
+							<% elsif fav.class_name == "Schedule" %>
+								<i class="fas fa-calendar-alt"></i>
 							<% end %>
 						</td>
 						<td class="overflow_ellipsis">
@@ -36,7 +38,7 @@
 						</td>
 						<td class="overflow_ellipsis">
 							<p class="overflow_ellipsis">
-								<%= link_to fav.item.sender.icon + fav.item.sender.name, fav.item.sender %>
+								<%= link_to fav.item.user.icon + fav.item.user.name, fav.item.user %>
 							</p>
 						</td>
 						<td>

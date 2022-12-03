@@ -1,0 +1,81 @@
+<% content_for :title, @schedule.title %>
+<div class="p-3">
+	<% if @schedule.user == current_user %>
+		<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_schedule_path %>
+		<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
+	<% end %>
+	<div class="d-flex align-items-center my-2">
+		<div class="favorite_<%= @schedule.id %> h5 mb-0 mr-2">
+			<%= render "favorites/star", item: @schedule %>
+		</div>
+		<h3 class="m-0">
+			<i class="fas fa-calendar-alt"></i>
+			<%= @schedule.title %>
+		</h3>
+	</div>
+	<table class="table table-responsive mb-5">
+		<tbody>
+			<tr>
+				<th>
+					<%= @schedule.is_all_day ? "日付（終日）" : "日時" %>
+				</th>
+				<td>
+					<% if @schedule.is_all_day %>
+						<%= l @schedule.datetime_begin.to_date %>
+						<% unless @schedule.datetime_begin.to_date == @schedule.datetime_end.to_date %>
+							～
+							<%= l @schedule.datetime_end.to_date %>
+						<% end %>
+					<% else %>
+						<%= l @schedule.datetime_begin %>
+						<% unless @schedule.datetime_begin == @schedule.datetime_end %>
+							～
+							<%= @schedule.datetime_begin.to_date == @schedule.datetime_end.to_date ? (@schedule.datetime_end.strftime("%H:%M")) : (l @schedule.datetime_end) %>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+			<tr>
+				<th>作成者</th>
+				<td>
+					<%= link_to @schedule.user.icon + @schedule.user.name, @schedule.user %>
+				</td>
+			</tr>
+			<tr>
+				<th>場所</th>
+				<td><%= @schedule.place %></td>
+			</tr>
+			<tr>
+				<th>内容</th>
+				<td>
+						<%= @schedule.body.html_safe if @schedule.body %>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=2>
+					<%= render "layouts/attachments", item: @schedule %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<%= render "layouts/post_comment", item: @schedule %>
+</div>
+<% if @schedule.user == current_user %>
+	<div class="modal fade" id="delete_modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header p-0">
+					<p class="modal-title text-white p-2">予定の削除</p>
+				</div>
+				<div class="modal-body">
+					<p>以下の予定を削除しますか？</p>
+					<li class="font-weight-bold ml-4"><%= @schedule.title %></li>
+				</div>
+				<div class="modal-footer p-3 w-100 d-flex">
+					<%= button_to "削除する", @schedule, method: :delete, class: "btn btn-danger" %>
+					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

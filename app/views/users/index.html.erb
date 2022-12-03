@@ -1,34 +1,51 @@
 <% content_for :title, "ユーザー一覧" %>
-<% if @user_error %>
-	<%= render "layouts/forbidden" %>
-<% else %>
-	<div class="p-3">
-		<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path %>
-		<h3>ユーザー一覧</h3>
-		<table class="table table-responsive">
-			<thead>
-				<tr>
-					<th>ユーザー名</th>
+<div class="p-3">
+	<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path if current_user.is_admin %>
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>
+				<i class="fas fa-calendar-alt"></i>
+				<%= @q ? "検索結果" : "ユーザー一覧" %>
+			</h3>
+		</div>
+		<%= render "layouts/search_box" %>
+	</div>
+	<table class="table table-responsive">
+		<caption>
+			<p class="text-right">
+				<%= pagination_counter(@users) %>
+			</p>
+		</caption>
+		<thead>
+			<tr>
+				<th>ユーザー名</th>
+				<th>社員番号</th>
+				<th>電話番号</th>
+				<% if current_user.is_admin %>
 					<th>ログイン名</th>
 					<th>管理者</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% @users.each do |user| %>
-					<tr>
-						<td class="overflow_ellipsis">
-							<p class="overflow_ellipsis"><%= link_to user.icon + user.name, user_path(user.id) %></p>
-						</td>
+				<% end %>
+			</tr>
+		</thead>
+		<tbody>
+			<% @users.each do |user| %>
+				<tr>
+					<td class="overflow_ellipsis">
+						<p class="overflow_ellipsis"><%= link_to user.icon + user.name, user_path(user.id) %></p>
+					</td>
+					<td><%= user.employee_number %></td>
+					<td><%= user.phone_number %></td>
+					<% if current_user.is_admin %>
 						<td><%= user.login_name %></td>
 						<td class="text-center">
 							<%= "<i class='fas fa-check-circle'></i>".html_safe if p user.is_admin %>
 						</td>
-					</tr>
-				<% end %>
-				<tr>
-					<td colspan="3"><%= paginate @users %></td>
+					<% end %>
 				</tr>
-			</tbody>
-		</table>
-	</div>
-<% end %>
+			<% end %>
+			<tr>
+				<td colspan="3"><%= paginate @users %></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

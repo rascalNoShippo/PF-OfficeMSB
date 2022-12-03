@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-content">
+		<div class="modal-header p-0">
+			<p class="modal-title text-white p-2"><%= "#{(l @date)} の予定 : #{@user.name}" if @date %></p>
+		</div>
+		<div class="modal-body">
+			<table>
+				<tbody>
+					<% @schedules.each do |schedule| %>
+						<tr>
+							<td class="text-black-50 pr-3">
+								<% if schedule.is_all_day %>
+									終日
+								<% elsif schedule.datetime_begin.to_date == @date %>
+									<%= schedule.datetime_begin.strftime("%H:%M") %>
+								<% else %>
+									--->>
+								<% end %>
+							</td>
+							<td>
+								<%= link_to schedule.title, schedule %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer p-3 w-100 d-flex">
+			<%= button_tag "閉じる", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+		</div>
+	</div>
+</div>

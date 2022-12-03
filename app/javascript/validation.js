@@ -16,6 +16,10 @@ $(function(){
 });
 
 $(function(){
+	
+});
+
+$(function(){
 	//パスワード変更時
 	$("#password_form").submit(function(){
 		if($("#password").val() != $("#password_confirmation").val()){

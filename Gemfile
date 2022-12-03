@@ -60,6 +60,7 @@ gem "rspec-rails"
 gem "rails-i18n"
 gem "devise"
 gem "sanitize"
+gem "holiday_japan"
 
 gem "net-smtp"
 gem "net-pop"

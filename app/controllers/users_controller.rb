@@ -23,7 +23,10 @@ class UsersController < ApplicationController
 
 	def index
 		@users = User.all.page(params[:page]).per(current_user.config.number_of_displayed_items)
-		@header_hidden = true if @user_error = !current_user.is_admin
+		@q = params[:query]
+		if @q
+			@users = @users.where("name like ?", "%#{@q}%")
+		end
 	end
 
 

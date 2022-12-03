@@ -59,7 +59,7 @@ class MessagesController < ApplicationController
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 
     #宛先に含まれているか、送信者でないと表示されない
-    unless @message.sender == current_user || @receivers.include?(current_user)
+    unless @message.user == current_user || @receivers.include?(current_user)
       @message_error = true
       @header_hidden = true
       return
@@ -89,7 +89,7 @@ class MessagesController < ApplicationController
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 
     #編集者か、送信者でないと表示されない
-    unless @message.sender == current_user || @editors.include?(current_user)
+    unless @message.user == current_user || @editors.include?(current_user)
       @message_error = true
       @header_hidden = true
       return

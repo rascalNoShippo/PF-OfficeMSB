@@ -1,7 +1,7 @@
 class CreateBulletinBoards < ActiveRecord::Migration[6.1]
   def change
     create_table :bulletin_boards do |t|
-      t.integer :sender_id, null: false
+      t.integer :user_id, null: false
       t.integer :last_update_user_id
       t.string :title, null: false
       t.text :body

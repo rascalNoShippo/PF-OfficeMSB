@@ -1,9 +1,14 @@
-<table class="table table-bordered">
+<div class="d-none position-absolute h-100 w-100">
+	<div class="loader m-auto">
+	    <span>Loading...</span>
+	</div>
+</div>
+<table class="table table-bordered m-0">
 	<thead>
 		<tr class="text-center">
 			<% for i in 0..6 do %>
 				<th class="weekname p-1<%= week(i) == 0 ? " sunday" : (week(i) == 6 ? " saturday"  : "") %>">
-					<%= I18n.t("data.abbr_day_names")[week(i)] %>
+					<%= I18n.t("date.abbr_day_names")[week(i)] %>
 				</th>
 			<% end %>
 		</tr>
@@ -12,10 +17,34 @@
 		<% for i in 0..@end_week do %>
 			<tr>
 				<% for j in 0..6 do %>
-					<td class="p-1 align-top<%= week(j) == 0 ? " sunday" : (week(j) == 6 ? " saturday"  : "") %><%= " no_included" unless day(i, j).month == @month.month %><%= " today" if day(i, j) == @today %>">
-						<div class="text-right">
-							<div class="day text-center d-inline-block"><%= day(i, j).day %></div>
+					<td class="pb-0 pt-1 px-1 align-top<%= day_classes(day(i, j)) %>" data-date="<%= day(i, j) %>" data-date-i18n="<%= l day(i, j) %>">
+						<div class="d-flex justify-content-between">
+							<div class="<%= "text-danger" if day(i, j).month == @month.month %>">
+								<%= HolidayJapan.name(day(i, j)) %>
+							</div>
+							<div class="day text-center d-inline-block">
+								<%= day(i, j).day %>
+							</div>
 						</div>
+						<div>
+							<% @schedules.each_day(day(i, j), 3)[:items].each do |schedule| %>
+								<div class="schedule <%= schedule.is_all_day ? "all_day" : "no_all_day" %>">
+									<%= link_to schedule, class: "d-block" do %>
+										<% unless schedule.is_all_day %>
+											<span class="text-black-50">
+												<%= schedule.datetime_begin.to_date == day(i, j) ? schedule.datetime_begin.strftime("%H:%M") : "--->>" %>
+											</span>
+										<% end %>
+										<%= schedule.title %>
+									<% end %>
+								</div>
+							<% end %>
+						</div>
+						<% if @schedules.each_day(day(i, j), 3)[:overflow] %>
+							<div class="text-right">
+								<%= link_to "全#{@schedules.each_day(day(i, j))[:count]}件", user_schedules_date_path(date: day(i, j)), method: :post, remote: true, data: { target: "#schedule_modal", toggle: "modal" } %>
+							</div>
+						<% end %>
 					</td>
 				<% end %>
 			</tr>

@@ -1,7 +1,7 @@
 <% content_for :title, @article.title %>
 <div class="p-3">
 	<div>
-		<% if @article.sender == current_user || current_user.is_admin %>
+		<% if @article.user == current_user || current_user.is_admin %>
 			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_bulletin_board_path %>
 			<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
 		<% end %>
@@ -20,7 +20,7 @@
 			<tr>
 				<th class="pr-2">差出人</th>
 				<td class="pr-2">
-					<%= link_to @article.sender.icon + @article.sender.name, user_path(@article.sender.id) %>
+					<%= link_to @article.user.icon + @article.user.name, user_path(@article.user.id) %>
 				</td>
 				<td><%= l @article.created_at %></td>
 			</tr>
@@ -36,26 +36,28 @@
 		</tbody>
 	</table>
 	<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
-		<%= @article.body.html_safe %>
+		<%= @article.body.html_safe if @article.body %>
 		<%= render "layouts/attachments", item: @article %>
 	</div>
 	<%= render "layouts/post_comment", item: @article %>
 </div>
-<div class="modal fade" id="delete_modal">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header p-0">
-				<p class="modal-title text-white p-2">掲示の削除</p>
-			</div>
-			<div class="modal-body">
-				<p>以下の掲示を削除しますか？</p>
-				<li class="font-weight-bold"><%= @article.title %></li>
-				<p class="text-danger font-weight-bold">削除すると全てのユーザーから見えなくなります。</p>
-			</div>
-			<div class="modal-footer p-3 w-100 d-flex">
-				<%= button_to "削除する", bulletin_board_path, method: :delete, class: "btn btn-danger" %>
-				<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+<% if @article.user == current_user || current_user.is_admin %>
+	<div class="modal fade" id="delete_modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header p-0">
+					<p class="modal-title text-white p-2">掲示の削除</p>
+				</div>
+				<div class="modal-body">
+					<p>以下の掲示を削除しますか？</p>
+					<li class="font-weight-bold"><%= @article.title %></li>
+					<p class="text-danger font-weight-bold">削除すると全てのユーザーから見えなくなります。</p>
+				</div>
+				<div class="modal-footer p-3 w-100 d-flex">
+					<%= button_to "削除する", bulletin_board_path, method: :delete, class: "btn btn-danger" %>
+					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+<% end %>

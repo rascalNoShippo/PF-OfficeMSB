@@ -2,7 +2,9 @@ ja:
   time:
     formats:
       default: "%Y年%-m月%-d日(%a) %H:%M"
-  data:
+  date:
+    formats:
+      default: "%Y年%-m月%-d日(%a)"
     abbr_day_names:
     - 日
     - 月
@@ -17,7 +19,7 @@ ja:
       last: "最後 &raquo;"
       previous: "&lsaquo; 前"
       next: "次 &rsaquo;"
-      truncate: "…"  
+      truncate: "…"
   devise:
     sessions:
       user:

@@ -1,0 +1,13 @@
+<div class="d-flex">
+	<%# 検索BOX %>
+	<%= form_with method: :get, class: "d-flex my-auto" do |f| %>
+		<div class="input-group">
+			<%= f.text_field :query, value: @q, class: "form-control input-group-prepend" %>
+			<span class="input-group-btn input-group-append">
+				<%= f.button type: "submit", name: nil, class: "btn btn-dark" do %>
+					<i class="fas fa-search"></i>
+				<% end %>
+			</span>
+		</div>
+	<% end %>
+</div>

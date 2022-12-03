@@ -1,9 +1,12 @@
 $(function(){
 	// ヘッダーを最下部へ配置
-	let header = $("header")[0].offsetHeight;
-	let footer = $("footer")[0].offsetHeight;
+	let header = $("header").height();
+	let footer = $("footer").height();
 	$("main").css({
 		"min-height" : `calc(100vh - ${header + footer}px)`
+	});
+	$(".schedule_index").css({
+		"height" : `calc(100vh - ${header + footer}px)`
 	});
 });
 

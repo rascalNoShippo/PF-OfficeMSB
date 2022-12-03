@@ -9,6 +9,9 @@ class CreateSchedules < ActiveRecord::Migration[6.1]
       t.datetime :datetime_end, null: false
       t.boolean :is_all_day, default: false
       t.boolean :is_commentable, default: true
+      t.integer :number_of_comments, default: 0
+      t.datetime :update_content_at
+      t.integer :last_update_user_id
       t.timestamps
     end
   end

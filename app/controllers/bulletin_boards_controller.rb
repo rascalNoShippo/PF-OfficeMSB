@@ -2,7 +2,7 @@ class BulletinBoardsController < ApplicationController
 
 	def index
 		@articles = BulletinBoard.order(updated_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_items)
-		
+
     #検索クエリ
     @q = params[:query]
     if @q
@@ -44,7 +44,7 @@ class BulletinBoardsController < ApplicationController
 
 	def create
 		article = current_user.bulletin_boards.new(bulletin_board_params)
-		
+
 		if article.save
 			flash[:notice] = "掲示を作成しました。"
 			redirect_to bulletin_board_path(article.id)
@@ -53,8 +53,8 @@ class BulletinBoardsController < ApplicationController
 
 	def edit
 		@article = BulletinBoard.find(params[:id])
-		@sender = @article.sender
-		@header_hidden = true if @user_error = current_user != @sender && !current_user.is_admin
+		@user = @article.user
+		@header_hidden = true if @user_error = current_user != @user && !current_user.is_admin
 	end
 
 	def update
@@ -70,7 +70,7 @@ class BulletinBoardsController < ApplicationController
 			redirect_to bulletin_board_path
 		end
 	end
-	
+
 	def destroy
 		article = BulletinBoard.find(params[:id])
 		article.destroy

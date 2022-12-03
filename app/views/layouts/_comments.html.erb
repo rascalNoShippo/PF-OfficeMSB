@@ -15,7 +15,7 @@
 						</span>
 						<% if comment.commenter_id == current_user.id %>
 							<span class="delete_comment" style="display: none;">
-								<%= link_to "削除する", comment, method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
+								<%= link_to "削除する", comment, method: :delete, "data-confirm": "このコメントを削除しますか？\n##{comment.commment_id}\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
 							</span>
 						<% end %>
 					</div>

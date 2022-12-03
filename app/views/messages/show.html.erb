@@ -4,7 +4,7 @@
 	<% content_for :title, @message.title %>
 	<div class="p-3">
 		<div>
-			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path if @message.sender == current_user || @editors.include?(current_user) %>
+			<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path if @message.user == current_user || @editors.include?(current_user) %>
 			<% if @message.recycled? %>
 				<%= link_to "<i class='fas fa-trash-restore'></i>元に戻す".html_safe, restore_message_path, method: :patch %>
 			<% else %>
@@ -25,7 +25,7 @@
 				<tr>
 					<th class="pr-2 text-nowrap">差出人</th>
 					<td class="pr-2 editor">
-						<%= link_to @message.sender.icon + @message.sender.name, user_path(@message.sender.id) %>
+						<%= link_to @message.user.icon + @message.user.name, user_path(@message.user.id) %>
 					</td>
 					<td><%= l @message.created_at %></td>
 				</tr>
@@ -58,7 +58,7 @@
 			</tbody>
 		</table>
 		<div class="<%= @unread_after_update ? "unread" : "border" %> p-4 my-3">
-			<%= @message.body.html_safe %>
+			<%= @message.body.html_safe if @message.body %>
 			<%= render "layouts/attachments", item: @message %>
 		</div>
 		<%= render "layouts/post_comment", item: @message %>
@@ -74,14 +74,14 @@
 					<p>以下のメッセージを削除しようとしています。</p>
 					<li class="font-weight-bold ml-4"><%= @message.title %></li>
 					<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
-					<% if @message.sender == current_user || @editors.include?(current_user) %>
+					<% if @message.user == current_user || @editors.include?(current_user) %>
 						<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
 						<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
 					<% end %>
 				</div>
 				<div class="modal-footer p-3 w-100 d-flex">
 					<%= button_to "ごみ箱に移動する", trash_message_path, method: :patch, class: "btn btn-warning"%>
-					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" if @message.sender == current_user || @editors.include?(current_user) %>
+					<%= button_to "完全に削除する", message_path, method: :delete, class: "btn btn-danger" if @message.user == current_user || @editors.include?(current_user) %>
 					<%= button_tag "キャンセル", data: { dismiss: "modal" }, class: "btn btn-outline-dark" %>
 				</div>
 			</div>

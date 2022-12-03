@@ -1,0 +1,79 @@
+<%= javascript_pack_tag "onbeforeunload" %>
+<%= javascript_pack_tag "summernote_initial_value" %>
+
+<%= form_with model: @schedule, id: "form" do |f| %>
+	<table class="table table-responsive table-borderless align-middle text-nowrap">
+		<tbody>
+			<tr>
+				<th>タイトル</th>
+				<td colspan=2>
+					<%= f.text_field :title, required: true, class: "form-control" %>
+				</td>
+			</tr>
+			<tr>
+				<th>作成者</th>
+				<td class="font-weight-bold">
+					<%= @schedule.user.name %>
+				</td>
+			</tr>
+			<tr>
+				<th>開始日時</th>
+				<td class="datetime">
+					<%= f.text_field :date_begin, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_begin.to_date : @date) %>
+					<%= f.text_field :time_begin, required: true, type: "time", disabled: @schedule.is_all_day, value: (@schedule.datetime_begin.strftime("%H:%M") unless @schedule.is_all_day) %>
+				</td>
+				<td rowspan=2>
+					<div class="custom-checkbox custom-control">
+						<%= f.check_box :is_all_day, {class: "custom-control-input"} , "true", "false" %>
+						<%= f.label :is_all_day, "終日", class: "custom-control-label" %>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>終了日時</th>
+				<td class="datetime">
+					<%= f.text_field :date_end, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_end.to_date : @date) %>
+					<%= f.text_field :time_end, required: true, disabled: @schedule.is_all_day, type: "time", value: (@schedule.datetime_end.strftime("%H:%M") unless @schedule.is_all_day) %>
+				</td>
+			</tr>
+			<tr>
+				<th>場所</th>
+				<td colspan=2>
+					<%= f.text_field :place, class: "form-control" %>
+				</td>
+			</tr>
+			<tr>
+				<th>内容</th>
+				<td colspan=2>
+					<%= f.hidden_field :body, id: "summernote" %>
+				</td>
+			</tr>
+			<tr>
+				<th>添付ファイル</th>
+				<td>
+					<%= f.file_field :attachments, multiple: true %>
+				</td>
+			</tr>
+			<% if @schedule.attachments.exists? %>
+				<tr>
+					<th>削除するファイル</th>
+					<td>
+						<% @schedule.attachments.each do |item| %>
+							<div class="custom-checkbox custom-control">
+								<%= f.check_box "existing_files", {multiple: true, class: "custom-control-input"} , item.id, false %>
+								<%= f.label "existing_files_#{item.id}", item.filename, class: "m-0 custom-control-label" %>
+							</div>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<% if @schedule.id.nil? %>
+		<div class="custom-checkbox custom-control mb-3">
+			<%= f.check_box :is_commentable, {class: "custom-control-input"} , "true", "false" %>
+			<%= f.label :is_commentable, "コメントを許可する", class: "custom-control-label" %>
+		</div>
+	<% end %>
+	<%= f.submit (@schedule.id.nil? ? "作成する" : "変更する"), class: "btn btn-success" %>
+<% end %>

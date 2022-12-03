@@ -24,7 +24,7 @@
 						</span>
 						<% if comment.commenter_id == current_user.id %>
 							<span class="delete_comment" style="display: none;">
-								<%= link_to "削除する", comments_path(class_name: item.class.to_s, item_id: item.id, comment_id: comment.comment_id), method: :delete, "data-confirm": "このコメントを削除しますか？\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
+								<%= link_to "削除する", comments_path(class_name: item.class.to_s, item_id: item.id, comment_id: comment.comment_id), method: :delete, "data-confirm": "このコメントを削除しますか？\n##{comment.comment_id} :\n#{Sanitize.clean(comment.body)}", class: "text-danger" %>
 							</span>
 						<% end %>
 					</div>

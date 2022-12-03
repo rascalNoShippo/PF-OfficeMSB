@@ -1,2 +1,6 @@
 $("#calendar").html("<%= j(render "schedules/calendar") %>");
 $("#this_month").html("<%= j(render "schedules/this_month") %>");
+
+$("#calendar tbody tr").css({
+	"height" : `calc((100vh - ${($("body")[0].offsetHeight - $("#calendar tbody")[0].offsetHeight)}px) / ${$("#calendar tbody tr").length}`
+});

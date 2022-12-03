@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     patch "activate"
     get "password", to: "users#password_edit"
     patch "password", to: "users#password_update"
+    resources :schedules, only: [:index]
+    post "schedules/calendar"
+    post "schedules", to: "schedules#schedules", as: "schedules_date"
   end
+  resources :schedules, only: [:show, :edit, :update, :destroy, :new, :create]
 
   resources :favorites, only: [:index, :create, :destroy]
 
@@ -28,8 +32,6 @@ Rails.application.routes.draw do
 
   resources :bulletin_boards
   
-  resources :schedules
-  post "schedules/calendar"
 
   resource :comments, only: [:create, :destroy]
 

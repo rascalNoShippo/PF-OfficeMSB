@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2022_12_02_075852) do
   end
 
   create_table "bulletin_boards", force: :cascade do |t|
-    t.integer "sender_id", null: false
+    t.integer "user_id", null: false
     t.integer "last_update_user_id"
     t.string "title", null: false
     t.text "body"
@@ -113,6 +113,9 @@ ActiveRecord::Schema.define(version: 2022_12_02_075852) do
     t.datetime "datetime_end", null: false
     t.boolean "is_all_day", default: false
     t.boolean "is_commentable", default: true
+    t.integer "number_of_comments", default: 0
+    t.datetime "update_content_at"
+    t.integer "last_update_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

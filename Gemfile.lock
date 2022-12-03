@@ -97,6 +97,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    holiday_japan (1.4.4)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -280,6 +281,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   enum_help
+  holiday_japan
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   kaminari (~> 1.2.1)

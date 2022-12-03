@@ -28,7 +28,7 @@
 					<tr>
 						<td>
 							<%= link_to destination.receiver.icon + destination.receiver.name, user_path(destination.receiver_id) %>
-							<%= "(差出人)" if destination.receiver == @message.sender %>
+							<%= "(差出人)" if destination.receiver == @message.user %>
 						</td>
 						<td class="text-center">
 							<%= "<i class='fas fa-check-circle'></i>".html_safe if destination.is_editable %>
