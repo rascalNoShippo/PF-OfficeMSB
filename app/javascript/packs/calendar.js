@@ -12,13 +12,11 @@ $(function(){
 
 $(function(){
 	$("#month_next, #month_prev").on("click", function(){
-		setTimeout(function(){
-			$("#calendar>div").css({
-				"background-color" : "rgba(0, 0, 0, 0.3)"
-			});
-			$("#calendar .d-none").addClass("d-flex");
-			$("#calendar .d-none").removeClass("d-none");
-		}, 500);
+		$("#calendar>div").css({
+			"background-color" : "rgba(0, 0, 0, 0.1)"
+		});
+		$("#calendar .d-none").addClass("d-flex");
+		$("#calendar .d-none").removeClass("d-none");
 	});
 });
 
