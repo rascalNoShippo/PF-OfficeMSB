@@ -48,3 +48,20 @@ $(function(){
 		}
 	});
 });
+
+$(function(){
+	// 日付の逆転を防止
+	$("#schedule_form").submit(function(){
+		if(new Date(`${$("#schedule_date_begin").val()} ${$("#schedule_time_begin").val()}`) > new Date(`${$("#schedule_date_end").val()} ${$("#schedule_time_end").val()}`)){
+			$(".datetime_error").text("日時が逆転しています");
+			$(".datetime *").css({
+				"color" : "red",
+				"font-weight" : "bold",
+				"visibility" : "visible"
+			});
+			return false;
+		}else{
+			return true;
+		}
+	});
+});

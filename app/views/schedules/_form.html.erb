@@ -1,7 +1,7 @@
 <%= javascript_pack_tag "onbeforeunload" %>
 <%= javascript_pack_tag "summernote_initial_value" %>
 
-<%= form_with model: @schedule, id: "form" do |f| %>
+<%= form_with model: @schedule, id: "schedule_form" do |f| %>
 	<table class="table table-responsive table-borderless align-middle text-nowrap">
 		<tbody>
 			<tr>
@@ -17,12 +17,12 @@
 				</td>
 			</tr>
 			<tr>
-				<th>開始日時</th>
-				<td class="datetime">
+				<th class="pb-0">開始日時</th>
+				<td class="datetime pb-0">
 					<%= f.text_field :date_begin, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_begin.to_date : @date) %>
 					<%= f.text_field :time_begin, required: true, type: "time", disabled: @schedule.is_all_day, value: (@schedule.datetime_begin.strftime("%H:%M") if !@schedule.is_all_day && @schedule.id) %>
 				</td>
-				<td rowspan=2>
+				<td rowspan=3>
 					<div class="custom-checkbox custom-control">
 						<%= f.check_box :is_all_day, {class: "custom-control-input"} , "true", "false" %>
 						<%= f.label :is_all_day, "終日", class: "custom-control-label" %>
@@ -30,8 +30,14 @@
 				</td>
 			</tr>
 			<tr>
-				<th>終了日時</th>
-				<td class="datetime">
+				<th class="py-0"></th>
+				<td class="datetime py-0">
+					<p class="datetime_error" style="visibility:hidden;">日付が逆転しています</p>
+				</td>
+			</tr>
+			<tr>
+				<th class="pt-0">終了日時</th>
+				<td class="datetime pt-0">
 					<%= f.text_field :date_end, required: true, type: "date", value: (@schedule.id ? @schedule.datetime_end.to_date : @date) %>
 					<%= f.text_field :time_end, required: true, disabled: @schedule.is_all_day, type: "time", value: (@schedule.datetime_end.strftime("%H:%M") if !@schedule.is_all_day && @schedule.id) %>
 				</td>
