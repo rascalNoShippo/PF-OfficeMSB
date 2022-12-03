@@ -355,6 +355,10 @@ ol, ul, dl{
 			height: 1px;
 		}
 		
+		tbody td{
+			user-select: none;
+		}
+		
 		.sunday, .holiday{
 			.day{
 				background-color: $sunday;
@@ -383,7 +387,6 @@ ol, ul, dl{
 			width: 1.5em;
 			height: 1.5em;
 			border-radius: 50%;
-			user-select: none;
 		}
 		
 		#this_month{
