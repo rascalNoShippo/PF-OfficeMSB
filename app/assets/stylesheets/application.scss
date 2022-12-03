@@ -326,8 +326,9 @@ ol, ul, dl{
 		margin-left: 1.5em
 	}
 
-
-
+.datetime{
+	width: 1px;
+}
 
 #calendar{
 	$sunday: #ffaacc;
@@ -392,11 +393,7 @@ ol, ul, dl{
 		#this_month{
 			width: 6em;
 		}
-		
-		.datetime{
-			width: 1px;
-		}
-		
+
 		.schedule a{
 			overflow: hidden;
 			text-overflow: ellipsis;
