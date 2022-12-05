@@ -10,11 +10,11 @@
 		</div>
 		<%#= render "layouts/search_box" %>
 	</div>
-	<div class="d-flex justify-content-between">
+	<div class="d-flex justify-content-between mb-2">
 		<p<%= " style=visibility:hidden;" unless @user == current_user %>>
 			<%= link_to "予定を作成する", new_schedule_path %>
 		</p>
-		<div class="text-dark font-weight-bold text-center mb-2">
+		<div class="text-dark font-weight-bold text-center">
 			<%= form_with method: :post, url: user_schedules_calendar_path, local: false do |f| %>
 				<%= f.hidden_field :month, value: @months_since, id: "month" %>
 				<%= f.button type: "submit", class: "btn btn-info py-0 px-3", id: "month_prev" do %>

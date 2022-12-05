@@ -54,7 +54,7 @@ class BulletinBoardsController < ApplicationController
 	def edit
 		@article = BulletinBoard.find(params[:id])
 		@user = @article.user
-		@header_hidden = true if @user_error = current_user != @user && !current_user.is_admin
+		raise Forbidden if current_user != @user && !current_user.is_admin
 	end
 
 	def update

@@ -59,11 +59,7 @@ class MessagesController < ApplicationController
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 
     #宛先に含まれているか、送信者でないと表示されない
-    unless @message.user == current_user || @receivers.include?(current_user)
-      @message_error = true
-      @header_hidden = true
-      return
-    end
+    return raise Forbidden unless @message.user == current_user || @receivers.include?(current_user)
 
     @new_comment = @message.comments.new
     @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
@@ -89,11 +85,7 @@ class MessagesController < ApplicationController
     @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
 
     #編集者か、送信者でないと表示されない
-    unless @message.user == current_user || @editors.include?(current_user)
-      @message_error = true
-      @header_hidden = true
-      return
-    end
+    raise Forbidden unless @message.user == current_user || @editors.include?(current_user)
   end
 
   def update
@@ -156,6 +148,7 @@ class MessagesController < ApplicationController
   def receivers
     @message = Message.find(params[:id])
     @destinations = @message.message_destinations.page(params[:page]).per(current_user.config.number_of_displayed_items)
+    raise Forbidden unless @message.receivers.include?(current_user)
   end
 
   def trash

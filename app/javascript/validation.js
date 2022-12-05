@@ -16,7 +16,7 @@ $(function(){
 });
 
 $(function(){
-	
+
 });
 
 $(function(){
@@ -52,7 +52,22 @@ $(function(){
 $(function(){
 	// 日付の逆転を防止
 	$("#schedule_form").submit(function(){
-		if(new Date(`${$("#schedule_date_begin").val()} ${$("#schedule_time_begin").val()}`) > new Date(`${$("#schedule_date_end").val()} ${$("#schedule_time_end").val()}`)){
+		const date_begin = $("#schedule_date_begin").val();
+		const time_begin = $("#schedule_time_begin").val();
+		const datetime_begin = date_begin + " " + time_begin;
+		const date_end = $("#schedule_date_end").val();
+		const time_end = $("#schedule_time_end").val();
+		const datetime_end = date_end + " " + time_end;
+
+		let reversal;
+
+		if($("#schedule_is_all_day:checked").val()){
+			reversal = new Date(date_begin) > new Date(date_end);
+		}else{
+			reversal = new Date(datetime_begin) > new Date(datetime_end);
+		}
+
+		if(reversal){
 			$(".datetime_error").text("日時が逆転しています");
 			$(".datetime *").css({
 				"color" : "red",

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
 	def edit
 		@user = User.find(params[:id])
-		@header_hidden = true if @user_error = current_user != @user && !current_user.is_admin
+		raise Forbidden if current_user != @user && !current_user.is_admin
 	end
 
 	def update
@@ -29,10 +29,9 @@ class UsersController < ApplicationController
 		end
 	end
 
-
 	def new
 		@user = User.new
-		@header_hidden = true if @user_error = !current_user.is_admin
+		raise Forbidden unless current_user.is_admin
 	end
 
 	def create
@@ -51,7 +50,7 @@ class UsersController < ApplicationController
 
 	def password_edit
 		@user = User.find(params[:user_id])
-		@header_hidden = true if @user_error = current_user != @user && !current_user.is_admin
+		raise Forbidden if current_user != @user && !current_user.is_admin
 	end
 
 	def password_update

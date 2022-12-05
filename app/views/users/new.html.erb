@@ -1,9 +1,5 @@
 <% content_for :title, "ユーザーの追加" %>
-<% if @user_error %>
-	<%= render "layouts/forbidden" %>
-<% else %>
-	<div class="p-3">
-		<h3>ユーザーの追加</h3>
-		<%= render "users/form", user: @user %>
-	</div>
-<% end %>
+<div class="p-3">
+	<h3>ユーザーの追加</h3>
+	<%= render "users/form", user: @user %>
+</div>

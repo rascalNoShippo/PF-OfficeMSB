@@ -1,0 +1,11 @@
+<% content_for :title, "エラー" %>
+<div class="p-3">
+	<h3><i class="fas fa-exclamation-triangle text-warning mr-3"></i>エラー</h3>
+	<div class="ml-4">
+		<p>指定されたページが見つかりません。 </p>
+		<p>URLが間違っているか、ページが削除されている可能性があります。</p>
+		<%= link_to "javascript:history.back();" do %>
+			<i class="fas fa-arrow-circle-left"></i>戻る
+		<% end %>
+	</div>
+</div>

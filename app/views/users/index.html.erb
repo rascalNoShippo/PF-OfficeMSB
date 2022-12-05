@@ -38,7 +38,7 @@
 					<% if current_user.is_admin %>
 						<td><%= user.login_name %></td>
 						<td class="text-center">
-							<%= "<i class='fas fa-check-circle'></i>".html_safe if p user.is_admin %>
+							<%= "<i class='fas fa-check-circle'></i>".html_safe if user.is_admin %>
 						</td>
 					<% end %>
 				</tr>

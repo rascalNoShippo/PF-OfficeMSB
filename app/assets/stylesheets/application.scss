@@ -48,7 +48,7 @@ p{
   animation: load 2s linear infinite;
 }
 
-.loader::before,.loader::after {
+.loader::before, .loader::after {
   content: '';
   width: 100px;
   height: 100px;
@@ -72,6 +72,7 @@ p{
 .loader span {
   position: absolute;
   font-size: small;
+  text-shadow: 0 0 3px black;
   width: 100px;
   height: 100px;
   color: #fff;

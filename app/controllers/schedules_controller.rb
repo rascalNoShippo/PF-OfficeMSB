@@ -85,11 +85,12 @@ class SchedulesController < ApplicationController
 		@new_comment = @comments.new(commenter_id: current_user.id)
 		@viewed_comment = 1.0 / 0
 	end
-	
+
 	def edit
 		@schedule = Schedule.find(params[:id])
+		raise Forbidden unless @schedule.user == current_user
 	end
-	
+
 	def update
 		schedule = Schedule.find(params[:id])
 		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
@@ -110,7 +111,7 @@ class SchedulesController < ApplicationController
 			redirect_to schedule
 		end
 	end
-	
+
 	def destroy
 		schedule = Schedule.find(params[:id])
 		title = schedule.title
