@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
  end
 
- unless Rails.env.production? #本番環境のみhttpエラー表示
+ if Rails.env.production? #本番環境のみhttpエラー表示
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   rescue_from ActionController::RoutingError, with: :render_404
   rescue_from Forbidden, with: :render_403
