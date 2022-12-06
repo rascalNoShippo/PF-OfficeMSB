@@ -331,68 +331,68 @@ ol, ul, dl{
 	width: 1px;
 }
 
+#this_month{
+	width: 6em;
+}
+
 #calendar{
 	$sunday: #ffaacc;
 	$saturday: #88ccff;
 	table{
 		table-layout: fixed;
 		font-size: 90%;
-		
+
 		.weekname.sunday{
 			background-color: $sunday;
 		}
-		
+
 		.weekname.saturday{
 			background-color: $saturday;
 		}
-		
+
 		td.selected{
 			border: 2px solid orange;
 			background-color: blanchedalmond;
 			box-shadow: 0 0 10px black;
 		}
-		
+
 		thead th{
 			border-bottom: 1px darkgray solid;
 			height: 1px;
 		}
-		
+
 		tbody td{
 			user-select: none;
 		}
-		
+
 		.sunday, .holiday{
 			.day{
 				background-color: $sunday;
 			}
 		}
-		
+
 		.saturday .day{
 			background-color: $saturday;
 		}
-		
+
 		.no_included{
 			color: darkgray !important;
 			.day{
 				background-color: unset !important;
 			}
 		}
-		
+
 		.today{
 			background-color: #ccff88;
 			.day{
 				font-weight: bold;
 			}
 		}
-		
+
 		.day{
 			width: 1.5em;
 			height: 1.5em;
 			border-radius: 50%;
-		}
-		
-		#this_month{
-			width: 6em;
 		}
 
 		.schedule a{
@@ -400,7 +400,7 @@ ol, ul, dl{
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
-		
+
 		.all_day{
 			border: 1px solid navy;
 			border-radius: 2px;
@@ -414,7 +414,7 @@ ol, ul, dl{
 				color: darken(white, 10%);
 			}
 		}
-		
+
 		.no_all_day{
 			a{
 				color: black;

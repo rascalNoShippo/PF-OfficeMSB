@@ -1,12 +1,12 @@
 $(function(){
-	//コメント未入力かつファイル未選択時
+	//コメント未入力かつファイル未選択時 submitでエラー表示
 	$("#form").submit(function(){
 		if(!$(".note-editable").text().length && !$("#comment_attachments")[0].files.length){
 			$(".note-editor").css({"border" : "3px solid red"});
 			$(".note-placeholder").text("入力してください (またはファイルを添付)")
 			return false;
 		}else{
-			//summernote用 submit時にhidden_fieldへコード格納
+			//入力済みなら summernoteへ submit時にhidden_fieldへコード格納
 			$("#summernote").val(
 				$(".note-editable").text().length ? $(".note-editable").html() : ""
 			);
@@ -20,7 +20,7 @@ $(function(){
 });
 
 $(function(){
-	//パスワード変更時
+	//パスワード変更時 不一致でエラー表示
 	$("#password_form").submit(function(){
 		if($("#password").val() != $("#password_confirmation").val()){
 			$("#password_confirmation, #password").css({"border" : "2px solid red"});
@@ -50,7 +50,7 @@ $(function(){
 });
 
 $(function(){
-	// 日付の逆転を防止
+	//スケジュール登録・変更の際 日付の逆転を防止
 	$("#schedule_form").submit(function(){
 		const date_begin = $("#schedule_date_begin").val();
 		const time_begin = $("#schedule_time_begin").val();
