@@ -1,6 +1,9 @@
 <% content_for :title, "#{"検索結果 - " if @q}ユーザー一覧" %>
 <div class="p-3">
-	<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path if current_user.is_admin %>
+	<% if current_user.is_admin %>
+		<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path %>
+		<%= link_to "<i class='fas fa-sitemap'></i> 組織・役職を追加・編集する".html_safe, organizations_path %>
+	<% end %>
 	<div class="d-flex justify-content-between">
 		<div>
 			<h3>

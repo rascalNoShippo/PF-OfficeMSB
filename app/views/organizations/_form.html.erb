@@ -1,0 +1,20 @@
+<% content_for :title, "#{@title}の#{item.id ? "編集 - #{item.name}" : "追加"}" %>
+<div class="p-3">
+  <h3>
+    <%= @title %>の<%= item.id ? "編集" : "追加" %>
+  </h3>
+  <%= form_with model: item, local: false, id: "org_form" do |f| %>
+    <table class="table table-responsive table-borderless">
+      <tbody>
+        <tr>
+          <th><%= @title %>名</th>
+          <td>
+            <%= f.text_field :name, required: true, class: "form-control" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <%= f.submit (item.id ? "変更する" : "追加する"), class: "btn btn-success" %>
+  	<%= link_to "削除する", item, method: :delete, class: "btn btn-danger", data: {confirm: "#{@title} “#{item.name}” を削除しますか？"} if item.id %>
+  <% end %>
+</div>

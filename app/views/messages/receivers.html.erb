@@ -24,7 +24,7 @@
 			<% @destinations.each do |destination| %>
 				<tr>
 					<td>
-						<%= link_to destination.receiver.icon + destination.receiver.name, user_path(destination.receiver_id) %>
+						<%= link_to destination.receiver.icon + destination.receiver.name, destination.receiver %>
 						<%= "(差出人)" if destination.receiver == @message.user %>
 					</td>
 					<td class="text-center">

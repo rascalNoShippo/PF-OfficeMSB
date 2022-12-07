@@ -31,6 +31,9 @@ Rails.application.routes.draw do
   post "search_users", to: "search_users#search_users", as: "search_users"
 
   resources :bulletin_boards
+  
+  resources :organizations, except: [:edit]
+  resources :positions, except: [:edit, :index]
 
 
   resource :comments, only: [:create, :destroy]
@@ -38,6 +41,4 @@ Rails.application.routes.draw do
   root to: "homes#top"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  # get "*not_found", to: "application#routing_error"
-  # match '*unmatched_route', :to => 'application#raise_not_found!', :via => :all
 end

@@ -19,6 +19,12 @@ class User < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
 
+  has_many :user_organizations, dependent: :destroy
+  has_many :organizations, through: :user_organizations
+  has_many :positions, through: :user_organizations
+
+  belongs_to :preferred_org, class_name: "UserOrganization", optional: true
+
   has_one :config, class_name: "UserConfig", foreign_key: "user_id", dependent: :destroy
 
   def self.current_user=(user)
@@ -46,9 +52,16 @@ class User < ApplicationRecord
   end
 
   def name
-    "#{self[:name]}#{"（無効化されたユーザー）" if self.is_invalid}"
+    name_org = "#{self[:name]}"
+    if self.preferred_org_id
+      if self.preferred_org.position_id
+        name_org = "#{name_org} #{self.preferred_org.position.name}"
+      end
+      name_org = "#{name_org}（#{self.preferred_org.organization.name}）"
+    end
+    name_org = "#{name_org}#{"（無効化されたユーザー）" if self.is_invalid}"
+    return name_org
   end
-
 
   def update_with_password(params, *options)
     params.delete(:current_password)

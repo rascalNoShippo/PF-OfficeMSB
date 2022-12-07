@@ -1,0 +1,66 @@
+<% content_for :title, "#{"検索結果 - " if @q}組織・役職一覧" %>
+<div class="p-3">
+	<div class="d-flex justify-content-between">
+		<div>
+			<h3>
+				<i class="fas fa-sitemap"></i>
+				<%= @q ? "検索結果" : "組織・役職一覧" %>
+			</h3>
+		</div>
+		<%= render "layouts/search_box" %>
+  </div>
+  <div class="d-flex">
+    <div class="col-3">
+      <table class="table">
+        <caption>
+          <div class="d-flex justify-content-between">
+            <p>
+              <%= link_to "<i class='fas fa-plus-circle'></i> 組織を追加する".html_safe, new_organization_path %>
+            </p>
+            <p>
+              <%= "全 #{@orgs.count} 件" %>
+            </p>
+          </div>
+        </caption>
+        <thead>
+          <tr>
+            <th>組織名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @orgs.all.each do |org| %>
+            <tr>
+              <td><%= link_to org.name, org %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3 offset-1">
+      <table class="table">
+        <caption>
+          <div class="d-flex justify-content-between">
+            <p>
+              <%= link_to "<i class='fas fa-plus-circle'></i> 役職を追加する".html_safe, new_position_path %>
+            </p>
+            <p>
+              <%= "全 #{@orgs.count} 件" %>
+            </p>
+          </div>
+        </caption>
+        <thead>
+          <tr>
+            <th>役職名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @positions.all.each do |position| %>
+            <tr>
+              <td><%= link_to position.name, position %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,7 @@
 		</div>
 		<div class="header_user d-flex my-auto border p-2">
 			<i class="fas fa-user mr-3"></i>
-			<p><%= current_user.name %></p>
+			<p><%= current_user[:name] %></p>
 		</div>
 		<div class="header_user_menu d-none border">
 			<%= link_to "ユーザーデータ編集", edit_user_path(current_user.id), class: "d-block p-2" %>

@@ -1,9 +1,11 @@
+<%= javascript_pack_tag "organization" %>
 <%= form_with model: user, local: false, id: "user_form" do |f| %>
 	<table class="table table-responsive">
 		<tbody>
 			<tr>
 				<th>名前</th>
 				<td><%= f.text_field :name, required: true, value: user[:name], class: "form-control" %></td>
+				<td></td>
 			</tr>
 			<tr>
 				<th>ログイン名</th>
@@ -14,6 +16,7 @@
 						<%= user.login_name %>
 					<% end %>
 				</td>
+				<td></td>
 			</tr>
 			<% if user.id.nil? %>
 				<tr>
@@ -21,19 +24,63 @@
 					<td>
 						<%= f.password_field :password, required: true, class: "form-control" %>
 					</td>
+					<td></td>
 				</tr>
 			<% end %>
 			<tr>
 				<th>社員番号</th>
 				<td><%= f.text_field :employee_number, class: "form-control" %></td>
+				<td></td>
 			</tr>
 			<tr>
 				<th>E-mail</th>
 				<td><%= f.email_field :email, class: "form-control" %></td>
+				<td></td>
 			</tr>
 			<tr>
 				<th>電話番号</th>
 				<td><%= f.text_field :phone_number, class: "form-control" %></td>
+				<td></td>
+			</tr>
+			<% if current_user.is_admin %>
+				<tr>
+					<th>所属する組織</th>
+					<td class="d-flex pr-0">
+						<div class="destination_selector">
+							<%= f.hidden_field :organizations, value: nil %>
+							<%= select "", :organizations, (user.id ? options_from_collection_for_select(@org, :ids, :name) : []), {}, multiple: true, class: "form-control py-1 px-0 w-100 h-100", id: "org_list" %>
+						</div>
+						<div class="my-auto mx-4">
+							<%= button_tag type: "button", class: "d-block mb-3 btn btn-outline-primary", id: "add_org" do %>
+								<i class="fas fa-caret-square-left"></i>
+								追加
+							<% end %>
+							<%= button_tag type: "button", class: "d-block btn btn-outline-danger", id: "remove_org" do %>
+								削除
+								<i class="far fa-caret-square-right"></i>
+							<% end %>
+						</div>
+					</td>
+					<td class="pl-0">
+						<div class="organizations">
+							<div class="mb-5">
+								<%= label "", :organizations, "組織" %>
+								<%= select "", :organizations, options_from_collection_for_select(Organization.all, :id, :name), {include_blank: "選択してください..."}, class: "form-control" %>
+							</div>
+							<div>
+								<%= label "", :positions, "役職" %>
+								<%= select "", :positions, options_from_collection_for_select(Position.all, :id, :name), {include_blank: "なし"}, class: "form-control" %>
+							</div>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+			<tr>
+				<th>優先する組織</th>
+				<td>
+					<%= f.select :preferred_org_id, (user.id ? options_from_collection_for_select(@org, :ids, :name, selected: @preffered_org) : []), {}, class: "form-control" %>
+				</td>
+				<td></td>
 			</tr>
 			<% if current_user.is_admin %>
 				<tr>
@@ -46,6 +93,7 @@
 							<a title="※管理者アカウントが1つのみのため解除できません。">管理者権限を付与する</a>
 						<% end %>
 					</td>
+					<td></td>
 				</tr>
 			<% end %>
 			<tr>
@@ -64,6 +112,7 @@
 						<%= f.file_field :image, accept: "image/*" %>
 					</div>
 				</td>
+				<td></td>
 			</tr>
 			<% if user.id %>
 				<tr>
@@ -77,6 +126,7 @@
 							有効
 						</td>
 					<% end %>
+					<td></td>
 				</tr>
 			<% end %>
 		</tbody>

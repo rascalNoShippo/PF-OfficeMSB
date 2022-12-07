@@ -20,6 +20,10 @@ class Message < ApplicationRecord
 		self.receivers.where(id: editor_ids)
 	end
 
+	def finished_reading(receiver)
+		self.message_destinations.find_by(reeiver_id: receiver.id).finished_reading
+	end
+
 	def recycled?
 		self.message_destinations.find_by(receiver_id: User.current_user).delete_flag == 1
 	end

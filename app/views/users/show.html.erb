@@ -24,6 +24,18 @@
 					<td><%= @user.phone_number %></td>
 				</tr>
 				<tr>
+					<th>所属する組織</th>
+					<td>
+						<% @user.user_organizations.each do |org| %>
+							<p><%= org.name %></p>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<th>優先する組織</th>
+					<td><%= @user.preferred_org.name %></td>
+				</tr>
+				<tr>
 					<th>画像</th>
 					<td><%= @user.image.attached? ? (image_tag @user.image, class: "image_in_body") : "未登録" %></td>
 				</tr>

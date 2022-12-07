@@ -3,29 +3,29 @@ const selector_dest = "select#destination_list";
 const selector_user = "select#user_list";
 
 $(function(){
-	
+
 	userListArr("editor");
 	userListArr("destination");
-	
+
 	//宛先の追加
 	$("#add_receiver").on("click", function (){
 		addList(selector_user, selector_dest);
 		userListArr("destination");
 	});
-	
+
 	//編集権限の追加
 	$("#add_editor").on("click", function (){
 		addList(selector_dest, selector_edit);
 		userListArr("editor");
 	});
-	
+
 	//編集権限の削除
 	$("#remove_editor").on("click", function(){
 		const item = $(selector_edit).val();
 		item.forEach(t => $(`${selector_edit} option[value=${t}]`).remove());
 		userListArr("editor");
 	});
-	
+
 	//宛先の削除
 	$("#remove_receiver").on("click", function(){
 		const item = $(selector_dest).val();
@@ -59,17 +59,15 @@ function addList(selector_A, selector_B){//add from A to B
 		existing_user.push(elements[i].value);
 	}
 	//宛先のセレクトボックスに要素を追加
-	var added_user = [];
 	item.forEach(function(t){
 		if(!existing_user.includes(t)){
 			$("<option>", {
 				value : t,
 				text : $(`${selector_A} option[value=${t}]`).text()
 			}).appendTo(selector_B);
-			added_user.push(t);
 		}
 	})
 	//追加したユーザーを選択状態にする
-	$(selector_B).val(added_user);
+	$(selector_B).val(item);
 	//hiden_fieldに格納
 }

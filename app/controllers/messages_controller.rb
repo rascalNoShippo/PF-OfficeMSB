@@ -48,7 +48,7 @@ class MessagesController < ApplicationController
       #送信者は自動的に受信者・編集者に追加
       message.message_destinations.create(receiver_id: current_user.id, is_editable: true)
       flash[:notice] = "メッセージを作成しました。"
-      redirect_to message_path(message.id)
+      redirect_to message
     end
 
   end
@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
     @receivers = @message.receivers
-    @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
+    @editors = @message.editors
 
     #宛先に含まれているか、送信者でないと表示されない
     return raise Forbidden unless @message.user == current_user || @receivers.include?(current_user)
@@ -134,7 +134,7 @@ class MessagesController < ApplicationController
       end
 
       flash[:notice] = "メッセージを変更しました。"
-      redirect_to message_path(message.id)
+      redirect_to message
     end
   end
 

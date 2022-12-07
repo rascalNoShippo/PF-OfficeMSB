@@ -1,12 +1,12 @@
 <% unless @exist %>
 	// 重複がなければ確定
 	console.log("OK");
-	$("#user_form").attr("data-remote", false);
-	$("#user_form").submit();
+	$("#org_form").attr("data-remote", false);
+	$("#org_form").submit();
 <% else %>
-	// ログイン名が重複していたら警告を表示
+	// 名前が重複していたら警告を表示
 	console.log("エラー");
-	var form = $("#user_login_name");
+	var form = $("#<%= @Class.to_s.downcase %>_name");
 	form.attr("placeholder", `“${ form.val() }”は既に存在します`);
 	form.css({"border" : "2px solid red"});
 	form.val("");
