@@ -85,6 +85,14 @@ User.all.each do |user|
 	UserConfig.create(user_id: user.id)
 end
 
+# テストユーザー
+test_user = []
+for i in 1..1000 do
+  test_user.push(User.create(name: "TestUser #{i}", name_reading: "test_user #{i}", login_name: "test.#{i}", password: "test.#{i}"))
+  UserConfig.create(user_id: test_user[i - 1])
+  print "#{i} "
+end
+
 message = [""]
 
 message.push(user[12].messages.new)
@@ -110,6 +118,9 @@ message[1].message_destinations.create(receiver_id: user[11].id)
 message[1].message_destinations.create(receiver_id: user[12].id, is_editable: true, finished_reading: message[1].created_at)
 message[1].message_destinations.create(receiver_id: user[13].id, is_editable: true)
 
+test_user.each do |u|
+  message[1].message_destinations.create(receiver_id: u.id)
+end
 
 
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
@@ -210,9 +221,3 @@ user[1].favorites.create(class_name: "Message", item_id: message[1].id)
 user[1].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
 
 
-# テストユーザー
-for i in 1..1000 do
-  test_user = User.create(name: "TestUser #{i}", name_reading: "test_user #{i}", login_name: "test.#{i}", password: "test.#{i}")
-  UserConfig.create(user_id: test_user.id)
-  print "#{i} "
-end
