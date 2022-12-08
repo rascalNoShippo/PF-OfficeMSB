@@ -31,7 +31,8 @@ body{
 }
 
 main{
-	background-color: whitesmoke;
+	background-color: var(--light);
+	height: 1px;
 }
 
 p{
@@ -170,6 +171,23 @@ footer{
 
 table caption{
 	caption-side: top;
+}
+
+table.receivers{
+	width: fit-content;
+	border-collapse: separate;
+	border-spacing: 0;
+	tbody{
+		display: block;
+		overflow-y: hidden;
+		overflow-y: auto;
+	}
+	th{
+		position: sticky;
+		top: 0;
+		background-color: var(--light);
+		border-bottom: 2px solid #dee2e6;
+	}
 }
 
 .editor{

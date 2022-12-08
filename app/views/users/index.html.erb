@@ -13,7 +13,7 @@
 		</div>
 		<%= render "layouts/search_box" %>
 	</div>
-	<table class="table table-responsive">
+	<table class="table table-striped table-responsive">
 		<caption>
 			<p class="text-right">
 				<%= pagination_counter(@users) %>
@@ -48,11 +48,7 @@
 					<% end %>
 				</tr>
 			<% end %>
-			<tr>
-				<td colspan=<%= current_user.is_admin ? 6 : 4 %>>
-					<%= paginate @users %>
-				</td>
-			</tr>
 		</tbody>
 	</table>
+	<%= paginate @users %>
 </div>

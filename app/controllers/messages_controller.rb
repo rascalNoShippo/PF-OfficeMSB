@@ -148,7 +148,7 @@ class MessagesController < ApplicationController
 
   def receivers
     @message = Message.find(params[:id])
-    @destinations = @message.message_destinations.page(params[:page]).per(current_user.config.number_of_displayed_items)
+    @destinations = @message.message_destinations.includes(:receiver)
     raise Forbidden unless @message.receivers.include?(current_user)
   end
 

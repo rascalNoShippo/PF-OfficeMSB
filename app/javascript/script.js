@@ -1,7 +1,7 @@
 $(function(){
 	// ヘッダーを最下部へ配置
-	let header = $("header").height();
-	let footer = $("footer").height();
+	let header = $("header").outerHeight();
+	let footer = $("footer").outerHeight();
 	$("main").css({
 		"min-height" : `calc(100vh - ${header + footer}px)`
 	});
