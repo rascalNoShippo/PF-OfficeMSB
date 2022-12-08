@@ -1,7 +1,7 @@
 <% content_for :title, "ユーザーデータ - #{@user.name}" %>
 <div class="p-3">
 	<%= link_to "<i class='fas fa-calendar-alt'></i>スケジュールを見る".html_safe, user_schedules_path(@user) %>
-	<%= link_to "<i class='fas fa-edit'></i>ユーザーデータを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
+	<%= link_to "<i class='fas fa-user-edit'></i>ユーザーデータを変更する".html_safe, edit_user_path if @user == current_user || current_user.is_admin %>
 	<%= link_to "<i class='fas fa-key'></i>パスワードを変更する".html_safe, user_password_path(@user) if @user == current_user || current_user.is_admin %>
 	<h4><%= @user.name %></h4>
 	<div>
@@ -10,6 +10,10 @@
 				<tr>
 					<th>名前</th>
 					<td><%= @user[:name] %></td>
+				</tr>
+				<tr>
+					<th>よみ</th>
+					<td><%= @user.name_reading %></td>
 				</tr>
 				<tr>
 					<th>社員番号</th>
@@ -33,7 +37,7 @@
 				</tr>
 				<tr>
 					<th>優先する組織</th>
-					<td><%= @user.preferred_org.name %></td>
+					<td><%= @user.preferred_org.name if @user.preferred_org %></td>
 				</tr>
 				<tr>
 					<th>画像</th>

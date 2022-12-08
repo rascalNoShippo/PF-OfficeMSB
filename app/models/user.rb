@@ -55,11 +55,21 @@ class User < ApplicationRecord
     name_org = "#{self[:name]}"
     if self.preferred_org_id
       if self.preferred_org.position_id
-        name_org = "#{name_org} #{self.preferred_org.position.name}"
+        name_org += " #{self.preferred_org.position.name}"
       end
-      name_org = "#{name_org}（#{self.preferred_org.organization.name}）"
+      name_org += "（#{self.preferred_org.organization.name}）"
     end
-    name_org = "#{name_org}#{"（無効化されたユーザー）" if self.is_invalid}"
+    name_org += "（無効化されたユーザー）" if self.is_invalid
+    return name_org
+  end
+  
+  def name_with_all_org
+    # 全所属組織・役職を検索対象に
+    name_org = self[:name]
+    self.user_organizations.each do |org|
+      position = org.position_id ? "・#{org.position.name}" : ""
+      name_org += "（#{org.organization.name}#{position}）"
+    end
     return name_org
   end
 

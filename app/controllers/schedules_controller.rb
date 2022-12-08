@@ -1,6 +1,6 @@
 class SchedulesController < ApplicationController
-	helper_method :day
-	helper_method :week
+	helper_method :date
+	helper_method :wday
 	helper_method :day_classes
 
 	def index
@@ -11,13 +11,13 @@ class SchedulesController < ApplicationController
 		@month = @today.at_beginning_of_month.months_since(params[:month].to_i)
 
 		i = 0
-		while day(i, 0) <= @month.at_end_of_month do
+		while date(i, 0) <= @month.at_end_of_month do
 			i += 1
 		end
 		@end_week = i - 1
 	end
 
-	def day(i, j)
+	def date(i, j)
 		start_day_week = @month.wday - current_user.config.start_weeks
 		start_day_week += 7 if start_day_week < 0
 		start_day = @month.day - start_day_week
@@ -25,7 +25,7 @@ class SchedulesController < ApplicationController
 		return @month.days_since(day_num - 1)
 	end
 
-	def week(i)
+	def wday(i)
 		(i + current_user.config.start_weeks) % 7
 	end
 

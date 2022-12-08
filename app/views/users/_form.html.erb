@@ -1,4 +1,5 @@
 <%= javascript_pack_tag "organization" %>
+<%= javascript_pack_tag "onbeforeunload" %>
 <%= form_with model: user, local: false, id: "user_form" do |f| %>
 	<table class="table table-responsive">
 		<tbody>
@@ -46,7 +47,7 @@
 				<tr>
 					<th>所属する組織</th>
 					<td class="d-flex pr-0">
-						<div class="destination_selector">
+						<div class="organization_selector">
 							<%= f.hidden_field :organizations, value: nil %>
 							<%= select "", :organizations, (user.id ? options_from_collection_for_select(@org, :ids, :name) : []), {}, multiple: true, class: "form-control py-1 px-0 w-100 h-100", id: "org_list" %>
 						</div>
@@ -63,12 +64,12 @@
 					</td>
 					<td class="pl-0">
 						<div class="organizations">
-							<div class="mb-5">
-								<%= label "", :organizations, "組織" %>
+							<div class="mb-4">
+								<%= label "", :organizations, "組織", class: "mb-0" %>
 								<%= select "", :organizations, options_from_collection_for_select(Organization.all, :id, :name), {include_blank: "選択してください..."}, class: "form-control" %>
 							</div>
 							<div>
-								<%= label "", :positions, "役職" %>
+								<%= label "", :positions, "役職", class: "mb-0" %>
 								<%= select "", :positions, options_from_collection_for_select(Position.all, :id, :name), {include_blank: "なし"}, class: "form-control" %>
 							</div>
 						</div>

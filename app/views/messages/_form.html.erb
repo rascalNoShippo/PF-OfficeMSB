@@ -80,7 +80,7 @@
 					<div class="destination_selector d-flex flex-column">
 						<h6 class="text-center">ユーザー一覧</h6>
 						<%# 検索BOX %>
-						<div class="input-group">
+						<div class="input-group mb-1">
 							<%= f.text_field :query, value: @q, form: "search_user", class: "form-control input-group-prepend" %>
 							<span class="input-group-btn input-group-append">
 								<%= f.button type: "submit", name: nil, form: "search_user", class: "btn btn-dark" do %>

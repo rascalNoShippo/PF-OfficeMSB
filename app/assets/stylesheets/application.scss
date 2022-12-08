@@ -119,9 +119,11 @@ p{
 	color: black !important;
 }
 
-.header_user_menu a:hover{
-	text-decoration: none;
-	background-color: aliceblue;
+.header_user_menu{
+	a:hover, a:focus{
+		text-decoration: none;
+		background-color: aliceblue;
+	}
 }
 
 .header_user{
@@ -184,6 +186,11 @@ table caption{
 	min-height: 300px;
 }
 
+.organization_selector{
+	width: 250px;
+	min-height: 200px;
+}
+
 form textarea.form-control {
   resize: both;
   height: 300px;
@@ -215,6 +222,7 @@ select[multiple="multiple"]{
 	option{
 		width: fit-content;
 		min-width: 100%;
+		padding: 0 5px;
 	}
 }
 
@@ -426,7 +434,7 @@ ol, ul, dl{
 .organizations{
 	border: 1px solid black;
     border-radius: 5px;
-    padding: 1em;
+    padding: 0.5em;
     background-color: blanchedalmond;
     height: 100%;
 }

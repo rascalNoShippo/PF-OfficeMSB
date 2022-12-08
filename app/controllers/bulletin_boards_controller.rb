@@ -6,12 +6,13 @@ class BulletinBoardsController < ApplicationController
     #検索クエリ
     @q = params[:query]
     if @q
-      body_ids = []
+    	q = @q.split
+      ids = []
       @articles.each do |article|
         #プレーンテキストに変換→検索
-        body_ids.push(article.id) if article.plaintext_body.include?(@q)
+        ids.push(article.id) if q.all?{|x| article.plaintext_body.include?(x) || article.title.include?(x)}
       end
-      @articles = @articles.where("title like ?", "%#{@q}%").or(@articles.where(id: body_ids))
+      @articles = @articles.where(id: ids)
     end
 
 	end

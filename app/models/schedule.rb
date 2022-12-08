@@ -12,10 +12,14 @@ class Schedule < ApplicationRecord
 		items = items.order(is_all_day: :DESC).order(:datetime_begin).order(datetime_end: :DESC)
 		count = items.count
 		if num_get
-			num_get = count == num_get + 1 ? num_get + 1 : num_get
+			num_get += 1 if count == num_get + 1
 			items = items.first(num_get)
 		end
 		return {items: items, count: count, overflow: (num_get ? num_get < count : false)}
+	end
+	
+	def tooltip_title(date)
+		"#{self.title}\n#{self.is_all_day ? "終日" : "～#{self.datetime_end.to_date unless self.datetime_end.to_date == date} #{self.datetime_end.strftime("%H:%M")}"}"
 	end
 
 end

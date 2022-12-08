@@ -1,10 +1,10 @@
-<% content_for :title, "#{"検索結果 - " if @q}組織・役職一覧" %>
+<% content_for :title, "#{"検索結果 - " if @q}組織・役職マスタ" %>
 <div class="p-3">
 	<div class="d-flex justify-content-between">
 		<div>
 			<h3>
 				<i class="fas fa-sitemap"></i>
-				<%= @q ? "検索結果" : "組織・役職一覧" %>
+				<%= @q ? "検索結果" : "組織・役職マスタ" %>
 			</h3>
 		</div>
 		<%= render "layouts/search_box" %>

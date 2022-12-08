@@ -6,33 +6,33 @@
 <table class="table table-bordered m-0">
 	<thead>
 		<tr class="text-center">
-			<% for i in 0..6 do %>
-				<th class="weekname p-1<%= week(i) == 0 ? " sunday" : (week(i) == 6 ? " saturday"  : "") %>">
-					<%= I18n.t("date.abbr_day_names")[week(i)] %>
+			<% for i in 0..6 do # 曜日 %>
+				<th class="weekname p-1<%= wday(i) == 0 ? " sunday" : (wday(i) == 6 ? " saturday"  : "") %>">
+					<%= I18n.t("date.abbr_day_names")[wday(i)] %>
 				</th>
 			<% end %>
 		</tr>
 	</thead>
 	<tbody>
-		<% for i in 0..@end_week do %>
+		<% for i in 0..@end_week do # 行（週） %>
 			<tr>
-				<% for j in 0..6 do %>
-					<td class="pb-0 pt-1 px-1 align-top<%= day_classes(day(i, j)) %>" data-date="<%= day(i, j) %>" data-date-i18n="<%= l day(i, j) %>">
+				<% for j in 0..6 do # 列（週内の日） %>
+					<td class="pb-0 pt-1 px-1 align-top<%= day_classes(date(i, j)) %>" data-date="<%= date(i, j) %>" data-date-i18n="<%= l date(i, j) %>">
 						<div class="d-flex justify-content-between">
-							<div class="<%= "text-danger" if day(i, j).month == @month.month %>">
-								<%= HolidayJapan.name(day(i, j)) %>
+							<div class="<%= "text-danger" if date(i, j).month == @month.month %>">
+								<%= HolidayJapan.name(date(i, j)) %>
 							</div>
 							<div class="day text-center d-inline-block">
-								<%= day(i, j).day %>
+								<%= date(i, j).day %>
 							</div>
 						</div>
 						<div>
-							<% @schedules.each_day(day(i, j), 3)[:items].each do |schedule| %>
+							<% @schedules.each_day(date(i, j), 3)[:items].each do |schedule| %>
 								<div class="schedule <%= schedule.is_all_day ? "all_day" : "no_all_day" %>">
-									<%= link_to schedule, class: "d-block" do %>
+									<%= link_to schedule, class: "d-block", title: schedule.tooltip_title(date(i, j)) do %>
 										<% unless schedule.is_all_day %>
 											<span class="text-black-50">
-												<%= schedule.datetime_begin.to_date == day(i, j) ? schedule.datetime_begin.strftime("%H:%M") : "--->>" %>
+												<%= schedule.datetime_begin.to_date == date(i, j) ? schedule.datetime_begin.strftime("%H:%M") : "--->>" %>
 											</span>
 										<% end %>
 										<%= schedule.title %>
@@ -40,9 +40,9 @@
 								</div>
 							<% end %>
 						</div>
-						<% if @schedules.each_day(day(i, j), 3)[:overflow] %>
+						<% if @schedules.each_day(date(i, j), 3)[:overflow] %>
 							<div class="text-right">
-								<%= link_to "全#{@schedules.each_day(day(i, j))[:count]}件", user_schedules_date_path(date: day(i, j)), method: :post, remote: true, data: { target: "#schedule_modal", toggle: "modal" } %>
+								<%= link_to "全#{@schedules.each_day(date(i, j))[:count]}件", user_schedules_date_path(date: date(i, j)), method: :post, remote: true, data: { target: "#schedule_modal", toggle: "modal" } %>
 							</div>
 						<% end %>
 					</td>

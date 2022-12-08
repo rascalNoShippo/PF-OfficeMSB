@@ -1,8 +1,8 @@
 <% content_for :title, "#{"検索結果 - " if @q}ユーザー一覧" %>
 <div class="p-3">
 	<% if current_user.is_admin %>
-		<%= link_to "<i class='fas fa-plus-circle'></i> ユーザーを追加する".html_safe, new_user_path %>
-		<%= link_to "<i class='fas fa-sitemap'></i> 組織・役職を追加・編集する".html_safe, organizations_path %>
+		<%= link_to "<i class='fas fa-user-plus'></i> ユーザーを追加する".html_safe, new_user_path %>
+		<%= link_to "<i class='fas fa-sitemap'></i> 組織・役職マスタ".html_safe, organizations_path %>
 	<% end %>
 	<div class="d-flex justify-content-between">
 		<div>
@@ -22,6 +22,7 @@
 		<thead>
 			<tr>
 				<th>ユーザー名</th>
+				<th>よみ</th>
 				<th>社員番号</th>
 				<th>電話番号</th>
 				<% if current_user.is_admin %>
@@ -36,6 +37,7 @@
 					<td class="overflow_ellipsis">
 						<p class="overflow_ellipsis"><%= link_to user.icon + user.name, user_path(user.id) %></p>
 					</td>
+					<td><%= user.name_reading %></td>
 					<td><%= user.employee_number %></td>
 					<td><%= user.phone_number %></td>
 					<% if current_user.is_admin %>
@@ -47,7 +49,9 @@
 				</tr>
 			<% end %>
 			<tr>
-				<td colspan="5"><%= paginate @users %></td>
+				<td colspan=<%= current_user.is_admin ? 6 : 4 %>>
+					<%= paginate @users %>
+				</td>
 			</tr>
 		</tbody>
 	</table>

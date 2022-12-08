@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 			if current_user.is_admin
 				new_org_ids = params[:user][:organizations].split(";").map{|i| i.split(",").map{|j| j = j.to_i}}.map{|i| i.length == 1 ? i.push(nil) : i}
 				org_ids = user.user_organizations.pluck(:organization_id, :position_id)
-				
+
 				# 新しい組織を追加
 				(new_org_ids - org_ids).each do |ids|
 					user.user_organizations.create(organization_id: ids[0], position_id: ids[1])
@@ -56,7 +56,12 @@ class UsersController < ApplicationController
 
 		@q = params[:query]
 		if @q
-			@users = @users.where("name like ?", "%#{@q}%").or(@users.where(employee_number: @q)).or(@users.where("phone_number like ?", "%#{@q}%"))
+			q = @q.split
+			user_ids = []
+			User.includes(:user_organizations).each do |user|
+				user_ids.push(user.id) if q.all?{|x| user.name_with_all_org.include?(x) || user.name_reading.include?(x)} && (!user.is_invalid || current_user.is_admin)
+			end
+			@users = @users.where(id: user_ids).or(@users.where(employee_number: q))
 		end
 	end
 

@@ -12,18 +12,19 @@ class MessagesController < ApplicationController
       messages = messages.where(id: ids)
     end
     @messages = messages
-    
+
     #検索クエリ
     @q = params[:query]
     if @q
-      body_ids = []
+      q = @q.split
+      ids = []
       @messages.each do |message|
         #プレーンテキストに変換→検索
-        body_ids.push(message.id) if message.plaintext_body.include?(@q)
+        ids.push(message.id) if q.all?{|x| message.plaintext_body.include?(x) || message.title.include?(x)}
       end
-      @messages = @messages.where("title like ?", "%#{@q}%").or(@messages.where(id: body_ids))
+      @messages = @messages.where(id: ids)
     end
-    
+
     @messages = @messages.page(params[:page]).per(current_user.config.number_of_displayed_items)
   end
 

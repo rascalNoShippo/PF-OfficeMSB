@@ -6,21 +6,71 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+org = [""]
+org.push(Organization.create(name: "情報システム部"))
+org.push(Organization.create(name: "大阪支店"))
+org.push(Organization.create(name: "東京支店"))
+org.push(Organization.create(name: "人事部"))
+org.push(Organization.create(name: "総務部"))
+org.push(Organization.create(name: "経理部"))
+
+position = [""]
+position.push(Position.create(name: "部長"))
+position.push(Position.create(name: "次長"))
+position.push(Position.create(name: "支店長"))
+position.push(Position.create(name: "支店次長"))
+position.push(Position.create(name: "営業課長"))
+position.push(Position.create(name: "課長代理"))
+
 user = [""]
 
-user.push(User.create(name: "佐藤 昇 部長（情報システム部）", login_name: "satos", password: "satos", employee_number: "10001", is_admin: true))
-user.push(User.create(name: "山田 隆志 支店長（大阪支店）", login_name: "yamadat", employee_number: "11001", password: "yamadat"))
-user.push(User.create(name: "鈴木 拓也 支店次長（大阪支店）", login_name: "suzukit", employee_number: "12012", password: "suzukit"))
-user.push(User.create(name: "三上 司 営業課長（大阪支店）", login_name: "mikamit", employee_number: "13037", password: "mikamit"))
-user.push(User.create(name: "井戸 環奈（大阪支店）", login_name: "idok", employee_number: "27021", password: "idok"))
-user.push(User.create(name: "小林 慎吾 支店長（東京支店）", login_name: "kobayashis", employee_number: "17021", password: "kobayashis"))
-user.push(User.create(name: "古川 敬之 支店次長（東京支店）", login_name: "furukawan", employee_number: "16201", password: "furukawan"))
-user.push(User.create(name: "斉藤 健太 営業課長（東京支店）", login_name: "saitok", employee_number: "18801", password: "saitok"))
-user.push(User.create(name: "宮本 秀樹 （東京支店）", login_name: "miyamotoh", employee_number: "19761", password: "miyamotoh"))
-user.push(User.create(name: "赤坂 剛 部長（人事部）", login_name: "akasakat", employee_number: "20090", password: "akasakat"))
-user.push(User.create(name: "小川 由紀 次長（人事部）", login_name: "ogaway", employee_number: "22193", password: "ogaway"))
-user.push(User.create(name: "加藤 美咲 部長（総務部）", login_name: "katom", employee_number: "03442", password: "katom"))
-user.push(User.create(name: "赤松 昴希（総務部）", login_name: "akamatsuk", employee_number: "30042", password: "akamatsuk"))
+user.push(User.create(name: "佐藤 昇", name_reading: "さとう しょう", login_name: "satos", password: "satos", employee_number: "10001", is_admin: true))
+user.push(User.create(name: "山田 隆志", name_reading: "やまだ たかし", login_name: "yamadat", employee_number: "11001", password: "yamadat"))
+user.push(User.create(name: "鈴木 拓也", name_reading: "すずき たくや", login_name: "suzukit", employee_number: "12012", password: "suzukit"))
+user.push(User.create(name: "三上 司", name_reading: "みかみ つかさ", login_name: "mikamit", employee_number: "13037", password: "mikamit"))
+user.push(User.create(name: "井戸 環奈", name_reading: "いど かんな", login_name: "idok", employee_number: "27021", password: "idok"))
+user.push(User.create(name: "小林 慎吾", name_reading: "こばやし しんご", login_name: "kobayashis", employee_number: "17021", password: "kobayashis"))
+user.push(User.create(name: "古川 敬之", name_reading: "ふるかわ のりゆき", login_name: "furukawan", employee_number: "16201", password: "furukawan"))
+user.push(User.create(name: "斉藤 健太", name_reading: "さいとう けんた", login_name: "saitok", employee_number: "18801", password: "saitok"))
+user.push(User.create(name: "宮本 秀樹", name_reading: "みやもと ひでき", login_name: "miyamotoh", employee_number: "19761", password: "miyamotoh"))
+user.push(User.create(name: "赤坂 剛", name_reading: "あかさか たけし", login_name: "akasakat", employee_number: "20090", password: "akasakat"))
+user.push(User.create(name: "小川 由紀", name_reading: " おがわ ゆき", login_name: "ogaway", employee_number: "22193", password: "ogaway"))
+user.push(User.create(name: "加藤 美咲", name_reading: "かとう みさき", login_name: "katom", employee_number: "03442", password: "katom"))
+user.push(User.create(name: "赤松 昴希", name_reading: "あかまつ こうき", login_name: "akamatsuk", employee_number: "30042", password: "akamatsuk"))
+
+
+userOrg = [""]
+userOrg.push(user[1].user_organizations.create(organization_id: org[1].id, position_id: position[1].id))
+userOrg.push(user[1].user_organizations.create(organization_id: org[5].id, position_id: position[2].id))
+userOrg.push(user[2].user_organizations.create(organization_id: org[2].id, position_id: position[3].id))
+userOrg.push(user[3].user_organizations.create(organization_id: org[2].id, position_id: position[4].id))
+userOrg.push(user[4].user_organizations.create(organization_id: org[2].id, position_id: position[5].id))
+userOrg.push(user[5].user_organizations.create(organization_id: org[2].id, position_id: position[6].id))
+userOrg.push(user[6].user_organizations.create(organization_id: org[3].id, position_id: position[3].id))
+userOrg.push(user[7].user_organizations.create(organization_id: org[3].id, position_id: position[4].id))
+userOrg.push(user[8].user_organizations.create(organization_id: org[3].id, position_id: position[5].id))
+userOrg.push(user[9].user_organizations.create(organization_id: org[3].id))
+userOrg.push(user[10].user_organizations.create(organization_id: org[4].id, position_id: position[1].id))
+userOrg.push(user[11].user_organizations.create(organization_id: org[4].id, position_id: position[2].id))
+userOrg.push(user[12].user_organizations.create(organization_id: org[6].id, position_id: position[1].id))
+userOrg.push(user[12].user_organizations.create(organization_id: org[5].id, position_id: position[1].id))
+userOrg.push(user[13].user_organizations.create(organization_id: org[5].id, position_id: position[2].id))
+
+
+user[1].update(preferred_org_id: userOrg[1].id)
+user[2].update(preferred_org_id: userOrg[3].id)
+user[3].update(preferred_org_id: userOrg[4].id)
+user[4].update(preferred_org_id: userOrg[5].id)
+user[5].update(preferred_org_id: userOrg[6].id)
+user[6].update(preferred_org_id: userOrg[7].id)
+user[7].update(preferred_org_id: userOrg[8].id)
+user[8].update(preferred_org_id: userOrg[9].id)
+user[9].update(preferred_org_id: userOrg[10].id)
+user[10].update(preferred_org_id: userOrg[11].id)
+user[11].update(preferred_org_id: userOrg[12].id)
+user[12].update(preferred_org_id: userOrg[14].id)
+user[13].update(preferred_org_id: userOrg[15].id)
+
 
 user[1].image.attach(io: File.open(Rails.root.join("public/default/model_1.png")), filename: "1.png")
 user[2].image.attach(io: File.open(Rails.root.join("public/default/model_2.png")), filename: "2.png")
@@ -59,6 +109,8 @@ message[1].message_destinations.create(receiver_id: user[10].id)
 message[1].message_destinations.create(receiver_id: user[11].id)
 message[1].message_destinations.create(receiver_id: user[12].id, is_editable: true, finished_reading: message[1].created_at)
 message[1].message_destinations.create(receiver_id: user[13].id, is_editable: true)
+
+
 
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
 message[1].comments.create(comment_id: message[1].number_of_comments, commenter_id: user[2].id, body: "<p>大阪支店<br>承知致しました。</p>", created_at: Time.new(2022, 11, 2, 10, 5, 0, "+09:00"))
@@ -134,9 +186,14 @@ article[2].body = "<p>メッセージ機能とほぼ同じですが、宛先の�
 
 article.push(user[1].bulletin_boards.new)
 article[3].title  = "ユーザー編集機能の使い方"
-article[3].body = '<p>ヘッダー右上に名前が表示されている部分をクリックするとメニューが表示されます。</p><p><br></p><ul><li>ユーザーデータ編集</li></ul><p style="margin-left: 25px;">名前・E-mail等、個人情報を変更できます。</p><p style="margin-left: 25px;"><br></p><ul><li>パスワード変更</li></ul><p style="margin-left: 25px;">パスワードの変更をします。</p><p style="margin-left: 25px;"><br></p><ul><li>一般設定</li></ul><p style="margin-left: 25px;">ページネーションの件数の設定・画像の表示設定ができます。</p><p style="margin-left: 25px;"><br></p><ul><li>他ユーザーの追加・編集</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><b>管理者のみ操作可能</b></font></u>です。</p><p style="margin-left: 25px;">新しいユーザーを追加したり、他ユーザーのデータやパスワードを変更できます。</p><p style="margin-left: 25px;"></p>'
+article[3].body = '<ul><li>ユーザーデータ編集</li></ul><p style="margin-left: 25px;">名前・E-mail等、個人情報を変更できます。</p><p style="margin-left: 25px;">管理者は他ユーザーの情報を変更可能です。</p><p style="margin-left: 25px;"><br></p><ul><li>パスワード変更</li></ul><p style="margin-left: 25px;">パスワードの変更をします。</p><p style="margin-left: 25px;"><br></p><ul><li>一般設定</li></ul><p style="margin-left: 25px;">ページネーションの件数の設定・画像の表示設定・カレンダー上の週の始まりの曜日の設定ができます。</p><p style="margin-left: 25px;"><br></p><ul><li>ユーザーの追加</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><b>管理者のみ操作可能</b></font></u>です。</p><p style="margin-left: 25px;">新しいユーザーを追加できます。</p><p style="margin-left: 25px;"><br></p><ul><li>組織・役職マスタ</li></ul><p style="margin-left: 25px;"><u><font color="#B56308"><span style="font-weight: bolder;">管理者のみ操作可能</span></font></u>です。</p><p style="margin-left: 25px;">各ユーザーの所属する組織・役職を追加・編集できます。</p><p style="margin-left: 25px;"></p>'
+
+article.push(user[1].bulletin_boards.new)
+article[4].title = "スケジュール機能の使い方"
+article[4].body = '<p>カレンダーが表示されます。</p><p>月の左右にあるボタンをクリックすると前月・翌月のカレンダーに移動できます。</p><p><br></p><p><b><font color="#3984c6"><u>予定を作成する</u></font></b>、もしくはカレンダー上の日付をダブルクリックすると新しい予定を作成できます。</p><p>作成した予定はカレンダー上に表示されます。</p>'
 
 article[3].save
+article[4].save
 article[2].save
 article[1].save
 
@@ -151,3 +208,11 @@ user[2].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
 
 user[1].favorites.create(class_name: "Message", item_id: message[1].id)
 user[1].favorites.create(class_name: "BulletinBoard", item_id: article[1].id)
+
+
+# テストユーザー
+for i in 1..1000 do
+  test_user = User.create(name: "TestUser #{i}", name_reading: "test_user #{i}", login_name: "test.#{i}", password: "test.#{i}")
+  UserConfig.create(user_id: test_user.id)
+  print "#{i} "
+end
