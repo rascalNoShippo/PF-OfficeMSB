@@ -3,6 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def plaintext_body
     body = self.body
+    return "" if body.nil?
     for i in 1..(body.count("<")) do
       body.slice!((body.index("<"))..(body.index(">")))
     end
@@ -19,6 +20,10 @@ class ApplicationRecord < ActiveRecord::Base
       body.slice!(" ")
     end
     return body
+  end
+  
+  def favorite_find?
+    self.favorites.find_by(user_id: User.current_user.id)
   end
 
   # def comments

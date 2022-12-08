@@ -1,12 +1,13 @@
 class MessagesController < ApplicationController
   def index
     #レコード取得
-    messages = current_user.received_messages.order(updated_at: :DESC)
-    ids = current_user.message_destinations.where(delete_flag: 0).pluck(:message_id)
+    @user = current_user
+    messages = @user.received_messages.order(updated_at: :DESC)
+    ids = @user.message_destinations.where(delete_flag: 0).pluck(:message_id)
     if @is_send_box = params[:box] == "send"
-      messages = current_user.messages.where(id: ids).order(updated_at: :DESC)
+      messages = @user.messages.where(id: ids).order(updated_at: :DESC)
     elsif @is_trash_box = params[:box] == "trash"
-      removed_ids = current_user.message_destinations.where(delete_flag: 1).pluck(:message_id)
+      removed_ids = @user.message_destinations.where(delete_flag: 1).pluck(:message_id)
       messages = messages.where(id: removed_ids)
     else
       messages = messages.where(id: ids)
@@ -25,7 +26,7 @@ class MessagesController < ApplicationController
       @messages = @messages.where(id: ids)
     end
 
-    @messages = @messages.page(params[:page]).per(current_user.config.number_of_displayed_items)
+    @messages = @messages.includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
   end
 
   def new
