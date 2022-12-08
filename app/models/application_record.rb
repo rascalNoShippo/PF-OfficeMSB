@@ -26,10 +26,6 @@ class ApplicationRecord < ActiveRecord::Base
     self.favorites.find_by(user_id: User.current_user.id)
   end
 
-  # def comments
-  #   Comment.where(class_name: self.class.to_s, item_id: self.id)
-  # end
-
   private
 
   # ログアウト後のリダイレクト先

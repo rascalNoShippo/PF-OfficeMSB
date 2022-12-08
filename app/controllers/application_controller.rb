@@ -31,12 +31,12 @@ class ApplicationController < ActionController::Base
 
  def pagination_counter(items)
    #paginationカウンター
-   total_count = items.total_count
-   per_page = items.limit_value
-   current_page = items.current_page
-   num_pages = items.total_pages
-   count_start = (current_page - 1) * per_page + 1
-   count_end = num_pages == 0 ? 0 : (items.last_page? ? total_count : current_page * per_page)
+   total_count = items.total_count.to_s(:delimited)
+   per_page = items.limit_value.to_s(:delimited)
+   current_page = items.current_page.to_s(:delimited)
+   num_pages = items.total_pages.to_s(:delimited)
+   count_start = ((current_page - 1) * per_page + 1).to_s(:delimited)
+   count_end = num_pages == 0 ? 0 : (items.last_page? ? total_count : current_page * per_page).to_s(:delimited)
    return "全 #{total_count} 件中 #{count_start} - #{count_end} 件目 ( #{current_page} / #{num_pages} ページ)"
  end
 
