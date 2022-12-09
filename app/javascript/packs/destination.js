@@ -21,16 +21,27 @@ $(function(){
 
 	//編集権限の削除
 	$("#remove_editor").on("click", function(){
-		const item = $(selector_edit).val();
-		item.forEach(t => $(`${selector_edit} option[value=${t}]`).remove());
+		const item = $(selector_edit);
+		item.find("option:selected").each(function(i){
+			$(this).remove();
+		});
 		userListArr("editor");
 	});
 
 	//宛先の削除
 	$("#remove_receiver").on("click", function(){
-		const item = $(selector_dest).val();
-		item.forEach(t => $(`${selector_dest} option[value=${t}]`).remove());
-		item.forEach(t => $(`${selector_edit} option[value=${t}]`).remove());
+		const item = $(selector_dest);
+		const elements = $(`${selector_edit} option`)
+		const editors = [];
+		elements.each(function(i){
+			editors.push($(this).val());
+		});
+		item.find("option:selected").each(function(i){
+			if(editors.includes($(this).val())){
+				elements.filter(`[value=${$(this).val()}]`).remove();
+			}
+			$(this).remove();
+		});
 		userListArr("editor");
 		userListArr("destination");
 	});
@@ -51,23 +62,23 @@ function userListArr(kind){
 }
 
 function addList(selector_A, selector_B){//add from A to B
-	const item = $(selector_A).val();
+	const item = $(selector_A);
 	const elements = $(`${selector_B} option`);
 	//既に宛先に入っているユーザーは追加しない
 	var existing_user = [];
-	for(var i = 0; i < elements.length; i++){
-		existing_user.push(elements[i].value);
-	}
+	elements.each(function(i){
+		existing_user.push($(this).val());
+	});
 	//宛先のセレクトボックスに要素を追加
-	item.forEach(function(t){
-		if(!existing_user.includes(t)){
+	item.find("option:selected").each(function(i){
+		if(!existing_user.includes($(this).val())){
 			$("<option>", {
-				value : t,
-				text : $(`${selector_A} option[value=${t}]`).text()
+				value : $(this).val(),
+				text : $(this).text()
 			}).appendTo(selector_B);
 		}
 	})
 	//追加したユーザーを選択状態にする
-	$(selector_B).val(item);
+	$(selector_B).val(item.val());
 	//hiden_fieldに格納
 }

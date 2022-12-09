@@ -36,19 +36,24 @@ class MessagesController < ApplicationController
   end
 
   def create
-    message = current_user.messages.new(message_params)
+    user = current_user
+    message = user.messages.new(message_params)
     if message.save
       destination_ids = params[:message][:destination].split.map{|i| i.to_i}
       editor_ids = params[:message][:editor].split.map{|i| i.to_i}
+      destinations = []
+      now = Time.zone.now
       destination_ids.each do |receiver_id|
-        unless receiver_id == current_user.id
-          receiver = message.message_destinations.new(receiver_id: receiver_id)
-          receiver.is_editable = true if editor_ids.include?(receiver_id)
-          receiver.save
-        end
+        # unless receiver_id == current_user.id
+        #   receiver = message.message_destinations.new(receiver_id: receiver_id)
+        #   receiver.is_editable = true if editor_ids.include?(receiver_id)
+        #   receiver.save
+        # end
+        destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user.id ? true : editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
       end
+      message.message_destinations.insert_all!(destinations)
       #送信者は自動的に受信者・編集者に追加
-      message.message_destinations.create(receiver_id: current_user.id, is_editable: true)
+      message.message_destinations.create(receiver_id: current_user.id, is_editable: true) unless destination_ids.include?(user.id)
       flash[:notice] = "メッセージを作成しました。"
       redirect_to message
     end
@@ -92,6 +97,7 @@ class MessagesController < ApplicationController
 
   def update
     message = Message.find(params[:id])
+    user = message.user
     message_updated_date = message.updated_at
 
     if message.update(message_params)
@@ -105,27 +111,41 @@ class MessagesController < ApplicationController
 
       #新しい宛先が指定されたら追加する
       destination_ids = message.message_destinations.pluck(:receiver_id)
+      add_destinations = []
+      now = Time.zone.now
       (new_destination_ids - destination_ids).each do |receiver_id|
-        receiver = message.message_destinations.new(receiver_id: receiver_id)
-        receiver.is_editable = true if new_editor_ids.include?(receiver_id)
-        receiver.save
+        # receiver = message.message_destinations.new(receiver_id: receiver_id)
+        # receiver.is_editable = true if new_editor_ids.include?(receiver_id)
+        # receiver.save
+        add_destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user.id ? true : new_editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
       end
+      message.message_destinations.insert_all!(add_destinations) if add_destinations.length > 1
 
       #既存の宛先が無ければ削除する（送信者自身は削除されない）
-      (destination_ids - new_destination_ids).each do |receiver_id|
-        message.message_destinations.find_by(receiver_id: receiver_id).destroy unless receiver_id == message.user_id
-      end
+      # (destination_ids - new_destination_ids).each do |receiver_id|
+      #   message.message_destinations.find_by(receiver_id: receiver_id).destroy unless receiver_id == message.user_id
+      # end
+      delete_destinations = (destination_ids - new_destination_ids)
+      delete_destinations.delete(user.id)
+      message.message_destinations.where(receiver_id: delete_destinations).delete_all if delete_destinations.length > 1
+      
 
       #編集権限を付与されたユーザーを更新
       editor_ids = message.message_destinations.where(is_editable: true).pluck(:receiver_id)
-      (new_editor_ids - editor_ids).each do |editor_id|
-        message.message_destinations.find_by(receiver_id: editor_id).update(is_editable: true)
-      end
+      # (new_editor_ids - editor_ids).each do |editor_id|
+      #   message.message_destinations.find_by(receiver_id: editor_id).update(is_editable: true)
+      # end
+      
+      message.message_destinations.where(receiver_id: (new_editor_ids - editor_ids)).update_all(is_editable: true)
 
       #編集権限を解除されたユーザーを更新（送信者自身は削除されない）
-      (editor_ids - new_editor_ids).each do |editor_id|
-        message.message_destinations.find_by(receiver_id: editor_id).update(is_editable: false) unless editor_id == message.user_id
-      end
+      # (editor_ids - new_editor_ids).each do |editor_id|
+      #   message.message_destinations.find_by(receiver_id: editor_id).update(is_editable: false) unless editor_id == message.user_id
+      # end
+      delete_permission_edit = (editor_ids - new_editor_ids)
+      delete_permission_edit.delete(user.id)
+      message.message_destinations.where(receiver_id: delete_permission_edit).update_all(is_editable: false)
+
 
       #添付ファイルの削除
       remove_file_ids = params[:message][:existing_files]
