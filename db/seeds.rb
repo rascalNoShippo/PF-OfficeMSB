@@ -81,17 +81,29 @@ user[10].image.attach(io: File.open(Rails.root.join("public/default/model_10.png
 user[11].image.attach(io: File.open(Rails.root.join("public/default/model_11.png")), filename: "11.png")
 user[12].image.attach(io: File.open(Rails.root.join("public/default/model_12.png")), filename: "12.png")
 
-User.all.each do |user|
-	UserConfig.create(user_id: user.id)
-end
+# User.all.each do |user|
+# 	UserConfig.create(user_id: user.id)
+# end
 
-# テストユーザー
+user_num = User.count
+
+# テストユーザー1000
+p "Started creating test_user"
 test_user = []
-for i in 1..1000 do
-  test_user.push(User.create(name: "TestUser #{i}", name_reading: "test_user #{i}", login_name: "test.#{i}", password: "test.#{i}"))
-  UserConfig.create(user_id: test_user[i - 1])
-  print "#{i} "
+now = Time.zone.now
+1000.times do |i|
+  test_user.push({name: "TestUser #{i + 1}", name_reading: "test_user #{i + 1}", login_name: "test.#{i + 1}", created_at: now, updated_at: now})
 end
+User.insert_all!(test_user)
+p "Finished creating test_user"
+
+p "Started creating UserConfig"
+user_config = []
+User.count.times do |i|
+	user_config.push({user_id: i + 1, created_at: now, updated_at: now})
+end
+UserConfig.insert_all!(user_config)
+p "Finished creating UserConfig"
 
 message = [""]
 
@@ -118,9 +130,13 @@ message[1].message_destinations.create(receiver_id: user[11].id)
 message[1].message_destinations.create(receiver_id: user[12].id, is_editable: true, finished_reading: message[1].created_at)
 message[1].message_destinations.create(receiver_id: user[13].id, is_editable: true)
 
-test_user.each do |u|
-  message[1].message_destinations.create(receiver_id: u.id)
+now = Time.zone.now
+dest = []
+test_user.count.times do |i|
+  dest.push({receiver_id: i + user_num + 1, created_at: now, updated_at: now})
 end
+message[1].message_destinations.insert_all!(dest)
+
 
 
 message[1].update(number_of_comments: message[1].number_of_comments + 1)
