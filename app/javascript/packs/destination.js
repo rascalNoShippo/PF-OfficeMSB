@@ -63,6 +63,7 @@ function userListArr(kind){
 
 function addList(selector_A, selector_B){//add from A to B
 	const item = $(selector_A);
+	const item_selected = $(`${selector_A} option:selected`);
 	const elements = $(`${selector_B} option`);
 	//既に宛先に入っているユーザーは追加しない
 	var existing_user = [];
@@ -70,7 +71,7 @@ function addList(selector_A, selector_B){//add from A to B
 		existing_user.push($(this).val());
 	});
 	//宛先のセレクトボックスに要素を追加
-	item.find("option:selected").each(function(i){
+	item_selected.each(function(i){
 		if(!existing_user.includes($(this).val())){
 			$("<option>", {
 				value : $(this).val(),

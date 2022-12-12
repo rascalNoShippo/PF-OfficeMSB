@@ -14,13 +14,16 @@ class UsersController < ApplicationController
 
 	def update
 		user = User.find(params[:id])
+		new_org_ids = params[:user][:organizations].split(";").map{|i| i.split(",").map{|j| j = j.to_i}}.map{|i| i.length == 1 ? i.push(nil) : i}
+		name_with_all_org = ""
+		new_org_ids.each {|id| name_with_all_org += org_name(*id)}
+		user.name_with_all_org = name_with_all_org
 		if user.update(user_params)
 			# ログイン名の変更は管理者のみ可能
 			user.update(login_name: params[:user][:login_name]) if current_user.is_admin
 			user.image.destroy if params[:user][:delete_image] == "true"
 
 			if current_user.is_admin
-				new_org_ids = params[:user][:organizations].split(";").map{|i| i.split(",").map{|j| j = j.to_i}}.map{|i| i.length == 1 ? i.push(nil) : i}
 				org_ids = user.user_organizations.pluck(:organization_id, :position_id)
 
 				# 新しい組織を追加
@@ -56,12 +59,13 @@ class UsersController < ApplicationController
 
 		@q = params[:query]
 		if @q
-			q = @q.split
-			user_ids = []
-			User.includes(:user_organizations).each do |user|
-				user_ids.push(user.id) if q.all?{|x| user.name_with_all_org.include?(x) || user.name_reading.include?(x)} && (!user.is_invalid || current_user.is_admin)
-			end
-			@users = @users.where(id: user_ids).or(@users.where(employee_number: q))
+			q = @q.split.map{|x| x = "%#{x}%"}
+			column = []
+			q.count.times{|a| column.push("(name like ? or name_with_all_org like ? or name_reading like ?)")}
+	    column = column.join(" and ")
+	    q = (q * 3).sort			
+	    
+			@users = @users.where(column, *(q)).or(@users.where(employee_number: q))
 		end
 	end
 
@@ -72,11 +76,15 @@ class UsersController < ApplicationController
 
 	def create
 		user = User.new(user_params)
+		new_org_ids = params[:user][:organizations].split(";").map{|i| i.split(",").map{|j| j = j.to_i}}
+		name_with_all_org = ""
+		new_org_ids.each {|id| name_with_all_org += org_name(*id)}
+		user.name_with_all_org = name_with_all_org
+		
 		if user.save
 			UserConfig.create(user_id: user.id)
 
 			#組織を追加
-			new_org_ids = params[:user][:organizations].split(";").map{|i| i.split(",").map{|j| j = j.to_i}}
 			new_org_ids.each do |ids|
 				user.user_organizations.create(organization_id: ids[0], position_id: ids[1])
 			end

@@ -68,6 +68,7 @@ class BulletinBoardsController < ApplicationController
 			if article.updated_at > article_updated_date
 				article.update(update_content_at: article.updated_at, last_update_user_id: current_user.id)
 			end
+			article.delete_attachments(params[:bulletin_board][:existing_files])
 			redirect_to bulletin_board_path
 		end
 	end

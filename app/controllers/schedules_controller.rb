@@ -17,6 +17,63 @@ class SchedulesController < ApplicationController
 		@end_week = i - 1
 	end
 
+	def new
+		@schedule = current_user.schedules.new
+		@date = params[:date] ? params[:date].to_date : Time.zone.today
+	end
+
+	def create
+		schedule = current_user.schedules.new(schedule_params)
+		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
+		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
+		if schedule.is_all_day
+			schedule.datetime_begin = schedule.datetime_begin.at_beginning_of_day
+			schedule.datetime_end = schedule.datetime_end.at_end_of_day
+		end
+		if p schedule.save
+			flash[:notice] = "予定を作成しました。"
+			redirect_to schedule
+		end
+	end
+
+	def show
+		@schedule = Schedule.find(params[:id])
+		@comments = @schedule.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
+		@new_comment = @comments.new(commenter_id: current_user.id)
+		@viewed_comment = 1.0 / 0
+	end
+
+	def edit
+		@schedule = Schedule.find(params[:id])
+		raise Forbidden unless @schedule.user == current_user
+	end
+
+	def update
+		schedule = Schedule.find(params[:id])
+		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
+		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
+		if schedule.is_all_day
+			schedule.datetime_begin = schedule.datetime_begin.at_beginning_of_day
+			schedule.datetime_end = schedule.datetime_end.at_end_of_day
+		end
+		if schedule.update(schedule_params)
+			schedule.delete_attachments(params[:schedule][:existing_files])
+			flash[:notice] = "予定を変更しました。"
+			redirect_to schedule
+		end
+	end
+
+	def destroy
+		schedule = Schedule.find(params[:id])
+		title = schedule.title
+		schedule.destroy
+		flash[:notice] = "予定 “#{title}” を削除しました。"
+		redirect_to user_schedules_path(current_user)
+	end
+
+
+
+
 	def date(i, j)
 		start_day_week = @month.wday - current_user.config.start_weeks
 		start_day_week += 7 if start_day_week < 0
@@ -58,66 +115,6 @@ class SchedulesController < ApplicationController
 		@date = params[:date].to_date
 		@schedules = @schedules.each_day(@date)[:items]
 		render "schedule_modal"
-	end
-
-	def new
-		@schedule = current_user.schedules.new
-		@date = params[:date] ? params[:date].to_date : Time.zone.today
-	end
-
-	def create
-		schedule = current_user.schedules.new(schedule_params)
-		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
-		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
-		if schedule.is_all_day
-			schedule.datetime_begin = schedule.datetime_begin.at_beginning_of_day
-			schedule.datetime_end = schedule.datetime_end.at_end_of_day
-		end
-		if p schedule.save
-			flash[:notice] = "予定を作成しました。"
-			redirect_to schedule
-		end
-	end
-
-	def show
-		@schedule = Schedule.find(params[:id])
-		@comments = @schedule.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
-		@new_comment = @comments.new(commenter_id: current_user.id)
-		@viewed_comment = 1.0 / 0
-	end
-
-	def edit
-		@schedule = Schedule.find(params[:id])
-		raise Forbidden unless @schedule.user == current_user
-	end
-
-	def update
-		schedule = Schedule.find(params[:id])
-		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
-		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
-		if schedule.is_all_day
-			schedule.datetime_begin = schedule.datetime_begin.at_beginning_of_day
-			schedule.datetime_end = schedule.datetime_end.at_end_of_day
-		end
-		if schedule.update(schedule_params)
-			#添付ファイルの削除
-			remove_file_ids = params[:schedule][:existing_files]
-			unless remove_file_ids.nil?
-				remove_file_ids.each do |file_id|
-					schedule.attachments.find(file_id).purge
-				end
-			end
-			flash[:notice] = "予定を変更しました。"
-			redirect_to schedule
-		end
-	end
-
-	def destroy
-		schedule = Schedule.find(params[:id])
-		title = schedule.title
-		schedule.destroy
-		flash[:notice] = "予定 “#{title}” を削除しました。"
-		redirect_to user_schedules_path(current_user)
 	end
 
 	private

@@ -56,20 +56,26 @@ userOrg.push(user[12].user_organizations.create(organization_id: org[6].id, posi
 userOrg.push(user[12].user_organizations.create(organization_id: org[5].id, position_id: position[1].id))
 userOrg.push(user[13].user_organizations.create(organization_id: org[5].id, position_id: position[2].id))
 
+def org_name(organization_id, position_id = nil)
+    org = Organization.find(organization_id).name
+    position = Position.find(position_id).name if position_id
+    return "（#{org}#{"・#{position}" if position_id}）"
+end
 
-user[1].update(preferred_org_id: userOrg[1].id)
-user[2].update(preferred_org_id: userOrg[3].id)
-user[3].update(preferred_org_id: userOrg[4].id)
-user[4].update(preferred_org_id: userOrg[5].id)
-user[5].update(preferred_org_id: userOrg[6].id)
-user[6].update(preferred_org_id: userOrg[7].id)
-user[7].update(preferred_org_id: userOrg[8].id)
-user[8].update(preferred_org_id: userOrg[9].id)
-user[9].update(preferred_org_id: userOrg[10].id)
-user[10].update(preferred_org_id: userOrg[11].id)
-user[11].update(preferred_org_id: userOrg[12].id)
-user[12].update(preferred_org_id: userOrg[14].id)
-user[13].update(preferred_org_id: userOrg[15].id)
+
+user[1].update(preferred_org_id: userOrg[1].id, name_with_all_org: org_name(org[1].id, position[1].id) + org_name(org[5].id, position[2].id))
+user[2].update(preferred_org_id: userOrg[3].id, name_with_all_org: org_name(org[2].id, position[3].id))
+user[3].update(preferred_org_id: userOrg[4].id, name_with_all_org: org_name(org[2].id, position[4].id))
+user[4].update(preferred_org_id: userOrg[5].id, name_with_all_org: org_name(org[2].id, position[5].id))
+user[5].update(preferred_org_id: userOrg[6].id, name_with_all_org: org_name(org[2].id, position[6].id))
+user[6].update(preferred_org_id: userOrg[7].id, name_with_all_org: org_name(org[3].id, position[3].id))
+user[7].update(preferred_org_id: userOrg[8].id, name_with_all_org: org_name(org[3].id, position[4].id))
+user[8].update(preferred_org_id: userOrg[9].id, name_with_all_org: org_name(org[3].id, position[5].id))
+user[9].update(preferred_org_id: userOrg[10].id, name_with_all_org: org_name(org[3].id))
+user[10].update(preferred_org_id: userOrg[11].id, name_with_all_org: org_name(org[4].id, position[1].id))
+user[11].update(preferred_org_id: userOrg[12].id, name_with_all_org: org_name(org[4].id, position[2].id))
+user[12].update(preferred_org_id: userOrg[14].id, name_with_all_org: org_name(org[6].id, position[1].id) + org_name(org[5].id, position[1].id))
+user[13].update(preferred_org_id: userOrg[15].id, name_with_all_org: org_name(org[5].id, position[2].id))
 
 
 user[1].image.attach(io: File.open(Rails.root.join("public/default/model_1.png")), filename: "1.png")
@@ -88,22 +94,22 @@ user[12].image.attach(io: File.open(Rails.root.join("public/default/model_12.png
 user_num = User.count
 
 # テストユーザー1000
-p "Started creating test_user"
+puts "Started creating test_user"
 test_user = []
 now = Time.zone.now
 1000.times do |i|
   test_user.push({name: "TestUser #{i + 1}", name_reading: "test_user #{i + 1}", login_name: "test.#{i + 1}", created_at: now, updated_at: now})
 end
 User.insert_all!(test_user)
-p "Finished creating test_user"
+puts "Finished creating test_user"
 
-p "Started creating UserConfig"
+puts "Started creating UserConfig"
 user_config = []
 User.count.times do |i|
 	user_config.push({user_id: i + 1, created_at: now, updated_at: now})
 end
 UserConfig.insert_all!(user_config)
-p "Finished creating UserConfig"
+puts "Finished creating UserConfig"
 
 message = [""]
 

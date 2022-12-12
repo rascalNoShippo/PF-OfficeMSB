@@ -20,11 +20,11 @@
 					<li class="list-group-item p-0<%= " active" if params[:box].nil? %>">
 						<%= link_to "受信箱", messages_path, class: "d-block p-3#{" text-light" if params[:box].nil?}" %>
 					</li>
-					<li class="list-group-item p-0<%= " active" if @is_send_box %>">
-						<%= link_to "送信箱", messages_path(box: "send"), class: "d-block p-3#{" text-light" if @is_send_box}" %>
+					<li class="list-group-item p-0<%= " active" if @box[:is_send_box] %>">
+						<%= link_to "送信箱", messages_path(box: "send"), class: "d-block p-3#{" text-light" if @box[:is_send_box]}" %>
 					</li>
-					<li class="list-group-item p-0<%= " active" if @is_trash_box %>">
-						<%= link_to "ごみ箱", messages_path(box: "trash"), class: "d-block p-3#{" text-light" if @is_trash_box}" %>
+					<li class="list-group-item p-0<%= " active" if @box[:is_trash_box] %>">
+						<%= link_to "ごみ箱", messages_path(box: "trash"), class: "d-block p-3#{" text-light" if @box[:is_trash_box]}" %>
 					</li>
 				</ul>
 			</div>

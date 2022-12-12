@@ -25,6 +25,15 @@ class ApplicationRecord < ActiveRecord::Base
   def favorite_find?
     self.favorites.find_by(user_id: User.current_user.id)
   end
+  
+  def delete_attachments(remove_file_params)
+    #添付ファイルの削除
+    unless remove_file_params.nil?
+      remove_file_params.each do |file_id|
+        self.attachments.find(file_id).purge
+      end
+    end
+  end
 
   private
 
