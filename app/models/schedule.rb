@@ -1,6 +1,6 @@
 class Schedule < ApplicationRecord
 	has_many_attached :attachments
-	
+
 	belongs_to :user
 	has_many :comments, -> { where(class_name: "Schedule") }, foreign_key: "item_id", dependent: :destroy
 	has_many :favorites, -> { where(class_name: "Schedule") }, foreign_key: "item_id" , dependent: :destroy
@@ -17,7 +17,7 @@ class Schedule < ApplicationRecord
 		end
 		return {items: items, count: count, overflow: (num_get ? num_get < count : false)}
 	end
-	
+
 	def tooltip_title(date)
 		"#{self.title}\n#{self.is_all_day ? "終日" : "～#{self.datetime_end.to_date unless self.datetime_end.to_date == date} #{self.datetime_end.strftime("%H:%M")}"}"
 	end

@@ -27,7 +27,7 @@ class Message < ApplicationRecord
 	def recycled?
 		self.message_destinations.find_by(receiver_id: User.current_user).delete_flag == 1
 	end
-	
+
 	def set_already_read
     # 未読→既読の設定
 			current_time = Time.zone.now
@@ -77,5 +77,19 @@ class Message < ApplicationRecord
 			delete_permission_editing.delete(user_id)
 			self.message_destinations.where(receiver_id: delete_permission_editing).update_all(is_editable: false)
 	end
+
+	def self.search!(params_query)
+    if params_query
+      q = params_query.split
+      ids = []
+      self.all.each do |message|
+        #プレーンテキストに変換→検索
+          ids.push(message.id) if q.all?{|x| message.plaintext_body.include?(x) || message.title.include?(x)}
+      end
+      self.where(id: ids)
+    else
+    	self.all
+    end
+  end
 
 end

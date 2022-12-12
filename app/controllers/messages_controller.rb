@@ -3,20 +3,8 @@ class MessagesController < ApplicationController
     @user = current_user
     @box = @user.messages_list(params[:box])
     @messages = @box[:messages]
-
-    #検索クエリ
     @q = params[:query]
-    if @q
-      q = @q.split
-      ids = []
-      @messages.each do |message|
-        #プレーンテキストに変換→検索
-          ids.push(message.id) if q.all?{|x| message.plaintext_body.include?(x) || message.title.include?(x)}
-      end
-      @messages = @messages.where(id: ids)
-    end
-
-    @messages = @messages.includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
+    @messages = @messages.search!(@q).includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
   end
 
   def new
@@ -29,7 +17,7 @@ class MessagesController < ApplicationController
     user = current_user
     message = user.messages.new(message_params)
     if message.save
-      destination_create(params[:message][:destination], params[:message][:editor])
+      message.destination_create(params[:message][:destination], params[:message][:editor])
       flash[:notice] = "メッセージを作成しました。"
       redirect_to message
     end
@@ -38,12 +26,13 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.find(params[:id])
+    @user = current_user
     @receivers = @message.receivers
-    @editors = @message.editors
     #宛先に含まれているか、送信者でないと表示されない
-      return raise Forbidden unless @message.user == current_user || @receivers.include?(current_user)
+      return raise Forbidden unless @message.user == @user || @receivers.include?(@user)
+    @editors = @message.editors
     @new_comment = @message.comments.new
-    @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(current_user.config.number_of_displayed_comments)
+    @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(@user.config.number_of_displayed_comments)
     @viewed_comment = @message.receiver_model.viewed_comment
     @unread_after_update = @message.set_already_read
 
