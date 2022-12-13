@@ -73,44 +73,47 @@ class SchedulesController < ApplicationController
 
 
 
-
-	def date(i, j)
-		start_day_week = @month.wday - current_user.config.start_weeks
-		start_day_week += 7 if start_day_week < 0
-		start_day = @month.day - start_day_week
-		day_num = start_day + i * 7 + j
-		return @month.days_since(day_num - 1)
-	end
-
-	def wday(i)
-		(i + current_user.config.start_weeks) % 7
-	end
-
-	def day_classes(date)
-		day_class = []
-		if HolidayJapan.check(date)
-			day_class.push("holiday")
-		elsif date.wday == 0
-			day_class.push("sunday")
-		elsif date.wday == 6
-			day_class.push("saturday")
+	# ヘルパーメソッド ここから
+		def date(i, j)
+			start_day_week = @month.wday - current_user.config.start_weeks
+			start_day_week += 7 if start_day_week < 0
+			start_day = @month.day - start_day_week
+			day_num = start_day + i * 7 + j
+			return @month.days_since(day_num - 1)
 		end
-		unless date.month == @month.month
-			day_class.push("no_included")
+	
+		def wday(i)
+			(i + current_user.config.start_weeks) % 7
 		end
-		if date == @today
-			day_class.push("today")
+	
+		def day_classes(date)
+			day_class = []
+			if HolidayJapan.check(date)
+				day_class.push("holiday")
+			elsif date.wday == 0
+				day_class.push("sunday")
+			elsif date.wday == 6
+				day_class.push("saturday")
+			end
+			unless date.month == @month.month
+				day_class.push("no_included")
+			end
+			if date == @today
+				day_class.push("today")
+			end
+			return " " + day_class.join(" ")
 		end
-		return " " + day_class.join(" ")
-	end
+	# ヘルパーメソッド ここまで
 
 	def calendar
+		# 月移動
 		index
 		@months_since = params[:month]
 		render "calendar"
 	end
 
 	def schedules
+		# 件数多い際に別窓で表示
 		index
 		@date = params[:date].to_date
 		@schedules = @schedules.each_day(@date)[:items]
