@@ -9,5 +9,32 @@ class BulletinBoard < ApplicationRecord
 	def already_read_flag
 		self.view_flags.find_by(user_id: User.current_user.id)
 	end
-
+	
+	def set_already_read
+		view_flag = self.already_read_flag
+			if view_flag.nil?
+				last_view = nil
+				self.view_flags.create(user_id: User.current_user.id, viewed_comment: self.number_of_comments)
+			else
+				last_view = view_flag.updated_at
+				view_flag.update(viewed_comment: self.number_of_comments, updated_at: Time.zone.now)
+			end
+		# 最後の閲覧後に内容の更新があったかをtrueかfalseで返す（未読または未更新はnil）
+			return last_view < self.update_content_at unless last_view.nil? || self.update_content_at.nil?
+	end
+	
+	def self.search(params_query)
+    if params_query
+      q = params_query.split
+      ids = []
+      self.all.each do |article|
+        #プレーンテキストに変換→検索
+          ids.push(article.id) if q.all?{|x| article.plaintext_body.include?(x) || article.title.include?(x)}
+      end
+      self.where(id: ids)
+    else
+    	self.all
+    end
+	end
+	
 end

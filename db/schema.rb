@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
     t.integer "user_id", null: false
     t.integer "number_of_displayed_items", default: 10
     t.integer "number_of_displayed_comments", default: 10
+    t.integer "number_of_displayed_receivers", default: 10
     t.boolean "display_images_with_body", default: true
     t.integer "start_weeks", default: 0
     t.datetime "created_at", precision: 6, null: false

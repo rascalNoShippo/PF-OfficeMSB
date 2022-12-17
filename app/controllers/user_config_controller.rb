@@ -17,6 +17,6 @@ class UserConfigController < ApplicationController
 	private
 	
 	def config_params
-		params.require(:user_config).permit(:number_of_displayed_items, :number_of_displayed_comments, :display_images_with_body, :start_weeks)
+		params.require(:user_config).permit(:number_of_displayed_items, :number_of_displayed_comments, :number_of_displayed_receivers, :display_images_with_body, :start_weeks)
 	end
 end

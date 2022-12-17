@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
     @box = @user.messages_list(params[:box])
     @messages = @box[:messages]
     @q = params[:query]
-    @messages = @messages.search!(@q).includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
+    @messages = @messages.search(@q).includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
   end
 
   def new
@@ -21,7 +21,6 @@ class MessagesController < ApplicationController
       flash[:notice] = "メッセージを作成しました。"
       redirect_to message
     end
-
   end
 
   def show
@@ -35,9 +34,8 @@ class MessagesController < ApplicationController
     @comments = @message.comments.order(created_at: :DESC).page(params[:page]).per(@user.config.number_of_displayed_comments)
     @viewed_comment = @message.receiver_model.viewed_comment
     @unread_after_update = @message.set_already_read
-
     #宛先リストに表示される上限数
-      @limit_view_receivers = 10
+      @limit_view_receivers = @user.config.number_of_displayed_receivers
   end
 
   def edit
@@ -60,7 +58,6 @@ class MessagesController < ApplicationController
         end
       message.destination_update(params[:message][:destination], params[:message][:editor])
       message.delete_attachments(params[:message][:existing_files])
-
       flash[:notice] = "メッセージを変更しました。"
       redirect_to message
     end
@@ -68,7 +65,7 @@ class MessagesController < ApplicationController
 
   def destroy
     message = Message.find(params[:id])
-    flash[:notice] = "“#{message.title}”は完全に削除されました。"
+    flash[:notice] = "“#{message.title}” は完全に削除されました。"
     message.destroy
     redirect_to messages_path
   end
@@ -82,14 +79,14 @@ class MessagesController < ApplicationController
   def trash
     message = Message.find(params[:id])
     message.message_destinations.find_by(receiver_id: current_user.id).update(delete_flag: 1)
-    flash[:notice] = "“#{message.title}”をごみ箱に移動しました。"
+    flash[:notice] = "“#{message.title}” をごみ箱に移動しました。"
     redirect_to messages_path(box: "trash")
   end
 
   def restore
     message = Message.find(params[:id])
     message.message_destinations.find_by(receiver_id: current_user.id).update(delete_flag: 0)
-    flash[:notice] = "“#{message.title}”を受信箱に戻しました。"
+    flash[:notice] = "“#{message.title}” を受信箱に戻しました。"
     redirect_to message_path
   end
 

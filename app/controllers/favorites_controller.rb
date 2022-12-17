@@ -3,7 +3,7 @@ class FavoritesController < ApplicationController
 	def create
 		@item = params[:class_name].constantize.find(params[:item_id])
 		user = current_user
-		Favorite.create(class_name: params[:class_name], item_id: params[:item_id], user_id: user.id)
+		user.favorites.create(class_name: params[:class_name], item_id: params[:item_id])
 		render "favorites/star"
 	end
 

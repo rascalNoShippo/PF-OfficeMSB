@@ -20,19 +20,7 @@
 					<%= @schedule.is_all_day ? "日付（終日）" : "日時" %>
 				</th>
 				<td>
-					<% if @schedule.is_all_day %>
-						<%= l @schedule.datetime_begin.to_date %>
-						<% unless @schedule.datetime_begin.to_date == @schedule.datetime_end.to_date %>
-							～
-							<%= l @schedule.datetime_end.to_date %>
-						<% end %>
-					<% else %>
-						<%= l @schedule.datetime_begin %>
-						<% unless @schedule.datetime_begin == @schedule.datetime_end %>
-							～
-							<%= @schedule.datetime_begin.to_date == @schedule.datetime_end.to_date ? (@schedule.datetime_end.strftime("%H:%M")) : (l @schedule.datetime_end) %>
-						<% end %>
-					<% end %>
+					<%= @schedule.datetime_string %>
 				</td>
 			</tr>
 			<tr>

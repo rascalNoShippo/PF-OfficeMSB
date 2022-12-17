@@ -83,5 +83,4 @@ function addList(selector_A, selector_B){//add from A to B
 	})
 	//追加したユーザーを選択状態にする
 	$(selector_B).val(item.val());
-	//hiden_fieldに格納
 }

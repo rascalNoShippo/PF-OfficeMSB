@@ -19,7 +19,34 @@ class Schedule < ApplicationRecord
 	end
 
 	def tooltip_title(date)
-		"#{self.title}\n#{self.is_all_day ? "終日" : "～#{self.datetime_end.to_date unless self.datetime_end.to_date == date} #{self.datetime_end.strftime("%H:%M")}"}"
+		datetime_end = self.datetime_end
+		"#{self.title}\n#{self.is_all_day ? "終日" : "～ #{datetime_end.strftime("%-m月%-d日(#{I18n.t("date.abbr_day_names")[datetime_end.wday]})") unless datetime_end.to_date == date} #{datetime_end.strftime("%H:%M")}"}"
 	end
-
+	
+	def datetime_string
+		define_variant
+		string = @date_begin.strftime("%Y年%-m月%-d日(#{I18n.t("date.abbr_day_names")[@date_begin.wday]})")
+		if is_all_day
+			return string if @is_no_range
+			string += " ～ #{@date_end.strftime("%Y年") if @is_span_years}#{@date_end.strftime("%-m月%-d日(#{I18n.t("date.abbr_day_names")[@date_end.wday]})")}"
+		else
+			string += @datetime_begin.strftime(" %H:%M")
+			return string if @is_no_range
+			string += " ～ #{@date_end.strftime("%Y年") if @is_span_years}#{@date_end.strftime("%-m月%-d日(#{I18n.t("date.abbr_day_names")[@date_end.wday]})") if @is_span_dates}#{@datetime_end.strftime(" %H:%M")}"
+		end
+		return string
+	end
+	
+	private
+	
+	def define_variant
+		@datetime_begin = self.datetime_begin
+		@date_begin = @datetime_begin.to_date
+		@datetime_end = self.datetime_end
+		@date_end = @datetime_end.to_date
+		@is_all_day = self.is_all_day
+		@is_span_dates = @date_begin != @date_end
+		@is_span_years = @date_begin.year != @date_end.year
+		@is_no_range = @is_all_day ? !@is_span_dates : @datetime_begin == @datetime_end
+	end
 end

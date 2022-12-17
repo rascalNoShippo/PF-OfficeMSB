@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
       time.strftime("%Y年%-m月%-d日(#{I18n.t("date.abbr_day_names")[time.wday]})")
     end
   end
-
+  
   def pagination_counter(items)
     #paginationカウンター
     total_count = items.total_count
@@ -59,10 +59,6 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError, with: :render_404
     rescue_from Forbidden, with: :render_403
   end
-
- # def routing_error
- #  raise ActionController::RoutingError, params[:path]
- # end
 
  private
 

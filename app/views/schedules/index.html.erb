@@ -1,41 +1,43 @@
 <%= javascript_pack_tag "calendar" %>
 <% content_for :title, "スケジュール" %>
-<div class="p-3 d-flex flex-column schedule_index">
-	<div class="d-flex justify-content-between">
-		<div>
-			<h3>
-				<i class="fas fa-calendar-alt"></i>
-				<%= @q ? "検索結果" : "スケジュール" %>
-			</h3>
+<%= form_with method: :post, url: user_schedules_calendar_path, local: false do |f| %>
+	<div class="p-3 d-flex flex-column schedule_index">
+		<div class="d-flex justify-content-between">
+			<div>
+				<h3>
+					<i class="fas fa-calendar-alt"></i>
+					<%= @q ? "検索結果" : "スケジュール" %>
+				</h3>
+			</div>
+		  <%= f.button type: "submit", class: "btn btn-primary py-0 px-3", id: "this_month_btn" do %>
+		    今月
+		  <% end %>
 		</div>
-		<%#= render "layouts/search_box" %>
-	</div>
-	<div class="d-flex justify-content-between mb-2">
-		<p<%= " style=visibility:hidden;" unless @user == current_user %>>
-			<%= link_to "予定を作成する", new_schedule_path %>
-		</p>
-		<div class="text-dark font-weight-bold text-center">
-			<%= form_with method: :post, url: user_schedules_calendar_path, local: false do |f| %>
-				<%= f.hidden_field :month, value: @months_since, id: "month" %>
-				<%= f.button type: "submit", class: "btn btn-info py-0 px-3", id: "month_prev" do %>
-					<i class="fas fa-caret-left"></i>
-				<% end %>
-				<span class="align-middle d-inline-block" id="this_month">
-					<%= render "this_month" %>
-				</span>
-				<%= f.button type: "submit", class: "btn btn-info py-0 px-3", id: "month_next" do %>
-					<i class="fas fa-caret-right"></i>
-				<% end %>
-			<% end %>
+		<div class="d-flex justify-content-between mb-2">
+			<p<%= " style=visibility:hidden;" unless @user == current_user %>>
+				<%= link_to "予定を作成する", new_schedule_path %>
+			</p>
+			<div class="text-dark font-weight-bold text-center">
+					<%= f.hidden_field :month, value: @months_since, id: "month" %>
+					<%= f.button type: "submit", class: "btn btn-info py-0 px-3", id: "month_prev" do %>
+						<i class="fas fa-caret-left"></i>
+					<% end %>
+					<span class="align-middle d-inline-block" id="this_month">
+						<%= render "this_month" %>
+					</span>
+					<%= f.button type: "submit", class: "btn btn-info py-0 px-3", id: "month_next" do %>
+						<i class="fas fa-caret-right"></i>
+					<% end %>
+			</div>
+			<div>
+				<%= link_to @user.icon + @user.name, @user %>
+			</div>
 		</div>
-		<div>
-			<%= link_to @user.icon + @user.name, @user %>
+		<div class="d-flex flex-grow-1 position-relative" id="calendar">
+			<%= render "calendar" %>
 		</div>
 	</div>
-	<div class="d-flex flex-grow-1 position-relative" id="calendar">
-		<%= render "calendar" %>
-	</div>
-</div>
+<% end %>
 <div class="modal fade" id="schedule_modal">
 	<%= render "schedule_modal" %>
 </div>

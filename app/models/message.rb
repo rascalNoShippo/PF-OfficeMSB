@@ -78,7 +78,7 @@ class Message < ApplicationRecord
 			self.message_destinations.where(receiver_id: delete_permission_editing).update_all(is_editable: false)
 	end
 
-	def self.search!(params_query)
+	def self.search(params_query)
     if params_query
       q = params_query.split
       ids = []

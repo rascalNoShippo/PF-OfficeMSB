@@ -19,6 +19,13 @@
 						</td>
 					</tr>
 					<tr>
+						<th>メッセージ詳細画面で表示する宛先の人数</th>
+						<td class="d-flex align-items-center">
+							<%= f.select :number_of_displayed_receivers, @selector, {}, class: "custom-select mr-3" %>
+							<p>人まで</p>
+						</td>
+					</tr>
+					<tr>
 						<th>画像ファイル（JPEG, GIF 等）の表示</th>
 						<td>
 							<div class="custom-checkbox custom-control">

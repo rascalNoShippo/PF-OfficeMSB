@@ -9,12 +9,7 @@ class SchedulesController < ApplicationController
 		@q = params[:query]
 		@today = Time.zone.today
 		@month = @today.at_beginning_of_month.months_since(params[:month].to_i)
-
-		i = 0
-		while date(i, 0) <= @month.at_end_of_month do
-			i += 1
-		end
-		@end_week = i - 1
+		@end_week = week_num(@month)
 	end
 
 	def new
@@ -50,6 +45,7 @@ class SchedulesController < ApplicationController
 
 	def update
 		schedule = Schedule.find(params[:id])
+		raise Forbidden unless schedule.user == current_user
 		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
 		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
 		if schedule.is_all_day
@@ -65,6 +61,7 @@ class SchedulesController < ApplicationController
 
 	def destroy
 		schedule = Schedule.find(params[:id])
+		raise Forbidden unless schedule.user == current_user
 		title = schedule.title
 		schedule.destroy
 		flash[:notice] = "予定 “#{title}” を削除しました。"
@@ -81,11 +78,11 @@ class SchedulesController < ApplicationController
 			day_num = start_day + i * 7 + j
 			return @month.days_since(day_num - 1)
 		end
-	
+
 		def wday(i)
 			(i + current_user.config.start_weeks) % 7
 		end
-	
+
 		def day_classes(date)
 			day_class = []
 			if HolidayJapan.check(date)
@@ -103,6 +100,15 @@ class SchedulesController < ApplicationController
 			end
 			return " " + day_class.join(" ")
 		end
+
+	def week_num(month)
+		# カレンダーの行数を設定
+			i = 0
+			while date(i, 0) <= month.at_end_of_month do
+				i += 1
+			end
+			return i - 1
+	end
 	# ヘルパーメソッド ここまで
 
 	def calendar
