@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :date_or_time
   helper_method :pagination_counter
-  helper_method :org_name
 
   class Forbidden < ActionController::ActionControllerError
     #403
@@ -39,12 +38,6 @@ class ApplicationController < ActionController::Base
     count_start = (current_page - 1) * per_page + 1
     count_end = num_pages == 0 ? 0 : (items.last_page? ? total_count : current_page * per_page)
     return "全 #{total_count.to_s(:delimited)} 件中 #{count_start.to_s(:delimited)} - #{count_end.to_s(:delimited)} 件目 ( #{current_page.to_s(:delimited)} / #{num_pages.to_s(:delimited)} ページ)"
-  end
-
-  def org_name(organization_id, position_id = nil)
-    org = Organization.find(organization_id).name
-    position = Position.find(position_id).name if position_id
-    return "（#{org}#{"・#{position}" if position_id}）"
   end
 
   def user_invalid

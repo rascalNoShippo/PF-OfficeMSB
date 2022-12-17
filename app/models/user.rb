@@ -84,18 +84,82 @@ class User < ApplicationRecord
     result
   end
 
-	def messages_list(params_box)
+	def messages_list(param_box)
 	  # メッセージ一覧を取得
     messages = self.received_messages.order(updated_at: :DESC)
     ids = self.message_destinations.where(delete_flag: 0).pluck(:message_id)
-    if is_send_box = params_box == "send"
+    if is_send_box = param_box == "send"
       messages = self.messages.where(id: ids).order(updated_at: :DESC)
-    elsif is_trash_box = params_box == "trash"
+    elsif is_trash_box = param_box == "trash"
       removed_ids = self.message_destinations.where(delete_flag: 1).pluck(:message_id)
       messages = messages.where(id: removed_ids)
     else
       messages = messages.where(id: ids)
     end
     return {messages: messages, is_send_box: is_send_box, is_trash_box: is_trash_box}
+  end
+  
+  def edit_organizations(param_orgs, preferred_org_id)
+		if User.current_user.is_admin
+			new_org_ids = param_orgs.split(";").map{|i| i.split(",").map{|j| j = j.to_i}}.map{|i| i.length == 1 ? i.push(nil) : i}
+			name_with_all_org = ""
+			new_org_ids.each {|id| name_with_all_org += org_name(*id)}
+			self.name_with_all_org = name_with_all_org
+			org_ids = self.user_organizations.pluck(:organization_id, :position_id)
+			# 新しい組織を追加
+        (new_org_ids - org_ids).each do |ids|
+          self.user_organizations.create(organization_id: ids[0], position_id: ids[1])
+        end
+			# 組織を削除
+        (org_ids - new_org_ids).each do |ids|
+          self.user_organizations.find_by(organization_id: ids[0], position_id: ids[1]).destroy
+        end
+		end
+		# 優先する組織を変更
+      if preferred_org_id
+        ids = preferred_org_id.split(",")
+        preferred_org_id = self.user_organizations.find_by(organization_id: ids[0], position_id: ids[1]).id
+        self.update(preferred_org_id: preferred_org_id)
+      else
+        self.update(preferred_org_id: nil)
+      end
+	end
+	
+	def create_organizaions(param_orgs, preferred_org_id)
+		new_org_ids = param_orgs.split(";").map{|i| i.split(",").map{|j| j = j.to_i}}
+		name_with_all_org = ""
+		new_org_ids.each {|id| name_with_all_org += org_name(*id)}
+		self.name_with_all_org = name_with_all_org
+		#組織を追加
+			new_org_ids.each do |ids|
+				self.user_organizations.create(organization_id: ids[0], position_id: ids[1])
+			end
+		# 優先する組織を変更
+      if preferred_org_id
+        ids = preferred_org_id.split(",")
+        preferred_org_id = self.user_organizations.find_by(organization_id: ids[0], position_id: ids[1]).id
+        self.update(preferred_org_id: preferred_org_id)
+      end
+  end
+  
+  def self.search(params_query)
+		if params_query
+			q = params_query.split.map{|x| x = "%#{x}%"}
+			column = []
+			q.count.times{|a| column.push("(name like ? or name_with_all_org like ? or name_reading like ?)")}
+			column = column.join(" and ")
+			q = (q * 3).sort
+			return q.length == 0 ? self : self.where(column, *(q))
+		else
+      return self
+		end
+	end
+		
+	private
+	
+  def org_name(organization_id, position_id = nil)
+    org = Organization.find(organization_id).name
+    position = Position.find(position_id).name if position_id
+    return "（#{org}#{"・#{position}" if position_id}）"
   end
 end

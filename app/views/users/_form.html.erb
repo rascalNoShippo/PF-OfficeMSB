@@ -9,6 +9,10 @@
 				<td></td>
 			</tr>
 			<tr>
+				<th>よみ</th>
+				<td><%= f.text_field :name_reading, required: true, class: "form-control" %></td>
+			</tr>
+			<tr>
 				<th>ログイン名</th>
 				<td>
 					<% if user.id.nil? || current_user.is_admin %>
