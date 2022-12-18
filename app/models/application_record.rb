@@ -34,6 +34,15 @@ class ApplicationRecord < ActiveRecord::Base
       end
     end
   end
+  
+  # def self.find(id)
+  #   # 存在しないIDでもActiveRecordを返す
+  #   unless self.exists?(id: id)
+  #     return self.new(id: id)
+  #   end
+  #   super
+  # end
+  
 
   private
 

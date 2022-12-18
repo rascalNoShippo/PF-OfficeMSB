@@ -43,28 +43,38 @@
 		</div>
 	</div>
 </div>
-<div style="position:fixed;bottom:60px;right:10px;width:30em;background-color:aliceblue;border:2px solid deepskyblue;box-shadow:0 0 10px rgb(0 0 0 / 50%);text-align:center;padding:8px">
-  <h5>デモ用ID</h5>
-  <p>下記ID・パスワードにてログインが可能です。</p>
-  <table class="table mt-3 mb-0">
-    <thead>
-      <tr>
-        <th></th>
-        <th>ログイン名</th>
-        <th>パスワード</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>管理者ユーザー</td>
-        <td>satos</td>
-        <td>satos</td>
-      </tr>
-      <tr>
-        <td>一般ユーザー</td>
-        <td>yamadat</td>
-        <td>yamadat</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<% if true #デモ用 %>
+  <div style="position:fixed;bottom:60px;right:10px;width:30em;font-size:80%;background-color:aliceblue;border:2px solid deepskyblue;box-shadow:0 0 10px rgb(0 0 0 / 50%);text-align:center;padding:8px;user-select:none;">
+    <h5 class="mb-0">デモ用ID</h5>
+    <p>下記ID・パスワードにてログインが可能です。</p>
+    <table class="table mt-2 mb-0">
+      <thead>
+        <tr>
+          <th class="p-1"></th>
+          <th class="p-1">ログイン名</th>
+          <th class="p-1">パスワード</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="p-1">管理者ユーザー</td>
+          <td class="p-1 user-select-all">
+            <code class="text-body" style="font-size:100%;">satos</code>
+          </td>
+          <td class="p-1 user-select-all">
+            <code class="text-body" style="font-size:100%;">satos</code>
+          </td>
+        </tr>
+        <tr>
+          <th class="p-1">一般ユーザー</td>
+          <td class="p-1 user-select-all">
+            <code class="text-body" style="font-size:100%;">yamadat</code>
+          </td>
+          <td class="p-1 user-select-all">
+            <code class="text-body" style="font-size:100%;">yamadat</code>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
