@@ -1,17 +1,17 @@
-<% content_for :title, "#{"検索結果 - " if @q}掲示板" %>
+<% content_for :title, "#{"検索結果 - " if @queries}掲示板" %>
 <div class="p-3">
 	<div class="d-flex justify-content-between">
 		<div>
 			<h3>
 				<i class="fas fa-clipboard"></i>
-				<%= @q ? "検索結果" : "掲示板" %>
+				<%= @queries ? "検索結果" : "掲示板" %>
 			</h3>
 		</div>
 		<div class="d-flex">
 			<%# 検索BOX %>
 			<%= form_with method: :get, class: "d-flex my-auto" do |f| %>
 				<div class="input-group">
-					<%= f.text_field :query, value: @q, class: "form-control input-group-prepend" %>
+					<%= f.text_field :query, value: @queries, class: "form-control input-group-prepend" %>
 					<span class="input-group-btn input-group-append">
 						<%= f.button type: "submit", name: nil, class: "btn btn-dark" do %>
 							<i class="fas fa-search"></i>
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<p>
-		<%= link_to "掲示を書き込む", new_bulletin_board_path unless @q %>
+		<%= link_to "掲示を書き込む", new_bulletin_board_path unless @queries %>
 	</p>
 	<div class="d-flex">
 		<div class="message_list col-12">

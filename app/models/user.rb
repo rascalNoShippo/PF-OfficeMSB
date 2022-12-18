@@ -142,14 +142,14 @@ class User < ApplicationRecord
       end
   end
   
-  def self.search(params_query)
-		if params_query
-			q = params_query.split.map{|x| x = "%#{x}%"}
+  def self.search(params_queries)
+		if params_queries
+			queries = params_queries.split.map{|x| x = "%#{x}%"}
 			column = []
-			q.count.times{|a| column.push("(name like ? or name_with_all_org like ? or name_reading like ?)")}
+			queries.count.times{|a| column.push("(name like ? or name_with_all_org like ? or name_reading like ?)")}
 			column = column.join(" and ")
-			q = (q * 3).sort
-			return q.length == 0 ? self : self.where(column, *(q))
+			queries = (queries * 3).sort
+			return queries.length == 0 ? self : self.where(column, *(queries))
 		else
       return self
 		end

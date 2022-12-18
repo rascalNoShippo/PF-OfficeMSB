@@ -30,8 +30,8 @@ class UsersController < ApplicationController
 		# 無効ユーザーは管理者のみ表示可能
 			(users = users.where(is_invalid: nil)) unless current_user.is_admin
 		@users = users
-		@q = params[:query]
-		@users = @users.search(@q).page(params[:page]).per(current_user.config.number_of_displayed_items)
+		@queries = params[:query]
+		@users = @users.search(@queries).page(params[:page]).per(current_user.config.number_of_displayed_items)
 	end
 
 	def new

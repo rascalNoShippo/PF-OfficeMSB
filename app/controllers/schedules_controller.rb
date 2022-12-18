@@ -6,7 +6,6 @@ class SchedulesController < ApplicationController
 	def index
 		@user = User.find(params[:user_id])
 		@schedules = @user.schedules
-		@q = params[:query]
 		@today = Time.zone.today
 		@month = @today.at_beginning_of_month.months_since(params[:month].to_i)
 		@end_week = week_num(@month)

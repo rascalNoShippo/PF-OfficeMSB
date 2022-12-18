@@ -78,13 +78,13 @@ class Message < ApplicationRecord
 			self.message_destinations.where(receiver_id: delete_permission_editing).update_all(is_editable: false)
 	end
 
-	def self.search(params_query)
-    if params_query
-      q = params_query.split
+	def self.search(params_queries)
+    if params_queries
+      queries = params_queries.split
       ids = []
       self.all.each do |message|
         #プレーンテキストに変換→検索
-          ids.push(message.id) if q.all?{|x| message.plaintext_body.include?(x) || message.title.include?(x)}
+          ids.push(message.id) if queries.all?{|x| message.plaintext_body.include?(x) || message.title.include?(x)}
       end
       self.where(id: ids)
     else

@@ -20,7 +20,6 @@ class OrganizationsController < ApplicationController
   def index
     @orgs = @Class.all
     @positions = Position.all
-    @q = params[:query]
   end
 
   def new

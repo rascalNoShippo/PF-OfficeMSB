@@ -3,8 +3,8 @@ class MessagesController < ApplicationController
     @user = current_user
     @box = @user.messages_list(params[:box])
     @messages = @box[:messages]
-    @q = params[:query]
-    @messages = @messages.search(@q).includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
+    @queries = params[:query]
+    @messages = @messages.search(@queries).includes(:favorites, :user).page(params[:page]).per(@user.config.number_of_displayed_items)
   end
 
   def new

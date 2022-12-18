@@ -3,8 +3,8 @@ class BulletinBoardsController < ApplicationController
 	def index
 		@articles = BulletinBoard.order(updated_at: :DESC)
     # 検索
-			@q = params[:query]
-		@articles = @articles.search(@q).page(params[:page]).per(current_user.config.number_of_displayed_items)
+			@queries = params[:query]
+		@articles = @articles.search(@queries).page(params[:page]).per(current_user.config.number_of_displayed_items)
 	end
 
 	def show
