@@ -1,5 +1,5 @@
 <%= javascript_pack_tag "header" %>
-<div class="header_2 d-flex h-100 justify-content-between">
+<div class="header_2 d-flex justify-content-between">
 	<nav class="d-flex">
 		<%
 =begin %>
@@ -42,7 +42,7 @@
 			<%= link_to "ユーザーデータ編集", edit_user_path(current_user), class: "d-block p-2" %>
 			<%= link_to "パスワード変更", user_password_path(current_user), class: "d-block p-2 border-top" %>
 			<%= link_to "一般設定", edit_user_config_path, class: "d-block p-2" %>
-			<%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "d-block p-2 border-top text-danger" %>
+			<%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout_btn d-block p-2 border-top text-danger" %>
 		</div>
 	</nav>
 </div>
