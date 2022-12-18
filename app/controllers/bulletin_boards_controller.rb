@@ -21,7 +21,9 @@ class BulletinBoardsController < ApplicationController
 	end
 
 	def create
-		article = current_user.bulletin_boards.new(bulletin_board_params)
+		user = current_user
+		article = user.bulletin_boards.new(bulletin_board_params)
+		article.user_name = user.name
 		if article.save
 			flash[:notice] = "掲示を作成しました。"
 			redirect_to bulletin_board_path(article.id)

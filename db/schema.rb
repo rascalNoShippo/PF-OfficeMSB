@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
 
   create_table "bulletin_boards", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.string "user_name", null: false
     t.integer "last_update_user_id"
     t.string "title", null: false
     t.text "body"
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
     t.string "class_name", null: false
     t.integer "item_id", null: false
     t.integer "commenter_id", null: false
+    t.string "commenter_name", null: false
     t.text "body"
     t.integer "comment_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -93,6 +95,7 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
 
   create_table "messages", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.string "user_name", null: false
     t.integer "last_update_user_id"
     t.string "title", null: false
     t.text "body"
@@ -118,6 +121,7 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
 
   create_table "schedules", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.string "user_name", null: false
     t.string "title", null: false
     t.text "body"
     t.string "place"

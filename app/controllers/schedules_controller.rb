@@ -17,14 +17,16 @@ class SchedulesController < ApplicationController
 	end
 
 	def create
-		schedule = current_user.schedules.new(schedule_params)
+		user = current_user
+		schedule = user.schedules.new(schedule_params)
 		schedule.datetime_begin = "#{params[:schedule][:date_begin]} #{params[:schedule][:time_begin]} JST".to_time
 		schedule.datetime_end = "#{params[:schedule][:date_end]} #{params[:schedule][:time_end]} JST".to_time
+		schedule.user_name = user.name
 		if schedule.is_all_day
 			schedule.datetime_begin = schedule.datetime_begin.at_beginning_of_day
 			schedule.datetime_end = schedule.datetime_end.at_end_of_day
 		end
-		if p schedule.save
+		if schedule.save
 			flash[:notice] = "予定を作成しました。"
 			redirect_to schedule
 		end

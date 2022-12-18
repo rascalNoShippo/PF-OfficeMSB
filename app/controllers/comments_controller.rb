@@ -4,13 +4,14 @@ class CommentsController < ApplicationController
 		comment = item.comments.new(comment_params)
 		comment.commenter_id = current_user.id
 		comment.comment_id = item.number_of_comments + 1
+		comment.commenter_name = user.name
 		if comment.save
 			item.update(number_of_comments: comment.comment_id)
 			flash[:notice] = "コメントを書き込みました。"
 			redirect_to item
 		end
 	end
-	
+
 	def destroy
 		item = params[:class_name].constantize.find(params[:item_id])
 		comment_id = params[:comment_id]
@@ -21,7 +22,7 @@ class CommentsController < ApplicationController
 		flash[:notice] = "コメント ##{comment_id} を削除しました。"
 		redirect_to item
 	end
-	
+
 	private
 
 	def comment_params

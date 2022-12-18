@@ -16,6 +16,7 @@ class MessagesController < ApplicationController
   def create
     user = current_user
     message = user.messages.new(message_params)
+    message.user_name = user.name
     if message.save
       message.destination_create(params[:message][:destination], params[:message][:editor])
       flash[:notice] = "メッセージを作成しました。"

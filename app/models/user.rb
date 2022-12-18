@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def icon
-    # ユーザーアイコン 自分：緑，他人：青
+    # ユーザーアイコン 自分：緑，他人：青，無効：灰
     class_name = self == User.current_user ? "text-success" : "text-primary"
     class_name = "text-lightgray" if self.is_invalid
     "<i class='fas fa-user mr-1 #{class_name}'></i>".html_safe
