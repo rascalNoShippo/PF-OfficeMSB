@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
 	def create
 		item = params[:class_name].constantize.find(params[:item_id])
+		user = current_user
 		comment = item.comments.new(comment_params)
-		comment.commenter_id = current_user.id
+		comment.commenter_id = user.id
 		comment.comment_id = item.number_of_comments + 1
 		comment.commenter_name = user.name
 		if comment.save
