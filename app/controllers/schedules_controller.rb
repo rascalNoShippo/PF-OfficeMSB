@@ -103,7 +103,7 @@ class SchedulesController < ApplicationController
 		end
 
 		def week_num(month)
-			# カレンダーの行数を設定
+			# カレンダーの行数 (週数) を設定 (i = 行数)
 				i = 0
 				while date(i, 0) <= month.at_end_of_month do
 					i += 1
