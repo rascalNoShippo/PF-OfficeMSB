@@ -93,7 +93,7 @@ class SchedulesController < ApplicationController
 			elsif date.wday == 6
 				day_class.push("saturday")
 			end
-			unless date.month == @month.month
+			unless (@month...(@month.months_since(1))).include?(date)
 				day_class.push("no_included")
 			end
 			if date == @today
@@ -102,14 +102,14 @@ class SchedulesController < ApplicationController
 			return " " + day_class.join(" ")
 		end
 
-	def week_num(month)
-		# カレンダーの行数を設定
-			i = 0
-			while date(i, 0) <= month.at_end_of_month do
-				i += 1
-			end
-			return i - 1
-	end
+		def week_num(month)
+			# カレンダーの行数を設定
+				i = 0
+				while date(i, 0) <= month.at_end_of_month do
+					i += 1
+				end
+				return i - 1
+		end
 	# ヘルパーメソッド ここまで
 
 	def calendar

@@ -26,7 +26,7 @@ class BulletinBoardsController < ApplicationController
 		article.user_name = user.name
 		if article.save
 			flash[:notice] = "掲示を作成しました。"
-			redirect_to bulletin_board_path(article.id)
+			redirect_to article
 		end
 	end
 
@@ -46,7 +46,7 @@ class BulletinBoardsController < ApplicationController
 				article.update(update_content_at: article.updated_at, last_update_user_id: current_user.id)
 			end
 			article.delete_attachments(params[:bulletin_board][:existing_files])
-			redirect_to bulletin_board_path
+			redirect_to article
 		end
 	end
 

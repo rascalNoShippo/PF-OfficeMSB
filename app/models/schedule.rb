@@ -20,9 +20,20 @@ class Schedule < ApplicationRecord
 
 	def tooltip_title(date)
 		datetime_end = self.datetime_end
-		"#{self.title}\n#{self.is_all_day ? "終日" : "～ #{datetime_end.strftime("%-m月%-d日(#{I18n.t("date.abbr_day_names")[datetime_end.wday]})") unless datetime_end.to_date == date} #{datetime_end.strftime("%H:%M")}"}"
+		text = "#{self.title}\n"
+		if self.is_all_day
+			text += "終日"
+		else
+			text += "～ "
+			if datetime_end.to_date == date
+				text += datetime_end.strftime("%H:%M")
+			else
+				text += "終日"
+			end
+		end
+		return text
 	end
-	
+
 	def datetime_string
 		define_variant
 		string = @date_begin.strftime("%Y年%-m月%-d日(#{I18n.t("date.abbr_day_names")[@date_begin.wday]})")
@@ -36,9 +47,9 @@ class Schedule < ApplicationRecord
 		end
 		return string
 	end
-	
+
 	private
-	
+
 	def define_variant
 		@datetime_begin = self.datetime_begin
 		@date_begin = @datetime_begin.to_date
