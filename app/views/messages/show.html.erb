@@ -1,11 +1,11 @@
 <% content_for :title, @message.title %>
 <div class="p-3">
 	<div>
-		<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path if @message.user == current_user || @editors.include?(current_user) %>
+		<%= link_to "<i class='fas fa-edit'></i>変更する".html_safe, edit_message_path, class: "mr-2" if @message.user == current_user || @editors.include?(current_user) %>
 		<% if @message.recycled? %>
-			<%= link_to "<i class='fas fa-trash-restore'></i>元に戻す".html_safe, restore_message_path, method: :patch %>
+			<%= link_to "<i class='fas fa-trash-restore'></i>元に戻す".html_safe, restore_message_path, method: :patch, class: "mr-2" %>
 		<% else %>
-			<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" } %>
+			<%= link_to "<i class='fas fa-trash-alt'></i>削除する".html_safe, "javascript:void(0);", data: { target: "#delete_modal", toggle: "modal" }, class: "mr-2" %>
 		<% end %>
 	</div>
 	<div class="d-flex align-items-center my-2">

@@ -11,21 +11,21 @@ class User < ApplicationRecord
     has_many :messages, dependent: :destroy
     has_many :message_destinations, foreign_key: :receiver_id, dependent: :destroy
     has_many :received_messages, through: :message_destinations, source: :message
-  
+
     has_many :comments, foreign_key: :commenter_id, dependent: :destroy
-  
+
     has_many :bulletin_boards, dependent: :destroy
     has_many :bulletin_board_view_flags, dependent: :destroy
     has_many :schedules, dependent: :destroy
-  
+
     has_many :favorites, dependent: :destroy
-  
+
     has_many :user_organizations, dependent: :destroy
     has_many :organizations, through: :user_organizations
     has_many :positions, through: :user_organizations
-  
+
     belongs_to :preferred_org, class_name: "UserOrganization", optional: true
-  
+
     has_one :config, class_name: "UserConfig", foreign_key: "user_id", dependent: :destroy
   # アソシエーション ここまで
 
@@ -57,7 +57,7 @@ class User < ApplicationRecord
   end
 
   def name
-    # ユーザー名を “名前 役職（組織）” の形で表示 
+    # ユーザー名を “名前 役職（組織）” の形で表示
     name_org = "#{self[:name]}"
     if self.preferred_org_id
       if self.preferred_org.position_id
@@ -98,7 +98,7 @@ class User < ApplicationRecord
     end
     return {messages: messages, is_send_box: is_send_box, is_trash_box: is_trash_box}
   end
-  
+
   def edit_organizations(param_orgs, preferred_org_id)
 		if User.current_user.is_admin
 			new_org_ids = param_orgs.split(";").map{|i| i.split(",").map{|j| j = j.to_i}}.map{|i| i.length == 1 ? i.push(nil) : i}
@@ -124,7 +124,7 @@ class User < ApplicationRecord
         self.update(preferred_org_id: nil)
       end
 	end
-	
+
 	def create_organizaions(param_orgs, preferred_org_id)
 		new_org_ids = param_orgs.split(";").map{|i| i.split(",").map{|j| j = j.to_i}}
 		name_with_all_org = ""
@@ -141,7 +141,7 @@ class User < ApplicationRecord
         self.update(preferred_org_id: preferred_org_id)
       end
   end
-  
+
   def self.search(params_queries)
 		if params_queries
 			queries = params_queries.split.map{|x| x = "%#{x}%"}
@@ -154,9 +154,9 @@ class User < ApplicationRecord
       return self
 		end
 	end
-		
+
 	private
-	
+
   def org_name(organization_id, position_id = nil)
     org = Organization.find(organization_id).name
     position = Position.find(position_id).name if position_id
