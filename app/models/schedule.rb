@@ -19,14 +19,14 @@ class Schedule < ApplicationRecord
 	end
 
 	def tooltip_title(date)
-		datetime_end = self.datetime_end
+		define_variant
 		text = "#{self.title}\n"
-		if self.is_all_day
+		if @is_all_day
 			text += "終日"
 		else
-			text += "～ "
-			if datetime_end.to_date == date
-				text += datetime_end.strftime("%H:%M")
+			text += "～ " unless @is_no_range
+			if @datetime_end.to_date == date
+				text += @datetime_end.strftime("%H:%M")
 			else
 				text += "終日"
 			end
