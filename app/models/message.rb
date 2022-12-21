@@ -1,14 +1,14 @@
 class Message < ApplicationRecord
 	belongs_to :user
 	belongs_to :last_update_user, class_name: "User", foreign_key: "last_update_user_id", optional: true
-	has_many :message_destinations, dependent: :destroy
-	has_many :receivers, through: :message_destinations
+	has_many :destinations, class_name: "MessageDestination", dependent: :destroy
+	has_many :receivers, through: :destinations
 	has_many :comments, -> { where(class_name: "Message") }, foreign_key: "item_id", dependent: :destroy
 	has_many :favorites, -> { where(class_name: "Message") }, foreign_key: "item_id" , dependent: :destroy
 	has_many_attached :attachments
 
 	def receiver_model
-		self.message_destinations.find_by(receiver_id: User.current_user.id)
+		self.destinations.find_by(receiver_id: User.current_user.id)
 	end
 
 	def already_read_flag
@@ -16,16 +16,16 @@ class Message < ApplicationRecord
 	end
 
 	def editors
-		editor_ids = self.message_destinations.where(is_editable: true).pluck(:receiver_id)
+		editor_ids = self.destinations.where(is_editable: true).pluck(:receiver_id)
 		self.receivers.where(id: editor_ids)
 	end
 
 	def finished_reading(receiver)
-		self.message_destinations.find_by(reeiver_id: receiver.id).finished_reading
+		self.destinations.find_by(reeiver_id: receiver.id).finished_reading
 	end
 
 	def recycled?
-		self.message_destinations.find_by(receiver_id: User.current_user).delete_flag == 1
+		self.destinations.find_by(receiver_id: User.current_user).delete_flag == 1
 	end
 
 	def set_already_read
@@ -48,9 +48,9 @@ class Message < ApplicationRecord
     destination_ids.each do |receiver_id|
       destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user_id ? true : editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
     end
-    self.message_destinations.insert_all!(destinations)
+    self.destinations.insert_all!(destinations)
     #送信者は自動的に受信者・編集者に追加
-			self.message_destinations.create(receiver_id: current_user.id, is_editable: true) unless destination_ids.include?(user_id)
+			self.destinations.create(receiver_id: current_user.id, is_editable: true) unless destination_ids.include?(user_id)
 	end
 
 	def destination_update(destination_params, editor_params)
@@ -58,24 +58,24 @@ class Message < ApplicationRecord
 		new_destination_ids = destination_params.split.map{|i| i.to_i}
 		new_editor_ids = editor_params.split.map{|i| i.to_i}
     #新しい宛先が指定されたら追加する
-			destination_ids = self.message_destinations.pluck(:receiver_id)
+			destination_ids = self.destinations.pluck(:receiver_id)
 			add_destinations = []
 			now = Time.zone.now
 			(new_destination_ids - destination_ids).each do |receiver_id|
 			  add_destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user.id ? true : new_editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
 			end
-			self.message_destinations.insert_all!(add_destinations) if add_destinations.length > 1
+			self.destinations.insert_all!(add_destinations) if add_destinations.length > 1
     #既存の宛先が無ければ削除する（送信者自身は削除されない）
 			delete_destinations = (destination_ids - new_destination_ids)
 			delete_destinations.delete(user_id)
-			self.message_destinations.where(receiver_id: delete_destinations).delete_all if delete_destinations.length > 1
+			self.destinations.where(receiver_id: delete_destinations).delete_all if delete_destinations.length > 1
     #編集権限を付与されたユーザーを更新
-			editor_ids = self.message_destinations.where(is_editable: true).pluck(:receiver_id)
-			self.message_destinations.where(receiver_id: (new_editor_ids - editor_ids)).update_all(is_editable: true)
+			editor_ids = self.destinations.where(is_editable: true).pluck(:receiver_id)
+			self.destinations.where(receiver_id: (new_editor_ids - editor_ids)).update_all(is_editable: true)
     #編集権限を解除されたユーザーを更新（送信者自身は削除されない）
 			delete_permission_editing = (editor_ids - new_editor_ids)
 			delete_permission_editing.delete(user_id)
-			self.message_destinations.where(receiver_id: delete_permission_editing).update_all(is_editable: false)
+			self.destinations.where(receiver_id: delete_permission_editing).update_all(is_editable: false)
 	end
 
 	def self.search(params_queries)

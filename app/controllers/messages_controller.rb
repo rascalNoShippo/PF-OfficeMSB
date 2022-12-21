@@ -42,8 +42,8 @@ class MessagesController < ApplicationController
   def edit
     @message = Message.find(params[:id])
     @user_list = User.where(is_invalid: nil)
-    @receivers = @message.receivers.where(id: @message.message_destinations.pluck(:receiver_id))
-    @editors = @receivers.where(id: @message.message_destinations.where(is_editable: true).pluck(:receiver_id))
+    @receivers = @message.receivers.where(id: @message.destinations.pluck(:receiver_id))
+    @editors = @receivers.where(id: @message.destinations.where(is_editable: true).pluck(:receiver_id))
 
     #編集者か、送信者でないと表示されない
       raise Forbidden unless @message.user == current_user || @editors.include?(current_user)
@@ -73,20 +73,20 @@ class MessagesController < ApplicationController
 
   def receivers
     @message = Message.find(params[:id])
-    @destinations = @message.message_destinations.includes(:receiver)
+    @destinations = @message.destinations.includes(:receiver)
     raise Forbidden unless @message.receivers.include?(current_user)
   end
 
   def trash
     message = Message.find(params[:id])
-    message.message_destinations.find_by(receiver_id: current_user.id).update(delete_flag: 1)
+    message.destinations.find_by(receiver_id: current_user.id).update(delete_flag: 1)
     flash[:notice] = "“#{message.title}” をごみ箱に移動しました。"
     redirect_to messages_path(box: "trash")
   end
 
   def restore
     message = Message.find(params[:id])
-    message.message_destinations.find_by(receiver_id: current_user.id).update(delete_flag: 0)
+    message.destinations.find_by(receiver_id: current_user.id).update(delete_flag: 0)
     flash[:notice] = "“#{message.title}” を受信箱に戻しました。"
     redirect_to message_path
   end

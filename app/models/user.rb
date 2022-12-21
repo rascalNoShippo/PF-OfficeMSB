@@ -9,8 +9,8 @@ class User < ApplicationRecord
 
   # アソシエーション ここから
     has_many :messages, dependent: :destroy
-    has_many :message_destinations, foreign_key: :receiver_id, dependent: :destroy
-    has_many :received_messages, through: :message_destinations, source: :message
+    has_many :destinations, class_name: "MessageDestination", foreign_key: :receiver_id, dependent: :destroy
+    has_many :received_messages, through: :destinations, source: :message
 
     has_many :comments, foreign_key: :commenter_id, dependent: :destroy
 
@@ -84,11 +84,11 @@ class User < ApplicationRecord
 	def messages_list(param_box)
 	  # メッセージ一覧を取得
     messages = self.received_messages.order(updated_at: :DESC)
-    ids = self.message_destinations.where(delete_flag: 0).pluck(:message_id)
+    ids = self.destinations.where(delete_flag: 0).pluck(:message_id)
     if is_send_box = param_box == "send"
       messages = self.messages.where(id: ids).order(updated_at: :DESC)
     elsif is_trash_box = param_box == "trash"
-      removed_ids = self.message_destinations.where(delete_flag: 1).pluck(:message_id)
+      removed_ids = self.destinations.where(delete_flag: 1).pluck(:message_id)
       messages = messages.where(id: removed_ids)
     else
       messages = messages.where(id: ids)
