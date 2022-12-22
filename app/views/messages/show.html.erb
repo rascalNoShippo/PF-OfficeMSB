@@ -73,7 +73,6 @@
 				<p>受信箱から削除するには「ごみ箱に移動する」を押してください。</p>
 				<% if @message.user == current_user || @editors.include?(current_user) %>
 					<p class="mt-4">メッセージの送信そのものを取り消す場合には「完全に削除する」を押してください。</p>
-					<p>（宛先・コメントの件数が多い、添付ファイルのデータが大きい場合は時間がかかります）</p>
 					<p class="text-danger font-weight-bold">「完全に削除する」を押すと各受信者のフォルダからも永続的に削除され、元に戻すことはできません。</p>
 				<% end %>
 			</div>
