@@ -48,7 +48,7 @@ class Message < ApplicationRecord
     destination_ids.each do |receiver_id|
       destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user_id ? true : editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
     end
-    self.destinations.insert_all!(destinations)
+    self.destinations.insert_all!(destinations) if destinations.length > 1
     #送信者は自動的に受信者・編集者に追加
 			self.destinations.create(receiver_id: user_id, is_editable: true) unless destination_ids.include?(user_id)
 	end
