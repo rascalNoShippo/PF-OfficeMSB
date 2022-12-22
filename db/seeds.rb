@@ -123,26 +123,26 @@ message[1].user_name = user[12].name
 message[1].save
 message[1].attachments.attach(io: File.open(Rails.root.join("public/default/年末調整.docx")), filename: "年末調整.docx")
 
-message[1].message_destinations.create(receiver_id: user[1].id, finished_reading: Time.new(2022, 11, 3, 9, 0, 0, "+09:00"))
-message[1].message_destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 3, 10, 0, 0, "+09:00"))
-message[1].message_destinations.create(receiver_id: user[3].id, finished_reading: Time.new(2022, 11, 3, 11, 0, 0, "+09:00"))
-message[1].message_destinations.create(receiver_id: user[4].id, finished_reading: Time.new(2022, 11, 3, 11, 30, 0, "+09:00"))
-message[1].message_destinations.create(receiver_id: user[5].id, finished_reading: Time.new(2022, 11, 3, 11, 0, 0, "+09:00"))
-message[1].message_destinations.create(receiver_id: user[6].id)
-message[1].message_destinations.create(receiver_id: user[7].id)
-message[1].message_destinations.create(receiver_id: user[8].id)
-message[1].message_destinations.create(receiver_id: user[9].id)
-message[1].message_destinations.create(receiver_id: user[10].id)
-message[1].message_destinations.create(receiver_id: user[11].id)
-message[1].message_destinations.create(receiver_id: user[12].id, is_editable: true, finished_reading: message[1].created_at)
-message[1].message_destinations.create(receiver_id: user[13].id, is_editable: true)
+message[1].destinations.create(receiver_id: user[1].id, finished_reading: Time.new(2022, 11, 3, 9, 0, 0, "+09:00"))
+message[1].destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 3, 10, 0, 0, "+09:00"))
+message[1].destinations.create(receiver_id: user[3].id, finished_reading: Time.new(2022, 11, 3, 11, 0, 0, "+09:00"))
+message[1].destinations.create(receiver_id: user[4].id, finished_reading: Time.new(2022, 11, 3, 11, 30, 0, "+09:00"))
+message[1].destinations.create(receiver_id: user[5].id, finished_reading: Time.new(2022, 11, 3, 11, 0, 0, "+09:00"))
+message[1].destinations.create(receiver_id: user[6].id)
+message[1].destinations.create(receiver_id: user[7].id)
+message[1].destinations.create(receiver_id: user[8].id)
+message[1].destinations.create(receiver_id: user[9].id)
+message[1].destinations.create(receiver_id: user[10].id)
+message[1].destinations.create(receiver_id: user[11].id)
+message[1].destinations.create(receiver_id: user[12].id, is_editable: true, finished_reading: message[1].created_at)
+message[1].destinations.create(receiver_id: user[13].id, is_editable: true)
 
 now = Time.zone.now
 dest = []
 test_user.count.times do |i|
   dest.push({receiver_id: i + user_num + 1, created_at: now, updated_at: now})
 end
-message[1].message_destinations.insert_all!(dest)
+message[1].destinations.insert_all!(dest)
 
 
 
@@ -164,10 +164,10 @@ message[2].created_at = Time.new(2022, 9, 1, 9, 44, 0, "+09:00")
 message[2].user_name = user[2].name
 message[2].save
 
-message[2].message_destinations.create(receiver_id: user[2].id, is_editable: true, finished_reading: message[2].created_at)
-message[2].message_destinations.create(receiver_id: user[3].id, is_editable: true, finished_reading: Time.new(2022, 9, 1, 10, 7, 20, "+09:00"))
-message[2].message_destinations.create(receiver_id: user[4].id, finished_reading: Time.new(2022, 9, 1, 10, 27, 30, "+09:00"))
-message[2].message_destinations.create(receiver_id: user[5].id)
+message[2].destinations.create(receiver_id: user[2].id, is_editable: true, finished_reading: message[2].created_at)
+message[2].destinations.create(receiver_id: user[3].id, is_editable: true, finished_reading: Time.new(2022, 9, 1, 10, 7, 20, "+09:00"))
+message[2].destinations.create(receiver_id: user[4].id, finished_reading: Time.new(2022, 9, 1, 10, 27, 30, "+09:00"))
+message[2].destinations.create(receiver_id: user[5].id)
 
 message[2].update(number_of_comments: message[2].number_of_comments + 1)
 message[2].comments.create(comment_id: message[2].number_of_comments, commenter_id: user[3].id, commenter_name: user[3].name, body: '<p>昨日の売上実績です。</p><p>宜しくお願い致します。</p>', created_at: Time.new(2022, 9, 1, 10, 7, 20, "+09:00")).attachments.attach(io: File.open(Rails.root.join("public/default/売上実績.xlsx")), filename: "売上実績.xlsx")
@@ -182,9 +182,9 @@ message[3].created_at = Time.new(2022, 11, 1, 10, 7, 20, "+09:00")
 message[3].user_name = user[10].name
 message[3].save
 
-message[3].message_destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 1, 13, 45, 20, "+09:00"))
-message[3].message_destinations.create(receiver_id: user[10].id, finished_reading: Time.new(2022, 11, 1, 10, 7, 20, "+09:00"), is_editable: true)
-message[3].message_destinations.create(receiver_id: user[11].id, finished_reading: Time.new(2022, 11, 1, 10, 10, 0, "+09:00"), is_editable: true)
+message[3].destinations.create(receiver_id: user[2].id, finished_reading: Time.new(2022, 11, 1, 13, 45, 20, "+09:00"))
+message[3].destinations.create(receiver_id: user[10].id, finished_reading: Time.new(2022, 11, 1, 10, 7, 20, "+09:00"), is_editable: true)
+message[3].destinations.create(receiver_id: user[11].id, finished_reading: Time.new(2022, 11, 1, 10, 10, 0, "+09:00"), is_editable: true)
 
 message[3].update(number_of_comments: message[3].number_of_comments + 1)
 message[3].comments.create(comment_id: message[3].number_of_comments, commenter_id: user[2].id, commenter_name: user[2].name, body: '<p>承知致しました。</p>', created_at: Time.new(2022, 11, 1, 13, 47, 20, "+09:00"))
@@ -204,11 +204,11 @@ message[4].updated_at = message[4].created_at
 message[4].user_name = user[1].name
 message[4].save
 
-message[4].message_destinations.create(receiver_id: user[1].id, is_editable: true, finished_reading: message[4].created_at)
-message[4].message_destinations.create(receiver_id: user[2].id)
-message[4].message_destinations.create(receiver_id: user[6].id)
-message[4].message_destinations.create(receiver_id: user[10].id)
-message[4].message_destinations.create(receiver_id: user[12].id)
+message[4].destinations.create(receiver_id: user[1].id, is_editable: true, finished_reading: message[4].created_at)
+message[4].destinations.create(receiver_id: user[2].id)
+message[4].destinations.create(receiver_id: user[6].id)
+message[4].destinations.create(receiver_id: user[10].id)
+message[4].destinations.create(receiver_id: user[12].id)
 
 
 article = [""]
