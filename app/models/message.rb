@@ -48,7 +48,7 @@ class Message < ApplicationRecord
     destination_ids.each do |receiver_id|
       destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user_id ? true : editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
     end
-    self.destinations.insert_all!(destinations) if destinations.length > 1
+    self.destinations.insert_all!(destinations) if destinations.length > 0
     #送信者は自動的に受信者・編集者に追加
 			self.destinations.create(receiver_id: user_id, is_editable: true) unless destination_ids.include?(user_id)
 	end
@@ -64,11 +64,11 @@ class Message < ApplicationRecord
 			(new_destination_ids - destination_ids).each do |receiver_id|
 			  add_destinations.push({receiver_id: receiver_id, is_editable: (receiver_id == user.id ? true : new_editor_ids.include?(receiver_id)), created_at: now, updated_at: now})
 			end
-			self.destinations.insert_all!(add_destinations) if add_destinations.length > 1
+			self.destinations.insert_all!(add_destinations) if add_destinations.length > 0
     #既存の宛先が無ければ削除する（送信者自身は削除されない）
 			delete_destinations = (destination_ids - new_destination_ids)
 			delete_destinations.delete(user_id)
-			self.destinations.where(receiver_id: delete_destinations).delete_all if delete_destinations.length > 1
+			self.destinations.where(receiver_id: delete_destinations).delete_all if delete_destinations.length > 0
     #編集権限を付与されたユーザーを更新
 			editor_ids = self.destinations.where(is_editable: true).pluck(:receiver_id)
 			self.destinations.where(receiver_id: (new_editor_ids - editor_ids)).update_all(is_editable: true)
