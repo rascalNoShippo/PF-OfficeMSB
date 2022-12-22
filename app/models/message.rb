@@ -50,7 +50,7 @@ class Message < ApplicationRecord
     end
     self.destinations.insert_all!(destinations)
     #送信者は自動的に受信者・編集者に追加
-			self.destinations.create(receiver_id: current_user.id, is_editable: true) unless destination_ids.include?(user_id)
+			self.destinations.create(receiver_id: user_id, is_editable: true) unless destination_ids.include?(user_id)
 	end
 
 	def destination_update(destination_params, editor_params)
