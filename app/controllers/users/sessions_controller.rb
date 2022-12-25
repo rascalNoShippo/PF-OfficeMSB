@@ -16,6 +16,7 @@ class Users::SessionsController < Devise::SessionsController
   # end
   
   def validation
+    # ログインIDが存在＆無効でない＆パスワードが合致 ⇒ オーソリ
     @authorized = (user = User.find_by(login_name: params[:user][:login_name])) && user.is_invalid.nil? && user.valid_password?(params[:user][:password])
     render "login_error_msg"
     # render 実行により create は実行せず終了
