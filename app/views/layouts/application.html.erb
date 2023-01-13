@@ -16,8 +16,18 @@
 
   <body>
     <header>
-      <div class="header_1 bg-dark">
-        <p class="text-light px-3 py-1">OfficeMSB</p>
+      <div class="header_1 bg-dark text-light d-flex justify-content-between px-3 py-1">
+        <p>OfficeMSB</p>
+        <div class="d-flex">
+          <% if user_signed_in? %>
+            <p>ログイン日時：<%= l current_user.current_sign_in_at %></p>
+            <% if current_user.last_sign_in_at %>
+              <p class="ml-3">前回ログイン日時：<%= l current_user.last_sign_in_at %></p>
+            <% else %>
+              <p> (初回ログイン)</p>
+            <% end %>
+          <% end %>
+        </div>
       </div>
       <%= render "layouts/header" unless @header_hidden %>
     </header>

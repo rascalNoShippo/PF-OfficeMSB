@@ -11,9 +11,13 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super
+    #ログイン日時を記録
+      user = current_user
+      last_login = user.current_sign_in_at
+      user.update(current_sign_in_at: Time.zone.now, last_sign_in_at: last_login)
+  end
   
   def validation
     # ログインIDが存在＆無効でない＆パスワードが合致 ⇒ オーソリ

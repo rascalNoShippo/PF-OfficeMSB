@@ -161,6 +161,10 @@ ActiveRecord::Schema.define(version: 2022_12_06_111158) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.string "name", null: false
     t.string "name_reading", null: false
     t.string "name_with_all_org"

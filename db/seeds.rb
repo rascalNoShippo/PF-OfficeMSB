@@ -240,8 +240,8 @@ article[1].save
 
 schedule = [""]
 
-schedule.push(user[1].schedules.create(user_name: user[1].name, title: "新店舗会議", place: "大阪支店 会議室", datetime_begin: Time.new(2022, 12, 1, 10, 0, 0, "+09:00"), datetime_end: Time.new(2022, 12, 1, 11, 0, 0, "+09:00")))
-schedule.push(user[1].schedules.create(user_name: user[1].name, title: "評価期間", datetime_begin: Time.new(2022, 12, 1, 0, 0, 0, "+09:00"), datetime_end: Time.new(2022, 12, 10, 23, 59, 59, "+09:00"), is_all_day: true))
+schedule.push(user[1].schedules.create(user_name: user[1].name, title: "新店舗会議", place: "大阪支店 会議室", datetime_begin: Time.new(2023, 1, 5, 10, 0, 0, "+09:00"), datetime_end: Time.new(2023, 1, 5, 11, 0, 0, "+09:00")))
+schedule.push(user[1].schedules.create(user_name: user[1].name, title: "評価期間", datetime_begin: Time.new(2023, 1, 4, 0, 0, 0, "+09:00"), datetime_end: Time.new(2023, 1, 10, 23, 59, 59, "+09:00"), is_all_day: true))
 
 
 user[2].favorites.create(class_name: "Message", item_id: message[2].id)
