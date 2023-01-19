@@ -146,7 +146,7 @@ class User < ApplicationRecord
 			queries.count.times{|a| column.push("(name like ? or name_with_all_org like ? or name_reading like ?)")}
 			column = column.join(" and ")
 			queries = (queries * 3).sort
-			return queries.length == 0 ? self : self.where(column, *(queries))
+			return queries.length == 0 ? self.all : self.where(column, *(queries))
 		else
       return self
 		end

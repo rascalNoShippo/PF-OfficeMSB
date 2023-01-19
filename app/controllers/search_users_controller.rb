@@ -1,7 +1,8 @@
 class SearchUsersController < ApplicationController
 
   def search_users
-    @user_list = User.search(params[:message][:query])
+    queries = params[:message][:query]
+    @user_list = User.search(queries)
     render "messages/search_user"
   end
 end
